@@ -21,9 +21,9 @@ jobs:
             - name: Install ssh keys
               run: |
                   mkdir -p ~/.ssh
-                  echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-                  chmod 600 ~/.ssh/id_rsa
-                  ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+                  echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ragu
+                  chmod 600 ~/.ssh/id_ragu
+                  ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
                   docker context create remote --docker host=ssh://${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
 
             - name: Extract metadata (tags, labels) for Docker
