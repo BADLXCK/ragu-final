@@ -1,0 +1,29 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    color: #f1eeeb;
+    background: rgba(230, 225, 221, 0.1);
+    font-family: var(--font-montserrat-alternates);
+    font-weight: 700;
+    font-size: 0.7rem;
+    padding: 20px 30px;
+}
+
+.input {
+    display: flex;
+    font-family: var(--font-montserrat);
+    font-weight: 500;
+    border: none;
+    background: transparent;
+    color: rgba(164, 164, 164, 1);
+    resize: none;
+
+    &::placeholder {
+        color: rgba(164, 164, 164, 1);
+    }
+
+    &:focus {
+        outline: none;
+    }
+}

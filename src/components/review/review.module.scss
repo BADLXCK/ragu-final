@@ -1,0 +1,104 @@
+@use "../../app/styles/mixins" as *;
+
+.container {
+    border-radius: 0.1875rem;
+    background: var(--foreground);
+    color: var(--background);
+    display: flex;
+    width: 23.125rem;
+    height: 8.0625rem;
+}
+
+.avatarContainer {
+    align-content: center;
+    justify-items: center;
+    padding: 1.25rem;
+}
+
+.avatar {
+    width: 5rem;
+    height: 5rem;
+    background: rgba(white, 10%);
+    border-radius: 50%;
+    align-content: center;
+    justify-items: center;
+}
+
+.review {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas:
+        "name source"
+        "comment comment"
+        "rate rate";
+    padding: 0.5rem;
+}
+
+.name {
+    font-family: var(--font-montserrat-alternates);
+    font-size: 1rem;
+    font-weight: 700;
+    grid-area: name;
+    align-self: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.comment {
+    font-family: var(--font-montserrat);
+    font-size: 0.75rem;
+    font-weight: 500;
+    grid-area: comment;
+    align-self: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.2;
+    max-height: 2.7rem; /* 3 строки * 0.9rem высота строки */
+}
+
+.rate {
+    grid-area: rate;
+    display: flex;
+    align-self: flex-end;
+    justify-content: flex-end;
+}
+
+.source {
+    justify-self: end;
+}
+
+@mixin smallSizes {
+    .container {
+        width: 100%;
+    }
+
+    .review {
+        grid-template-rows: 1fr 2fr 1fr;
+    }
+
+    .avatar {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .comment {
+        font-size: 0.7rem !important;
+        line-height: normal !important;
+        max-height: 5rem;
+        text-align: left !important;
+    }
+}
+
+@include sm {
+    @include smallSizes;
+}
+
+@include md {
+    @include smallSizes;
+}

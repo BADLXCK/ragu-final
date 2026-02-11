@@ -1,0 +1,23 @@
+@use "../../app/styles/mixins" as *;
+
+.wrapper {
+    display: contents;
+}
+
+@mixin smallSizes {
+    .wrapper {
+        display: block;
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+@include sm {
+    @include smallSizes;
+}
+
+@include md {
+    @include smallSizes;
+}

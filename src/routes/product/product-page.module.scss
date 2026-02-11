@@ -1,0 +1,163 @@
+@use "../../app/styles/mixins" as *;
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.productCard {
+    position: relative;
+    flex: 1;
+    height: calc(100% - 100px);
+    align-self: center;
+    background-color: var(--foreground);
+    color: #432711;
+    border-radius: 3px 3px 50px 50px;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr 2fr 1fr;
+    grid-template-areas:
+        "name image"
+        "description image"
+        "info image"
+        "nutrients image";
+}
+
+.name {
+    grid-area: name;
+    font-family: var(--font-montserrat-alternates);
+    font-size: 1.5rem;
+    line-height: 1.2;
+    padding: 20px;
+}
+
+.description {
+    grid-area: description;
+    font-family: var(--font-montserrat);
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 20px;
+}
+
+.info {
+    grid-area: info;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nutrients {
+    grid-area: nutrients;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    > :first-child {
+        font-family: var(--font-montserrat-alternates);
+        margin-bottom: 10px;
+    }
+
+    > :not(:first-child) {
+        font-family: var(--font-montserrat);
+    }
+}
+
+.imageContainer {
+    grid-area: image;
+    position: relative;
+    border-radius: 0px 3px 50px 50px;
+}
+
+.image {
+    position: absolute;
+    border-radius: 0px 3px 50px 50px;
+    object-fit: cover;
+}
+
+.price {
+    font-family: var(--font-montserrat-alternates);
+    font-size: 2rem;
+}
+
+.weight {
+    font-family: var(--font-montserrat-alternates);
+}
+
+.productSwitcher {
+    flex-basis: 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.organic {
+    grid-area: organic;
+    display: none;
+    justify-self: center;
+}
+
+@mixin smallSizes {
+    .wrapper {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+    }
+
+    .productCard {
+        height: 100%;
+        width: 100%;
+        padding-top: 60px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr 2fr 1fr 0.5fr;
+        grid-template-areas:
+            "name name"
+            "description description"
+            "image image"
+            "info nutrients"
+            "organic organic";
+    }
+
+    .name {
+        font-size: 1rem;
+        padding-right: 30px;
+    }
+
+    .description {
+        font-size: 1rem;
+    }
+
+    .image {
+        border-radius: 0px;
+    }
+
+    .productSwitcher {
+        display: none;
+    }
+
+    .organic {
+        display: unset;
+    }
+
+    .close {
+        top: 80px;
+    }
+}
+
+@include md {
+    @include smallSizes;
+}
+
+@include sm {
+    @include smallSizes;
+}

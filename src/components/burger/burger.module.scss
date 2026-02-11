@@ -1,0 +1,33 @@
+@use "../../app/styles/mixins" as *;
+
+.burger {
+    display: none;
+    background-color: transparent;
+    border: none;
+    width: 2rem;
+    height: 1.4rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+    cursor: pointer;
+
+    img {
+        width: 2rem;
+        height: 1rem;
+    }
+}
+
+@mixin visible {
+    .burger {
+        display: block;
+    }
+}
+
+@include md {
+    @include visible;
+}
+
+@include sm {
+    @include visible;
+}

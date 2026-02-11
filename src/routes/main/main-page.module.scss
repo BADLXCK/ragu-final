@@ -1,0 +1,81 @@
+@use "../../app/styles/mixins" as *;
+
+.pageWrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 62px;
+}
+
+.logo {
+    display: none;
+}
+
+.catchPhrase {
+    font-family: var(--font-denistina);
+    font-size: 2.5rem;
+    text-align: right;
+    white-space: pre-line;
+    position: absolute;
+    top: 78px;
+    right: 298px;
+}
+
+.text {
+    display: none;
+}
+
+.menuButton {
+    display: none;
+}
+
+@include lg {
+    .catchPhrase {
+        right: 150px;
+    }
+}
+
+@mixin smallSizes {
+    .catchPhrase {
+        display: none;
+    }
+
+    .text {
+        font-family: var(--font-denistina);
+        text-align: center;
+        display: block;
+        position: absolute;
+        font-size: 1.5rem;
+        width: 150px;
+        bottom: 200px;
+        right: 50px;
+    }
+
+    .logo {
+        display: block;
+        height: 136px;
+        width: 246px;
+    }
+
+    .menuButton {
+        display: block;
+        position: absolute;
+        bottom: 45px;
+        background-color: var(--foreground);
+        color: var(--background);
+        font-family: var(--font-montserrat-alternates);
+        border-radius: 30px;
+        padding: 20px 50px;
+        border: none;
+    }
+}
+
+@include sm {
+    @include smallSizes;
+}
+
+@include md {
+    @include smallSizes;
+}

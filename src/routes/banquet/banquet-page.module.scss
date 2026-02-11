@@ -1,0 +1,183 @@
+@use "../../app/styles/mixins" as *;
+
+.wrapper {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    padding: 70px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    grid-template-areas:
+        "title title submit submit"
+        "name name comment comment"
+        "phone phone comment comment"
+        "choose choose choose choose"
+        "event event birthday birthday"
+        "event event birthday birthday"
+        "event event corporate other"
+        "event event corporate other";
+}
+
+.titleWrapper {
+    grid-area: title;
+
+    .first {
+        font-family: var(--font-montserrat-alternates);
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+
+    .second {
+        font-family: var(--font-montserrat);
+        font-weight: 500;
+        margin-top: 10px;
+    }
+}
+
+.name {
+    grid-area: name;
+}
+
+.phone {
+    grid-area: phone;
+}
+
+.submit {
+    grid-area: submit;
+}
+
+.comment {
+    grid-area: comment;
+}
+
+.choose {
+    grid-area: choose;
+
+    font-family: var(--font-montserrat-alternates);
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-align: center;
+    align-self: center;
+}
+
+.event {
+    grid-area: event;
+    border-bottom-left-radius: 30px;
+}
+
+.birthday {
+    grid-area: birthday;
+}
+
+.corporate {
+    grid-area: corporate;
+}
+
+.other {
+    grid-area: other;
+    border-bottom-right-radius: 30px;
+}
+
+.imageWrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.imageText {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    color: white;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    backdrop-filter: brightness(0.6);
+    border-radius: inherit;
+}
+
+.upper {
+    font-family: var(--font-montserrat-alternates);
+    font-weight: 600;
+    max-width: min-content;
+}
+
+.middle {
+    font-family: var(--font-montserrat);
+    font-weight: 400;
+    font-size: 0.8rem;
+    white-space: pre-line;
+    line-height: 1rem;
+    margin-top: 30px;
+}
+
+.bottom {
+    font-family: var(--font-montserrat);
+    font-weight: 700;
+    font-size: 1rem;
+    flex: 1;
+    align-content: end;
+    text-transform: capitalize;
+}
+
+@mixin smallSizes {
+    .wrapper {
+        padding: 70px 0px 70px 0px;
+        overflow: auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 2fr 2fr 2fr 2fr;
+        grid-template-areas:
+            "title"
+            "name"
+            "phone"
+            "comment"
+            "submit"
+            "choose"
+            "event"
+            "birthday"
+            "corporate"
+            "other";
+    }
+
+    .titleWrapper,
+    .name,
+    .phone,
+    .comment,
+    .submit,
+    .choose {
+        margin: 0px 20px;
+    }
+
+    .submit {
+        width: 90% !important;
+        align-self: center;
+    }
+
+    .titleWrapper {
+        text-align: center;
+    }
+
+    .imageWrapper {
+        height: 200px;
+    }
+
+    .event,
+    .other {
+        border-radius: 0px;
+
+        img {
+            border-radius: 0px !important;
+        }
+    }
+}
+
+@include md {
+    @include smallSizes;
+}
+
+@include sm {
+    @include smallSizes;
+}

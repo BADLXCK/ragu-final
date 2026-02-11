@@ -1,0 +1,12 @@
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--foreground);
+    color: var(--background);
+    font-family: var(--font-montserrat-alternates);
+    border-radius: 30px;
+    padding: 20px 30px;
+    border: none;
+    cursor: pointer;
+}

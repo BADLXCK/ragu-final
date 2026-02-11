@@ -1,0 +1,8 @@
+{
+    "project": [
+        "src/**"
+    ],
+    "ignore": [
+        "src/api/gql/**"
+    ]
+}

@@ -1,0 +1,48 @@
+@use "../../app/styles/mixins" as *;
+
+.navigation {
+    font-family: var(--font-kudry);
+    font-size: 2rem;
+    font-weight: 300;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+    align-content: center;
+}
+
+.navigationList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 11px;
+    height: 100%;
+}
+
+.navigationItem {
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+    flex-basis: 50px;
+    justify-content: center;
+    border: 2px solid transparent;
+    border-radius: 3px;
+
+    &:hover:not(.active) {
+        color: var(--background);
+        background-color: var(--foreground);
+        border-color: var(--foreground);
+    }
+
+    &.active {
+        border-color: var(--foreground);
+    }
+}
+
+.navigationLink {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    align-content: center;
+    text-transform: lowercase;
+}

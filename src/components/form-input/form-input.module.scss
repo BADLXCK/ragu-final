@@ -1,0 +1,58 @@
+@use "../../app/styles/mixins" as *;
+
+.label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    color: #f1eeeb;
+    background: rgba(230, 225, 221, 0.1);
+    font-family: var(--font-montserrat-alternates);
+    font-weight: 700;
+    font-size: 0.7rem;
+    padding: 20px 30px;
+}
+
+.input {
+    display: flex;
+    font-family: var(--font-montserrat);
+    font-weight: 500;
+    border: none;
+    background: transparent;
+    color: rgba(164, 164, 164, 1);
+    width: 100%;
+
+    &::placeholder {
+        color: currentColor;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.input[type="date"] {
+    color-scheme: dark;
+}
+
+@mixin smallSizes {
+    .input {
+        font-size: 0.9rem;
+
+        &::placeholder {
+            font-size: 0.8rem;
+        }
+    }
+
+    .label {
+        padding: 10px 20px;
+    }
+}
+
+@include md {
+    @include smallSizes;
+}
+
+@include sm {
+    @include smallSizes;
+}

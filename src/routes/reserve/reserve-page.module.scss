@@ -1,0 +1,169 @@
+@use "../../app/styles/mixins" as *;
+
+.wrapper {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    padding: 70px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-column-gap: 100px;
+    grid-row-gap: 50px;
+    grid-template-areas:
+        "reserveTable reserveTable reserveBanquet reserveBanquet"
+        "reserveTable reserveTable gallery gallery"
+        ". location workingTime .";
+}
+
+.reserveTable {
+    grid-area: reserveTable;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    h2 {
+        font-family: var(--font-montserrat-alternates);
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+
+    span {
+        font-family: var(--font-montserrat);
+    }
+}
+
+.reserveBanquet {
+    grid-area: reserveBanquet;
+    display: flex;
+    gap: 10px;
+}
+
+.reserveBanquetText {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    h2 {
+        font-family: var(--font-montserrat-alternates);
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    span {
+        font-family: var(--font-montserrat);
+    }
+}
+
+.gallery {
+    grid-area: gallery;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.galleryText {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+        font-family: var(--font-montserrat-alternates);
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+}
+
+.location {
+    grid-area: location;
+}
+
+.workingTime {
+    grid-area: workingTime;
+}
+
+.location,
+.workingTime {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+
+    span:first-child {
+        font-family: var(--font-montserrat-alternates);
+        font-size: 1.5rem;
+    }
+
+    span:not(:first-child) {
+        font-family: var(--font-montserrat);
+    }
+}
+
+.contactsLink {
+    font-family: var(--font-montserrat-alternates);
+    font-size: 1.5rem;
+    text-decoration: underline;
+}
+
+@mixin smallSizes {
+    .wrapper {
+        width: 100%;
+        height: 100%;
+        overflow-y: overlay;
+        overflow-x: hidden;
+        padding: 80px 20px 20px 20px;
+        justify-content: center;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 2fr 1fr 1fr 1fr;
+        grid-column-gap: 0;
+        grid-template-areas:
+            "reserveTable"
+            "reserveBanquet"
+            "gallery"
+            "location"
+            "workingTime";
+    }
+
+    .galleryWidget {
+        display: none;
+    }
+
+    .reserveTable {
+        width: 100%;
+        align-items: center;
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        span {
+            font-size: 0.8rem;
+            text-align: center;
+        }
+    }
+
+    .reserveBanquetText {
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        span {
+            font-size: 0.8rem;
+        }
+    }
+
+    .galleryText {
+        h2 {
+            font-size: 1.2rem;
+        }
+    }
+}
+
+@include md {
+    @include smallSizes;
+}
+
+@include sm {
+    @include smallSizes;
+}

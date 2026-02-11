@@ -1,0 +1,94 @@
+@use "../../app/styles/mixins" as *;
+
+.wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    gap: 70px;
+    padding: 70px;
+}
+
+.info {
+    flex-basis: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.select {
+    display: flex;
+    gap: 10px;
+
+    button {
+        border-radius: 3px;
+        border: 1px solid var(--foreground);
+        background-color: transparent;
+        color: var(--foreground);
+        text-align: center;
+        font-family: var(--font-montserrat-alternates);
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: 0.919px;
+        padding: 7px 16px;
+        cursor: pointer;
+        height: 2rem;
+        text-wrap: nowrap;
+    }
+
+    button.active {
+        background-color: var(--foreground);
+        color: var(--background);
+    }
+}
+
+.description {
+    font-family: var(--font-montserrat);
+    font-weight: 500;
+    line-height: 26.858px;
+}
+
+.map {
+    position: relative;
+    flex-basis: 208px;
+}
+
+.conditions {
+    font-family: var(--font-montserrat-alternates);
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.conditionsLink {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-montserrat-alternates);
+}
+
+.gallery {
+    flex: 1;
+}
+
+@mixin smallSizes {
+    .wrapper {
+        padding: 100px 20px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .select {
+        button {
+            font-size: 0.7rem;
+        }
+    }
+}
+
+@include md {
+    @include smallSizes;
+}
+
+@include sm {
+    @include smallSizes;
+}

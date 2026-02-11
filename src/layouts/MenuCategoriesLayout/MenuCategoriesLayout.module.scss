@@ -1,0 +1,64 @@
+@use "../../app/styles/mixins" as *;
+
+.wrapper {
+    padding-top: 33px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.title {
+    font-family: var(--font-kudry);
+    font-size: 3rem;
+}
+
+.slogan {
+    font-family: var(--font-montserrat-alternates);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+.navigationArea {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    align-items: center;
+}
+
+.navigationWrapper {
+    margin-top: 21px;
+}
+
+.pageArea {
+    flex: 1;
+    overflow: hidden;
+    padding-top: 20px;
+}
+
+@mixin smallSizes {
+    .title,
+    .slogan {
+        display: none;
+    }
+
+    .navigationArea {
+        margin-top: 100px;
+    }
+
+    .pageArea {
+        overflow: unset;
+    }
+
+    .wrapper {
+        overflow: auto;
+    }
+}
+
+// @include sm {
+//     @include smallSizes;
+// }
+
+// @include md {
+//     @include smallSizes;
+// }

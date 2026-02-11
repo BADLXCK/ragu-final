@@ -1,0 +1,197 @@
+@use "../../app/styles/mixins" as *;
+
+.container {
+    height: 100%;
+    width: 100%;
+    font-family: var(--font-montserrat);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0px;
+
+    h1,
+    h2 {
+        font-family: var(--font-montserrat-alternates);
+    }
+}
+
+.location,
+.workingTime {
+    p {
+        color: rgba(255, 255, 255, 1);
+        font-weight: lighter;
+    }
+}
+
+.container,
+.bottomArea,
+.subscribe,
+.emailFormTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.location,
+.workingTime {
+    display: flex;
+    gap: 20px;
+}
+
+.bottomArea {
+    gap: 20px;
+}
+
+.socialMedia {
+    display: flex;
+}
+
+.subscribe {
+    letter-spacing: 0.66rem;
+    text-transform: uppercase;
+    line-height: 2.47rem;
+
+    :first-child {
+        font-family: var(--font-montserrat-alternates);
+        font-size: 1.64rem;
+    }
+
+    :last-child {
+        font-family: var(--font-montserrat);
+        font-size: 0.82rem;
+    }
+}
+
+.emailFormTitle {
+    font-family: var(--font-montserrat);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 1);
+    letter-spacing: 0.025rem;
+
+    :first-child {
+        font-size: 0.8rem;
+        line-height: 1.31931rem;
+    }
+
+    :last-child {
+        font-size: 0.65rem;
+    }
+}
+
+.credits {
+    font-family: var(--font-montserrat);
+    color: rgba(207, 168, 135, 1);
+    font-size: 0.81rem;
+    font-weight: 300;
+    letter-spacing: 0.025rem;
+    line-height: 1.9rem;
+}
+
+.emailForm {
+    display: flex;
+    gap: 0.6rem;
+    height: 2.7rem;
+}
+
+.buttons {
+    display: flex;
+    height: 57px;
+    gap: 33px;
+}
+
+.map {
+    height: 300px;
+    width: 100%;
+}
+
+.phoneSecondary {
+    display: none;
+    font-size: 1.5rem;
+}
+
+@mixin smallSizes {
+    .container {
+        padding: 80px 0px;
+        overflow-y: auto;
+    }
+
+    .location {
+        flex-direction: column;
+        margin: 0px 20px;
+        text-align: center;
+        h2 {
+            font-size: 1.5rem;
+        }
+        .locationText {
+            color: var(--foreground);
+        }
+        .phone {
+            display: none;
+        }
+
+        order: 1;
+    }
+
+    .map {
+        order: 2;
+        height: 200px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 11px;
+        order: 4;
+        height: auto;
+
+        button {
+            width: 100% !important;
+            height: 30px;
+        }
+    }
+
+    .workingTime {
+        order: 5;
+        flex-direction: column;
+        text-align: center;
+        h2 {
+            font-size: 1.5rem;
+        }
+    }
+
+    .phoneSecondary {
+        display: block;
+        order: 3;
+    }
+
+    .socialMedia {
+        order: 6;
+    }
+
+    .subscribe {
+        order: 7;
+    }
+
+    .emailFormTitle,
+    .emailForm,
+    .credits {
+        display: none;
+    }
+
+    .subscribe {
+        :first-child {
+            font-size: 1rem;
+        }
+        :last-child {
+            display: none;
+        }
+    }
+}
+
+@include sm {
+    @include smallSizes;
+}
+
+@include md {
+    @include smallSizes;
+}

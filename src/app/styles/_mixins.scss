@@ -1,0 +1,31 @@
+@use "./breakpoints" as *;
+
+@mixin sm {
+    @media (width <= #{$screen-md}) {
+        @content;
+    }
+}
+
+@mixin md {
+    @media (#{$screen-md} < width <= #{$screen-lg}) {
+        @content;
+    }
+}
+
+@mixin lg {
+    @media (#{$screen-lg} < width <= #{$screen-xl}) {
+        @content;
+    }
+}
+
+@mixin xl {
+    @media (#{$screen-xl} < width <= #{$screen-xxl}) {
+        @content;
+    }
+}
+
+@mixin xxl {
+    @media (width > #{$screen-xxl}) {
+        @content;
+    }
+}

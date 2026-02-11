@@ -1,0 +1,9 @@
+@use "../../app/styles/mixins" as *;
+
+.wrapper {
+    font-family: var(--font-denistina);
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

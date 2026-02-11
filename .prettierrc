@@ -1,0 +1,19 @@
+{
+	"overrides": [
+		{
+			"files": "*.graphql",
+			"options": {
+				"parser": "graphql"
+			}
+		}
+	],
+	"semi": true,
+	"singleQuote": true,
+	"jsxSingleQuote": false,
+	"bracketSpacing": true,
+	"trailingComma": "all",
+	"useTabs": true,
+	"tabWidth": 4,
+	"printWidth": 80,
+	"arrowParens": "avoid"
+}
