@@ -43,14 +43,34 @@ jobs:
               "
       - name: Deploy Docker Compose to server
         run: |
-          ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            echo '${{ secrets.GHCR_TOKEN }}' | docker login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin
-            docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml down
-            docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml pull
-            docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml up -d
+          ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash -s <<'EOF'
+            # Создаём env файл
+            cat > ~/ragu.env <<EOL
+          DATABASE_NAME=${{ secrets.DATABASE_NAME }}
+          DATABASE_USER=root
+          DATABASE_PASSWORD=${{ secrets.DATABASE_ROOT_PASSWORD }}
+          DATABASE_ROOT_PASSWORD=${{ secrets.DATABASE_ROOT_PASSWORD }}
+          EOL
 
-            # Проверка пользователя MySQL
-            echo 'SELECT user, host FROM mysql.user WHERE user = \"${DATABASE_USER}\";' | \
-            docker exec -i $(docker ps -qf "name=ragu-database") mysql -uroot -p${DATABASE_ROOT_PASSWORD} || \
-            echo 'Пользователь ${DATABASE_USER} не найден или нет доступа с %'
-          "
+            # Логин в GHCR
+            echo '${{ secrets.GHCR_TOKEN }}' | docker login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin
+
+            # Запуск MySQL контейнера (чтобы root с % появился)
+            docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml up -d database
+
+            # Ждём, пока MySQL станет доступен
+            until docker exec ragu-database-1 mysqladmin ping -h "localhost" --silent; do
+              echo "Waiting for database..."
+              sleep 5
+            done
+
+            # Создаём root пользователя с доступом с любого хоста
+            docker exec -i ragu-database-1 mysql -uroot -p"${DATABASE_ROOT_PASSWORD}" <<SQL
+          CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '${DATABASE_ROOT_PASSWORD}';
+          GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+          FLUSH PRIVILEGES;
+          SQL
+
+            # Запуск остальных контейнеров
+            docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml up -d
+          EOF
