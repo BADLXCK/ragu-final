@@ -1,36 +1,40 @@
 name: Deploy to Server
 
 on:
-    push:
-        branches:
-            - main # или другая ветка для деплоя
+  push:
+    branches:
+      - main # или другая ветка для деплоя
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
+    steps:
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Setup SSH
-              run: |
-                  mkdir -p ~/.ssh
-                  echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ragu
-                  chmod 600 ~/.ssh/id_ragu
-                  ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ragu
+          chmod 600 ~/.ssh/id_ragu
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-            - name: Copy docker-compose.prod.yml to server
-              run: |
-                  scp -i ~/.ssh/id_ragu ./docker-compose.prod.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/docker-compose.prod.yml
+      - name: Copy docker-compose.prod.yml to server
+        run: |
+          scp -i ~/.ssh/id_ragu ./docker-compose.prod.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/docker-compose.prod.yml
 
-            - name: Deploy Docker Compose to server
-              run: |
-                  ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-                    export DATABASE_NAME='${{ secrets.DATABASE_NAME }}';
-                    export DATABASE_USER='${{ secrets.DATABASE_USER }}';
-                    export DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}';
-                    export DATABASE_ROOT_PASSWORD='${{ secrets.DATABASE_ROOT_PASSWORD }}';
-                    docker compose -f ~/docker-compose.prod.yml pull &&
-                    docker compose -f ~/docker-compose.prod.yml up -d
-                  "
+      - name: Deploy Docker Compose to server
+        run: |
+          ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            export DATABASE_NAME='${{ secrets.DATABASE_NAME }}';
+            export DATABASE_USER='${{ secrets.DATABASE_USER }}';
+            export DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}';
+            export DATABASE_ROOT_PASSWORD='${{ secrets.DATABASE_ROOT_PASSWORD }}';
+            docker compose -f ~/docker-compose.prod.yml pull &&
+            docker compose -f ~/docker-compose.prod.yml up -d
+          "
