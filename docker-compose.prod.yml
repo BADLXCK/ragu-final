@@ -83,7 +83,11 @@ services:
         volumes:
             - wp-data:/var/www/html
         healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:80/"]
+            test:
+                [
+                    "CMD-SHELL",
+                    "curl -fsS http://localhost/wp-login.php || exit 1",
+                ]
             interval: 30s
             timeout: 10s
             retries: 5
