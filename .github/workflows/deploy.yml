@@ -1,9 +1,7 @@
 name: Deploy to Server
 
 on:
-  push:
-    branches:
-      - main # или другая ветка для деплоя
+  workflow_dispatch:
 
 jobs:
   deploy:
