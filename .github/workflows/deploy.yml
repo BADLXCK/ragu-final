@@ -33,21 +33,20 @@ jobs:
         run: |
           scp -i ~/.ssh/id_ragu ./docker-compose.prod.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/docker-compose.prod.yml
 
+      - name: Generate ragu.env on server
+        run: |
+          ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+          cat > ~/ragu.env <<'EOF'
+          DATABASE_NAME=${{ secrets.DATABASE_NAME }}
+          DATABASE_USER=${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_ROOT_PASSWORD=${{ secrets.DATABASE_ROOT_PASSWORD }}
+          EOF
+              "
       - name: Deploy Docker Compose to server
         run: |
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            # Временный .env файл для docker-compose
-            cat > ~/ragu.env <<EOF
-            DATABASE_NAME='${{ secrets.DATABASE_NAME }}'
-            DATABASE_USER='${{ secrets.DATABASE_USER }}'
-            DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}'
-            DATABASE_ROOT_PASSWORD='${{ secrets.DATABASE_ROOT_PASSWORD }}'
-            EOF
-
-            # Логин в GHCR
             echo '${{ secrets.GHCR_TOKEN }}' | docker login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin
-
-            # Перезапуск контейнеров
             docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml down
             docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml pull
             docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml up -d
