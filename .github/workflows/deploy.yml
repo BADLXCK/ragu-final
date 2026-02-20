@@ -48,4 +48,9 @@ jobs:
             docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml down
             docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml pull
             docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml up -d
+
+            # Проверка пользователя MySQL
+            echo 'SELECT user, host FROM mysql.user WHERE user = \"${DATABASE_USER}\";' | \
+            docker exec -i $(docker ps -qf "name=ragu-database") mysql -uroot -p${DATABASE_ROOT_PASSWORD} || \
+            echo 'Пользователь ${DATABASE_USER} не найден или нет доступа с %'
           "
