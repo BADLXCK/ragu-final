@@ -37,6 +37,7 @@ jobs:
             export DATABASE_USER='${{ secrets.DATABASE_USER }}';
             export DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}';
             export DATABASE_ROOT_PASSWORD='${{ secrets.DATABASE_ROOT_PASSWORD }}';
+            docker compose -f ~/docker-compose.prod.yml down &&
             docker compose -f ~/docker-compose.prod.yml pull &&
             docker compose -f ~/docker-compose.prod.yml up -d
           "
