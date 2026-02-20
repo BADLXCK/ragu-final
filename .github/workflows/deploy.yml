@@ -32,6 +32,7 @@ jobs:
       - name: Deploy Docker Compose to server
         run: |
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            echo '${{ secrets.GHCR_TOKEN }}' | docker login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin &&
             export DATABASE_NAME='${{ secrets.DATABASE_NAME }}';
             export DATABASE_USER='${{ secrets.DATABASE_USER }}';
             export DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}';
