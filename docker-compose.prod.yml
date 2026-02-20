@@ -67,7 +67,7 @@ services:
         restart: unless-stopped
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.wordpress.rule=Host(`wordpress.restornw.beget.tech`)"
+            - "traefik.http.routers.wordpress.rule=Host(`wordpress.restoranragu.ru`)"
             - "traefik.http.routers.wordpress.entrypoints=websecure"
             - "traefik.http.routers.wordpress.tls.certresolver=dev"
         image: wordpress:6.8.2-php8.1-apache
@@ -103,7 +103,7 @@ services:
         restart: unless-stopped
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.frontend.rule=Host(`next.restornw.beget.tech`)"
+            - "traefik.http.routers.frontend.rule=Host(`next.restoranragu.ru`)"
             - "traefik.http.routers.frontend.entrypoints=websecure"
             - "traefik.http.routers.frontend.tls.certresolver=dev"
             - "traefik.http.routers.frontend.service=frontend-service"
