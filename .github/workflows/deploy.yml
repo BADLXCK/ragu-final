@@ -8,7 +8,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    env: # эти переменные будут доступны для docker compose
+      DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+      DATABASE_USER: ${{ secrets.DATABASE_USER }}
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      DATABASE_ROOT_PASSWORD: ${{ secrets.DATABASE_ROOT_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
       - name: Login to GHCR
@@ -32,12 +36,19 @@ jobs:
       - name: Deploy Docker Compose to server
         run: |
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            echo '${{ secrets.GHCR_TOKEN }}' | docker login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin &&
-            export DATABASE_NAME='${{ secrets.DATABASE_NAME }}';
-            export DATABASE_USER='${{ secrets.DATABASE_USER }}';
-            export DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}';
-            export DATABASE_ROOT_PASSWORD='${{ secrets.DATABASE_ROOT_PASSWORD }}';
-            docker compose -p ragu -f ~/docker-compose.prod.yml down &&
-            docker compose -p ragu -f ~/docker-compose.prod.yml pull &&
-            docker compose -p ragu -f ~/docker-compose.prod.yml up -d
+            # Временный .env файл для docker-compose
+            cat > ~/ragu.env <<EOF
+            DATABASE_NAME='${{ secrets.DATABASE_NAME }}'
+            DATABASE_USER='${{ secrets.DATABASE_USER }}'
+            DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}'
+            DATABASE_ROOT_PASSWORD='${{ secrets.DATABASE_ROOT_PASSWORD }}'
+            EOF
+
+            # Логин в GHCR
+            echo '${{ secrets.GHCR_TOKEN }}' | docker login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin
+
+            # Перезапуск контейнеров
+            docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml down
+            docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml pull
+            docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml up -d
           "
