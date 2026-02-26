@@ -51,6 +51,8 @@ services:
             WORDPRESS_DB_USER: ${DATABASE_USER}
             WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
             WORDPRESS_DB_NAME: ${DATABASE_NAME}
+            PHP_UPLOAD_MAX_FILESIZE: 128M
+            PHP_POST_MAX_SIZE: 128M
         volumes:
             - wp-data:/var/www/html
         labels:
