@@ -61,6 +61,29 @@ services:
             - "traefik.http.routers.wordpress.tls.certresolver=dev"
         networks:
             - ragu-network
+        command: >
+            sh -c "
+              apt-get update && apt-get install -y curl &&
+              # Настройка PHP для увеличения лимитов загрузки
+              echo 'upload_max_filesize = 10M' >> /usr/local/etc/php/conf.d/uploads.ini &&
+              echo 'post_max_size = 10M' >> /usr/local/etc/php/conf.d/uploads.ini &&
+              echo 'max_execution_time = 300' >> /usr/local/etc/php/conf.d/uploads.ini &&
+              echo 'memory_limit = 256M' >> /usr/local/etc/php/conf.d/uploads.ini &&
+              echo 'max_input_time = 300' >> /usr/local/etc/php/conf.d/uploads.ini &&
+              echo 'file_uploads = On' >> /usr/local/etc/php/conf.d/uploads.ini &&
+              mkdir -p /var/www/html/wp-content/upgrade &&
+              mkdir -p /var/www/html/wp-content/uploads &&
+              mkdir -p /var/www/html/wp-content/cache &&
+              mkdir -p /var/www/html/wp-content/themes &&
+              chown -R www-data:www-data /var/www/html/wp-content &&
+              chmod -R 755 /var/www/html/wp-content &&
+              chmod -R 777 /var/www/html/wp-content/upgrade &&
+              chmod -R 777 /var/www/html/wp-content/uploads &&
+              chmod -R 777 /var/www/html/wp-content/themes &&
+              chown -R www-data:www-data /var/www/html/wp-content/themes/ragu && \
+              chmod -R 755 /var/www/html/wp-content/themes/ragu && \
+              docker-entrypoint.sh apache2-foreground
+            "
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin:latest
