@@ -55,6 +55,11 @@ services:
             PHP_POST_MAX_SIZE: 128M
         volumes:
             - wp-data:/var/www/html
+        command: >
+            sh -c "
+              apt-get update && apt-get install -y curl &&
+              echo 'upload_max_filesize = 10M' >> /usr/local/etc/php/conf.d/uploads.ini
+            "
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.wordpress.rule=Host(`wordpress.restoranragu.ru`)"
