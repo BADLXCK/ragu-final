@@ -1,6 +1,13 @@
 FROM wordpress:cli
 
-COPY ./wp-content /var/www/html/wp-content
-COPY ./wp-init.sh /usr/local/bin/wp-init.sh
+WORKDIR /var/www/html
+
+# COPY и chmod под root
+USER root
+COPY wp-init.sh /usr/local/bin/wp-init.sh
+RUN chmod 755 /usr/local/bin/wp-init.sh
+
+# Возвращаем пользователя www-data для безопасности
+USER www-data
 
 ENTRYPOINT ["/usr/local/bin/wp-init.sh"]
