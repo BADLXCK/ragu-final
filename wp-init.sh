@@ -22,6 +22,7 @@ export WORDPRESS_DB_USER="${WORDPRESS_DB_USER:-admin}"
 export WORDPRESS_DB_PASSWORD="${WORDPRESS_DB_PASSWORD:-admin123}"
 export WORDPRESS_DB_NAME="${WORDPRESS_DB_NAME:-wordpress}"
 
+# --- Ждём файлы WordPress ---
 echo "Waiting for WordPress files..."
 until [ -d "$WP_PATH" ] && [ "$(ls -A $WP_PATH)" ]; do
   echo "WordPress not ready yet..."
@@ -29,7 +30,7 @@ until [ -d "$WP_PATH" ] && [ "$(ls -A $WP_PATH)" ]; do
 done
 echo "WordPress files ready!"
 
-# --- Ждём доступность MySQL по TCP ---
+# --- Ждём доступность MySQL TCP ---
 DB_HOST="${WORDPRESS_DB_HOST%%:*}"
 DB_PORT="${WORDPRESS_DB_HOST##*:}"
 
@@ -64,20 +65,10 @@ for theme in $(wp theme list --field=name --allow-root --path="$WP_PATH" | grep 
   wp theme delete "$theme" --allow-root --path="$WP_PATH"
 done
 
-# --- Удаляем дефолтные плагины ---
-echo "Removing default plugins..."
-for plugin in "${WP_DEFAULT_PLUGINS[@]}"; do
-  if wp plugin is-installed "$plugin" --allow-root --path="$WP_PATH"; then
-    wp plugin delete "$plugin" --allow-root --path="$WP_PATH"
-  fi
-done
+# Удаляем дефолтные плагины
+wp plugin delete "${WP_DEFAULT_PLUGINS[@]}" --allow-root --path="$WP_PATH" || true
 
-# --- Установка нужных плагинов ---
-echo "Installing plugins..."
-for plugin in "${WP_PLUGINS[@]}"; do
-  if ! wp plugin is-installed "$plugin" --allow-root --path="$WP_PATH"; then
-    wp plugin install "$plugin" --activate --allow-root --path="$WP_PATH"
-  fi
-done
+# Устанавливаем плагины
+wp plugin install "${WP_PLUGINS[@]}" --activate --allow-root --path="$WP_PATH"
 
 echo "WordPress initialization complete!"
