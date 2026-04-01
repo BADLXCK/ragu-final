@@ -39,20 +39,8 @@ services:
             - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
         networks:
             - ragu-network
-        depends_on:
-            database:
-                condition: service_healthy
-        healthcheck:
-            test:
-                [
-                    "CMD-SHELL",
-                    "curl -s http://localhost/wp-login.php > /dev/null || exit 1",
-                ]
-            interval: 10s
-            timeout: 5s
-            retries: 10
-            start_period: 40s
         user: "33:33"
+        # healthcheck необязателен, wp-init проверяет доступность сам
 
     wp-init:
         build:
@@ -64,8 +52,7 @@ services:
             - wordpress:/var/www/html
             - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
         depends_on:
-            wordpress:
-                condition: service_healthy
+            - wordpress
         environment:
             WORDPRESS_DB_HOST: database:3306
             WORDPRESS_DB_USER: ${DATABASE_USER}
