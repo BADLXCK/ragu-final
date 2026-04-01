@@ -40,7 +40,6 @@ services:
         networks:
             - ragu-network
         user: "33:33"
-        # healthcheck необязателен, wp-init проверяет доступность сам
 
     wp-init:
         build:
@@ -58,6 +57,11 @@ services:
             WORDPRESS_DB_USER: ${DATABASE_USER}
             WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
             WORDPRESS_DB_NAME: ${DATABASE_NAME}
+            WP_PATH: /var/www/html
+            UPDRAFT_GOOGLE_CLIENT_ID: "${UPDRAFT_GOOGLE_CLIENT_ID}"
+            UPDRAFT_GOOGLE_CLIENT_SECRET: "${UPDRAFT_GOOGLE_CLIENT_SECRET}"
+            UPDRAFT_GOOGLE_REFRESH_TOKEN: "${UPDRAFT_GOOGLE_REFRESH_TOKEN}"
+            UPDRAFT_GOOGLE_FOLDER: "${UPDRAFT_GOOGLE_FOLDER}"
         user: "33:33"
 
 volumes:

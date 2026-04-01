@@ -1,13 +1,14 @@
 FROM wordpress:cli
 
+# Устанавливаем git и unzip для Alpine
+USER root
+RUN apk add --no-cache git unzip
+
 WORKDIR /var/www/html
 
-# COPY и chmod под root
-USER root
 COPY wp-init.sh /usr/local/bin/wp-init.sh
-RUN chmod 755 /usr/local/bin/wp-init.sh
+COPY restore-updraft-google.php /usr/local/bin/restore-updraft-google.php
+RUN chmod 755 /usr/local/bin/wp-init.sh /usr/local/bin/restore-updraft-google.php
 
-# Возвращаем пользователя www-data для безопасности
 USER www-data
-
 ENTRYPOINT ["/usr/local/bin/wp-init.sh"]
