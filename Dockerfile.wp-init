@@ -1,0 +1,6 @@
+FROM wordpress:cli
+
+COPY ./wp-content /var/www/html/wp-content
+COPY ./wp-init.sh /usr/local/bin/wp-init.sh
+
+ENTRYPOINT ["/usr/local/bin/wp-init.sh"]

@@ -1,0 +1,214 @@
+services:
+    database:
+        image: mysql:8.0
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DATABASE_NAME}
+            MYSQL_USER: ${DATABASE_USER}
+            MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+        ports:
+            - 3306:3306
+        volumes:
+            - db-data:/var/lib/mysql
+        networks:
+            - ragu-network
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 10
+
+    phpmyadmin:
+        depends_on:
+            database:
+                condition: service_healthy
+        image: phpmyadmin/phpmyadmin:latest
+        restart: unless-stopped
+        ports:
+            - 8081:80
+        environment:
+            PMA_HOST: database
+            PMA_PORT: 3306
+            MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+        networks:
+            - ragu-network
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:80/"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 30s
+
+    wordpress:
+        depends_on:
+            database:
+                condition: service_healthy
+        restart: unless-stopped
+        image: wordpress:6.8.2-php8.1-apache
+        ports:
+            - 8080:80
+        environment:
+            WORDPRESS_DB_HOST: database:3306
+            WORDPRESS_DB_USER: "${DATABASE_USER}"
+            WORDPRESS_DB_NAME: "${DATABASE_NAME}"
+            WORDPRESS_DB_PASSWORD: "${DATABASE_PASSWORD}"
+            # Увеличиваем лимиты загрузки
+            PHP_UPLOAD_MAX_FILESIZE: 10M
+            PHP_POST_MAX_SIZE: 10M
+            PHP_MAX_EXECUTION_TIME: 300
+            PHP_MEMORY_LIMIT: 256M
+        networks:
+            - ragu-network
+        volumes:
+            - wp-data:/var/www/html
+            - ./wp-themes/ragu:/var/www/html/wp-content/themes/ragu
+            - ./wp-uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:80/"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 60s
+        command: >
+            sh -c "
+              apt-get update && apt-get install -y curl &&
+              # Настройка PHP для увеличения лимитов загрузки
+              echo 'upload_max_filesize = 10M' >> /usr/local/etc/php/conf.d/uploads.ini &&
+              echo 'post_max_size = 10M' >> /usr/local/etc/php/conf.d/uploads.ini &&
+              echo 'max_execution_time = 300' >> /usr/local/etc/php/conf.d/uploads.ini &&
+              echo 'memory_limit = 256M' >> /usr/local/etc/php/conf.d/uploads.ini &&
+              echo 'max_input_time = 300' >> /usr/local/etc/php/conf.d/uploads.ini &&
+              echo 'file_uploads = On' >> /usr/local/etc/php/conf.d/uploads.ini &&
+              mkdir -p /var/www/html/wp-content/upgrade &&
+              mkdir -p /var/www/html/wp-content/uploads &&
+              mkdir -p /var/www/html/wp-content/cache &&
+              mkdir -p /var/www/html/wp-content/themes &&
+              chown -R www-data:www-data /var/www/html/wp-content &&
+              chmod -R 755 /var/www/html/wp-content &&
+              chmod -R 777 /var/www/html/wp-content/upgrade &&
+              chmod -R 777 /var/www/html/wp-content/uploads &&
+              chmod -R 777 /var/www/html/wp-content/themes &&
+              chown -R www-data:www-data /var/www/html/wp-content/themes/ragu && \
+              chmod -R 755 /var/www/html/wp-content/themes/ragu && \
+              docker-entrypoint.sh apache2-foreground
+            "
+
+    wp-cli:
+        depends_on:
+            database:
+                condition: service_healthy
+            wordpress:
+                condition: service_started
+        image: wordpress:cli
+        restart: "no"
+        user: root
+        environment:
+            WORDPRESS_DB_HOST: database:3306
+            WORDPRESS_DB_USER: "${DATABASE_USER}"
+            WORDPRESS_DB_NAME: "${DATABASE_NAME}"
+            WORDPRESS_DB_PASSWORD: "${DATABASE_PASSWORD}"
+        networks:
+            - ragu-network
+        volumes:
+            - wp-data:/var/www/html
+            - ./wp-themes/ragu:/var/www/html/wp-content/themes/ragu
+        working_dir: /var/www/html
+        command: >
+            sh -c "
+              echo 'Проверка структуры файлов...' &&
+              ls -la /var/www/html/ &&
+              echo 'Проверка монтирования wp-themes...' &&
+              ls -la /var/www/html/wp-themes/ 2>/dev/null || echo 'wp-themes не найден' &&
+              echo 'Проверка содержимого wp-themes...' &&
+              find /var/www/html/wp-themes/ -type f -name "*.php" 2>/dev/null || echo 'PHP файлы в wp-themes не найдены' &&
+              mkdir -p /var/www/html/wp-content/themes &&
+              curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer &&
+              curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar &&
+              chmod +x wp-cli.phar &&
+              mv wp-cli.phar /usr/local/bin/wp &&
+              echo 'Ожидание готовности WordPress...' &&
+              while [ ! -f /var/www/html/wp-config.php ] || [ ! -d /var/www/html/wp-includes ] || [ ! -f /var/www/html/wp-includes/Requests/src/Requests.php ]; do sleep 5; done &&
+              wp core install --url=${WORDPRESS_URL} --title='Ragu' --admin_user=${DATABASE_USER} --admin_password=${DATABASE_PASSWORD} --admin_email=admin@example.com --allow-root &&
+              echo 'Установка плагинов...' &&
+              wp plugin install organize-media-folder --activate --allow-root &&
+              wp plugin install wp-graphql --activate --allow-root &&
+              wp plugin install woocommerce --activate --allow-root &&
+              wp plugin install wordpress-seo --activate --allow-root &&
+              wp plugin install updraftplus --activate --allow-root &&
+              wp plugin install pods --activate --allow-root &&
+              echo 'Установка wp-graphql-woocommerce через Composer...' &&
+              composer require wp-graphql/wp-graphql-woocommerce &&
+              echo 'Копирование плагина в папку плагинов...' &&
+              cp -r vendor/wp-graphql/wp-graphql-woocommerce /var/www/html/wp-content/plugins/ &&
+              echo 'Установка зависимостей плагина...' &&
+              cd /var/www/html/wp-content/plugins/wp-graphql-woocommerce && composer install &&
+              cd /var/www/html &&
+              echo 'Активация плагинов...' &&
+              wp plugin activate wp-graphql --allow-root &&
+              wp plugin activate wp-graphql-woocommerce --allow-root &&
+              echo 'Установка русского языка...' &&
+              wp language core install ru_RU --activate --allow-root &&
+              echo 'Установка переводов плагинов...' &&
+              wp language plugin install woocommerce ru_RU --allow-root &&
+              wp language plugin install wordpress-seo ru_RU --allow-root &&
+              echo 'Проверка наличия темы...' &&
+              ls -la /var/www/html/wp-content/themes/ &&
+              echo 'Обновление языковых настроек...' &&
+              wp option update WPLANG ru_RU --allow-root &&
+              echo 'Включение GraphQL introspection...' &&
+              wp option update graphql_public_introspection_enabled 'on' --allow-root &&
+              wp option update graphql_debug_enabled 1 --allow-root &&
+              echo 'Настройка WooCommerce GraphQL...' &&
+              wp option update woocommerce_api_enabled yes --allow-root &&
+              echo 'Настройка лимитов загрузки WordPress...' &&
+              wp option update max_file_size 10485760 --allow-root &&
+              wp option update upload_max_filesize 10485760 --allow-root &&
+              echo 'Исправление прав доступа...' &&
+              mkdir -p /var/www/html/wp-content/upgrade &&
+              mkdir -p /var/www/html/wp-content/uploads &&
+              mkdir -p /var/www/html/wp-content/cache &&
+              chown -R www-data:www-data /var/www/html/wp-content &&
+              chmod -R 755 /var/www/html/wp-content &&
+              chmod -R 777 /var/www/html/wp-content/upgrade &&
+              chmod -R 777 /var/www/html/wp-content/uploads &&
+              echo 'Плагины и тема установлены!'
+            "
+
+    frontend:
+        build:
+            context: .
+            dockerfile: Dockerfile.frontend
+        restart: unless-stopped
+        ports:
+            - "3000:3000"
+        environment:
+            - NODE_ENV=development
+            - WATCHPACK_POLLING=true
+            - WORDPRESS_URL=http://wordpress:80
+            - SCHEMA_URL=http://wordpress:80/graphql
+            - NEXT_PUBLIC_YANDEX_MAPS_API_KEY=${NEXT_PUBLIC_YANDEX_MAPS_API_KEY}
+            - TELEGRAM_BOT_KEY=${TELEGRAM_BOT_KEY}
+            - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+        networks:
+            - ragu-network
+        volumes:
+            - ./:/usr/app
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 60s
+        depends_on:
+            wordpress:
+                condition: service_healthy
+            wp-cli:
+                condition: service_completed_successfully
+
+volumes:
+    db-data:
+    wp-data:
+
+networks:
+    ragu-network:
+        driver: bridge
