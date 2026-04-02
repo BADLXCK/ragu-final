@@ -1,16 +1,17 @@
 FROM wordpress:cli
 
-WORKDIR /var/www/html
-
 USER root
 
 # Alpine package manager
-RUN apk add --no-cache git unzip bash
+RUN apk add --no-cache \
+    git \
+    unzip \
+    netcat-openbsd \
+    bash
 
-# wp-init
 COPY wp-init.sh /usr/local/bin/wp-init.sh
-RUN chmod 755 /usr/local/bin/wp-init.sh
+RUN chmod +x /usr/local/bin/wp-init.sh
 
 USER www-data
 
-ENTRYPOINT ["/usr/local/bin/wp-init.sh"]
+ENTRYPOINT ["wp-init.sh"]

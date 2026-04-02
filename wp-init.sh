@@ -79,7 +79,33 @@ if [ ! -z "$UPDRAFT_GOOGLE_REFRESH_TOKEN" ]; then
   wp plugin activate updraftplus --allow-root --path="$WP_PATH"
 
   echo "Restoring backup from Google Drive..."
-  wp eval-file "$WP_PATH/restore-updraft-google.php" --allow-root
+  # --- Restore через Updraft lifecycle ---
+if [ ! -z "$UPDRAFT_GOOGLE_REFRESH_TOKEN" ]; then
+
+  echo "Ensuring UpdraftPlus is active..."
+  wp plugin activate updraftplus --allow-root --path="$WP_PATH"
+
+  echo "Waiting WP bootstrap..."
+  until wp option get siteurl --allow-root --path="$WP_PATH" >/dev/null 2>&1; do
+    sleep 2
+  done
+
+  # lock — чтобы restore не запускался повторно
+  if ! wp option get updraft_restore_triggered --allow-root --path="$WP_PATH" >/dev/null 2>&1; then
+
+    echo "Scheduling restore..."
+    wp eval-file restore-updraft.php --allow-root --path="$WP_PATH"
+
+    echo "Running WP Cron..."
+    wp cron event run --due-now --allow-root --path="$WP_PATH"
+
+    echo "Waiting restore to finish..."
+    sleep 120
+
+  else
+    echo "Restore already executed — skipping."
+  fi
+fi
 fi
 
 echo "WordPress initialization complete!"

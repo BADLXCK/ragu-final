@@ -37,7 +37,7 @@ services:
         volumes:
             - wordpress:/var/www/html
             - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
-            - ./restore-updraft-google.php:/var/www/html/restore-updraft-google.php
+            - ./restore-updraft.php:/var/www/html/restore-updraft.php
         networks:
             - ragu-network
         depends_on:
@@ -64,7 +64,7 @@ services:
         volumes:
             - wordpress:/var/www/html
             - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
-            - ./restore-updraft-google.php:/var/www/html/restore-updraft-google.php
+            - ./restore-updraft.php:/var/www/html/restore-updraft.php
         depends_on:
             wordpress:
                 condition: service_healthy
@@ -75,6 +75,7 @@ services:
             WORDPRESS_DB_NAME: ${DATABASE_NAME}
             UPDRAFT_GOOGLE_REFRESH_TOKEN: ${UPDRAFT_GOOGLE_REFRESH_TOKEN}
             UPDRAFT_GOOGLE_FOLDER: "UpdraftPlus"
+            WP_CLI_CACHE_DIR: /tmp/.wp-cli
         user: "33:33"
 
 volumes:
