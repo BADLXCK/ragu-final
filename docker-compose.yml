@@ -1,86 +1,82 @@
-version: "3.9"
-
 services:
-    database:
+    db:
         image: mysql:8.0
         restart: unless-stopped
         environment:
             MYSQL_DATABASE: ${DATABASE_NAME}
             MYSQL_USER: ${DATABASE_USER}
-            MYSQL_PASSWORD: ${DATABASE_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+            MYSQL_PASSWORD: ${DATABASE_PASSWORD}
         volumes:
-            - db:/var/lib/mysql
+            - db_data:/var/lib/mysql
         networks:
-            - ragu-network
+            - wp-network
         healthcheck:
             test:
                 [
                     "CMD-SHELL",
-                    "mysqladmin ping -h localhost -uroot -p$MYSQL_ROOT_PASSWORD --silent",
+                    "mysql -uroot -p${DATABASE_ROOT_PASSWORD} -e 'SELECT 1;' >/dev/null 2>&1",
                 ]
-            interval: 10s
-            timeout: 5s
+            interval: 5s
+            timeout: 3s
             retries: 10
-            start_period: 40s
+            start_period: 10s
+        profiles:
+            - core
+            - setup
 
     wordpress:
+        depends_on:
+            db:
+                condition: service_healthy
         image: wordpress:6.9.4-php8.2-apache
         restart: unless-stopped
         ports:
             - 8080:80
         environment:
-            WORDPRESS_DB_HOST: database:3306
+            WORDPRESS_DB_HOST: db
             WORDPRESS_DB_USER: ${DATABASE_USER}
             WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
             WORDPRESS_DB_NAME: ${DATABASE_NAME}
         volumes:
-            - wordpress:/var/www/html
+            - wp_data:/var/www/html
             - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
-            - ./restore-updraft.php:/var/www/html/restore-updraft.php
         networks:
-            - ragu-network
-        depends_on:
-            database:
-                condition: service_healthy
-        healthcheck:
-            test:
-                [
-                    "CMD-SHELL",
-                    "curl -s http://localhost/wp-login.php > /dev/null || exit 1",
-                ]
-            interval: 10s
-            timeout: 5s
-            retries: 10
-            start_period: 40s
-        user: "33:33"
+            - wp-network
+        profiles:
+            - core
+            - setup
 
-    wp-init:
-        build:
-            context: .
-            dockerfile: Dockerfile.wp-init
-        networks:
-            - ragu-network
-        volumes:
-            - wordpress:/var/www/html
-            - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
-            - ./restore-updraft.php:/var/www/html/restore-updraft.php
+    wpcli:
+        image: wordpress:cli
+        user: root
+        command: ["bash", "/usr/local/bin/wp-init.sh"]
         depends_on:
-            wordpress:
+            db:
                 condition: service_healthy
+            wordpress:
+                condition: service_started
         environment:
-            WORDPRESS_DB_HOST: database:3306
+            WORDPRESS_DB_HOST: db
             WORDPRESS_DB_USER: ${DATABASE_USER}
             WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
             WORDPRESS_DB_NAME: ${DATABASE_NAME}
-            UPDRAFT_GOOGLE_REFRESH_TOKEN: ${UPDRAFT_GOOGLE_REFRESH_TOKEN}
-            UPDRAFT_GOOGLE_FOLDER: "UpdraftPlus"
-            WP_CLI_CACHE_DIR: /tmp/.wp-cli
-        user: "33:33"
+            WP_USER: ${DATABASE_USER}
+            WP_PASSWORD: ${DATABASE_PASSWORD}
+            WP_URL: ${WP_URL}
+            WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+        volumes:
+            - wp_data:/var/www/html
+            - ./wp-init.sh:/usr/local/bin/wp-init.sh # монтируем скрипт
+            - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
+        networks:
+            - wp-network
+        profiles:
+            - setup
 
 volumes:
-    wordpress:
-    db:
+    db_data:
+    wp_data:
 
 networks:
-    ragu-network:
+    wp-network:

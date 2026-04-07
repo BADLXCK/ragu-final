@@ -1,6 +1,9 @@
 {
   "private": true,
   "scripts": {
+    "docker:up": "docker compose --profile core up -d",
+    "docker:down": "docker compose --profile core down",
+    "docker:setup": "docker compose --profile setup up -d",
     "dev": "graphql-codegen --config codegen.ts && node ./add-ts-nocheck.js && next dev",
     "build": "graphql-codegen --config codegen.ts && node ./add-ts-nocheck.js && next build",
     "start": "next start",

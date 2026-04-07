@@ -1,22 +1,27 @@
 <?php
-
+// restore-updraft.php
+// WP must be loaded
 require_once __DIR__ . '/wp-load.php';
 
 if (!class_exists('UpdraftPlus')) {
-    echo "UpdraftPlus not loaded yet\n";
-    return;
+    echo "UpdraftPlus not installed.\n";
+    exit(1);
 }
 
-/*
- * НЕ запускаем restore напрямую.
- * Только ставим задачу в очередь WordPress.
- */
+$updraft = new UpdraftPlus();
 
-update_option('updraft_restore_triggered', time());
+$backups = $updraft->get_existing_backups();
+if (empty($backups)) {
+    echo "No backups found.\n";
+    exit(0);
+}
 
-do_action('updraftplus_restore', [
-    'backup_set' => 'latest',
-    'components' => ['db','plugins','themes','uploads','others']
-]);
+$latest_backup = reset($backups); // Берём последний
+echo "Restoring backup: " . $latest_backup['time'] . "\n";
 
-echo "Restore scheduled via WP Cron\n";
+$result = $updraft->restore_backup($latest_backup['id']);
+if ($result === true) {
+    echo "Restore completed successfully.\n";
+} else {
+    echo "Restore failed.\n";
+}

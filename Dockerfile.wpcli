@@ -1,0 +1,11 @@
+FROM wordpress:cli
+
+USER root
+
+RUN apk add --no-cache \
+    bash \
+    git \
+    unzip
+
+USER www-data
+WORKDIR /var/www/html
