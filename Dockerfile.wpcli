@@ -2,10 +2,8 @@ FROM wordpress:cli
 
 USER root
 
-RUN apk add --no-cache \
-    bash \
-    git \
-    unzip
+RUN apk add --no-cache bash curl unzip git dos2unix
 
 USER www-data
+
 WORKDIR /var/www/html

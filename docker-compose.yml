@@ -43,36 +43,45 @@ services:
             - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
         networks:
             - wp-network
+        healthcheck:
+            test:
+                [
+                    "CMD-SHELL",
+                    'php -r "require ''/var/www/html/wp-load.php''; echo ''OK'';" >/dev/null 2>&1',
+                ]
+            interval: 5s
+            timeout: 3s
+            retries: 20
+            start_period: 20s
         profiles:
             - core
             - setup
 
     wpcli:
-        image: wordpress:cli
+        build:
+            dockerfile: Dockerfile.wpcli
         user: root
-        command: ["bash", "/usr/local/bin/wp-init.sh"]
         depends_on:
             db:
                 condition: service_healthy
             wordpress:
-                condition: service_started
+                condition: service_healthy
         environment:
             WORDPRESS_DB_HOST: db
             WORDPRESS_DB_USER: ${DATABASE_USER}
             WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
             WORDPRESS_DB_NAME: ${DATABASE_NAME}
-            WP_USER: ${DATABASE_USER}
-            WP_PASSWORD: ${DATABASE_PASSWORD}
-            WP_URL: ${WP_URL}
-            WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+            WORDPRESS_URL: ${WORDPRESS_URL}
+            WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
         volumes:
             - wp_data:/var/www/html
-            - ./wp-init.sh:/usr/local/bin/wp-init.sh # монтируем скрипт
+            - ./wp-init.sh:/usr/local/bin/wp-init.sh
             - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
         networks:
             - wp-network
         profiles:
             - setup
+        command: ["bash", "/usr/local/bin/wp-init.sh"]
 
 volumes:
     db_data:

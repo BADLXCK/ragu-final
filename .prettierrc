@@ -15,5 +15,8 @@
 	"useTabs": true,
 	"tabWidth": 4,
 	"printWidth": 80,
-	"arrowParens": "avoid"
+	"arrowParens": "avoid",
+	"plugins": [
+		"prettier-plugin-sh"
+	]
 }

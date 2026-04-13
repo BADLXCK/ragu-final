@@ -35,6 +35,8 @@
     "eslint-config-next": "latest",
     "knip": "^5.63.1",
     "nanoid": "^5.1.5",
+    "prettier": "^3.8.1",
+    "prettier-plugin-sh": "^0.18.1",
     "sass": "^1.89.2",
     "typescript": "^5.9.2"
   }
