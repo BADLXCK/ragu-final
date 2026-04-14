@@ -114,16 +114,17 @@ services:
             WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
         volumes:
             - wp-data:/var/www/html
-            - ./wp-init.sh:/usr/local/bin/wp-init.sh
             - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
         networks:
             - prod-network
-        command: ["bash", "/usr/local/bin/wp-init.sh"]
 
 volumes:
     db-data:
+        name: ragu-prod-db-data
     wp-data:
+        name: ragu-prod-wp-data
     traefik-letsencrypt:
+        name: ragu-prod-traefik-letsencrypt
 
 networks:
     prod-network:

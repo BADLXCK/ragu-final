@@ -2,8 +2,14 @@ FROM wordpress:cli
 
 USER root
 
-RUN apk add --no-cache bash curl unzip git dos2unix
+RUN apk add --no-cache bash curl unzip git
+
+# Копируем wp-init.sh и конвертируем CRLF → LF на этапе сборки
+COPY wp-init.sh /usr/local/bin/wp-init.sh
+RUN sed -i 's/\r$//' /usr/local/bin/wp-init.sh && chmod +x /usr/local/bin/wp-init.sh
 
 USER www-data
 
 WORKDIR /var/www/html
+
+ENTRYPOINT ["bash", "/usr/local/bin/wp-init.sh"]

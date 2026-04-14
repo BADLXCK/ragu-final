@@ -222,14 +222,10 @@ function wc_handle_categories_ordered($request) {
 add_action( 'after_setup_theme', 'register_primary_menu' );
 
 function register_primary_menu() {
-	register_nav_menu( 'primary', __( 'Разделы сайта', 'theme-slug' ) );
+	register_nav_menus( array(
+		'primary' => __( 'Разделы сайта', 'ragu' ),
+	) );
 }
-
-add_action('after_setup_theme', function () {
-    register_nav_menus([
-        'primary' => 'Primary Menu',
-    ]);
-});
 
 /**
  * Регистрация кастомных полей для GraphQL
