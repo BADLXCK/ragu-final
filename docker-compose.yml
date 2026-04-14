@@ -1,3 +1,4 @@
+# Docker Compose — Development
 services:
     db:
         image: mysql:8.0
@@ -10,7 +11,7 @@ services:
         volumes:
             - db_data:/var/lib/mysql
         networks:
-            - wp-network
+            - dev-network
         healthcheck:
             test:
                 [
@@ -21,18 +22,17 @@ services:
             timeout: 3s
             retries: 10
             start_period: 10s
-        profiles:
-            - core
-            - setup
 
     wordpress:
         depends_on:
             db:
                 condition: service_healthy
-        image: wordpress:6.9.4-php8.2-apache
+        build:
+            context: .
+            dockerfile: Dockerfile.wordpress
         restart: unless-stopped
         ports:
-            - 8080:80
+            - "8080:80"
         environment:
             WORDPRESS_DB_HOST: db
             WORDPRESS_DB_USER: ${DATABASE_USER}
@@ -42,7 +42,7 @@ services:
             - wp_data:/var/www/html
             - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
         networks:
-            - wp-network
+            - dev-network
         healthcheck:
             test:
                 [
@@ -53,9 +53,31 @@ services:
             timeout: 3s
             retries: 20
             start_period: 20s
+
+    frontend:
+        build:
+            context: .
+            dockerfile: Dockerfile.frontend
+        depends_on:
+            wordpress:
+                condition: service_started
+        ports:
+            - "3000:3000"
+        environment:
+            NEXT_PUBLIC_BASE_URL: http://localhost:3000
+            NEXT_PUBLIC_WORDPRESS_API_URL: http://wordpress:80
+            NEXT_PUBLIC_WORDPRESS_API_HOSTNAME: wordpress
+            SCHEMA_URL: http://wordpress:80/graphql
+        volumes:
+            - .:/usr/app
+            - /usr/app/node_modules
+            - /usr/app/.next
+        networks:
+            - dev-network
+        # "Спящий" режим — ждёт команды запуска
+        command: ["tail", "-f", "/dev/null"]
         profiles:
-            - core
-            - setup
+            - frontend
 
     wpcli:
         build:
@@ -78,9 +100,7 @@ services:
             - ./wp-init.sh:/usr/local/bin/wp-init.sh
             - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
         networks:
-            - wp-network
-        profiles:
-            - setup
+            - dev-network
         command: ["bash", "/usr/local/bin/wp-init.sh"]
 
 volumes:
@@ -88,4 +108,5 @@ volumes:
     wp_data:
 
 networks:
-    wp-network:
+    dev-network:
+        driver: bridge

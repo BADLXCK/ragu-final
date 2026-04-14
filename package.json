@@ -1,9 +1,11 @@
 {
   "private": true,
   "scripts": {
-    "docker:up": "docker compose --profile core up -d",
-    "docker:down": "docker compose --profile core down",
-    "docker:setup": "docker compose --profile setup up -d",
+    "docker:up": "docker compose --profile frontend up -d && docker compose run --rm wpcli",
+    "docker:down": "docker compose --profile frontend down",
+    "docker:restart": "npm run docker:down && npm run docker:up",
+    "docker:prod:up": "docker compose -f docker-compose.prod.yml up -d",
+    "docker:prod:down": "docker compose -f docker-compose.prod.yml down",
     "dev": "graphql-codegen --config codegen.ts && node ./add-ts-nocheck.js && next dev",
     "build": "graphql-codegen --config codegen.ts && node ./add-ts-nocheck.js && next build",
     "start": "next start",

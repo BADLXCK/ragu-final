@@ -52,11 +52,14 @@ ragu-final/
 │   ├── hooks/          # Кастомные хуки
 │   ├── utils/          # Утилиты
 │   └── middleware.ts   # Next.js middleware
-├── wp-content/themes/ragu/  # Кастомная тема WordPress
-├── docker-compose.yml      # Локальная разработка
-├── docker-compose.prod.yml # Продакшен конфигурация
-├── wp-init.sh              # Скрипт инициализации WordPress
-└── codegen.ts              # GraphQL Codegen конфигурация
+├── wp-content/themes/ragu/         # Кастомная тема WordPress
+├── wp-content/plugins/nextjs-status-monitor/  # Плагин статуса Next.js
+├── docker-compose.yml              # Development конфигурация
+├── docker-compose.prod.yml         # Production конфигурация
+├── .env.example                    # Шаблон переменных
+├── wp-init.sh                      # Скрипт инициализации WordPress
+├── nextjs-controller.js            # HTTP контроллер для запуска Next.js
+└── codegen.ts                      # GraphQL Codegen конфигурация
 ```
 
 ---
@@ -87,44 +90,95 @@ npm run codegen
 # Поиск неиспользуемого кода
 npm run find-deadcode
 npm run knip
+
+# Запуск контроллера Next.js (в отдельном терминале!)
+npm run controller
 ```
 
 ### Docker
 
 ```bash
-# Запуск локальной среды (WordPress + MySQL)
+# === Development ===
+
+# Запуск: БД + WordPress + Frontend (спящий режим) + WP-CLI init
 npm run docker:up
+
+# Next.js запускается кнопкой ▶️ в WordPress admin bar
 
 # Остановка
 npm run docker:down
 
-# Первичная настройка (WordPress установка + плагины)
-npm run docker:setup
+# === Production ===
+
+# Запуск всего (включая Next.js)
+npm run docker:prod:up
+
+# Остановка
+npm run docker:prod:down
 ```
 
 ---
 
 ## Переменные окружения
 
-Создайте `.env` файл на основе `.env.example`:
+### `.env` — локальная разработка
 
 ```env
-# WordPress
-NEXT_PUBLIC_WORDPRESS_API_URL=http://localhost:8080
-NEXT_PUBLIC_WORDPRESS_API_HOSTNAME=localhost:8080
-SCHEMA_URL=http://localhost:8080/graphql
-
-# Frontend
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
-
 # База данных
 DATABASE_NAME=wordpress
 DATABASE_USER=admin
 DATABASE_PASSWORD=password
 DATABASE_ROOT_PASSWORD=root_password
 
-# Администратор WordPress
-WORDPRESS_ADMIN_EMAIL=your@email.com
+# WordPress
+WORDPRESS_URL=http://localhost:8080
+WORDPRESS_ADMIN_EMAIL=admin@example.com
+SCHEMA_URL=http://localhost:8080/graphql
+
+# Секрет для контроллера Next.js
+CONTROLLER_SECRET=ragu-secret-key
+```
+
+---
+
+## GraphQL
+
+WPGraphQL Public Introspection **выключен по умолчанию**. Включите вручную:
+
+1. WPGraphQL → Settings в WordPress admin
+2. Поставьте галочку **Enable Public Introspection**
+3. Сохраните
+
+Для обновления типов после изменений в WordPress:
+
+```bash
+npm run codegen
+```
+
+---
+
+## Монитор Next.js
+
+Плагин `nextjs-status-monitor` показывает статус Next.js в WordPress admin bar:
+
+- 🟢 **Online** — Next.js работает
+- 🔴 **Offline** — Next.js недоступен
+- Кнопка **▶️ Запустить** — запускает Next.js через HTTP контроллер
+- Кнопка **⏹️ Остановить** — останавливает Next.js
+- Автообновление каждые 60 секунд
+- Dashboard виджет на главной странице WordPress admin
+
+### Как работает запуск
+
+1. **`nextjs-controller.js`** — лёгкий Node.js сервер на **хосте** (порт 8888)
+2. **WordPress плагин** — шлёт POST запрос на `http://host.docker.internal:8888`
+3. **Frontend контейнер** — "спящий" (`tail -f /dev/null`), ожидает запуска
+
+### Использование
+
+1. Терминал 1: `npm run controller`
+2. Терминал 2: `npm run docker:up`
+3. В WordPress admin bar нажмите **▶️ Запустить**
 
 ---
 
@@ -143,23 +197,27 @@ WORDPRESS_ADMIN_EMAIL=your@email.com
 - **WooCommerce** — управление продуктами (меню ресторана)
 - **ACF Pro** — гибкое управление контентом
 - **Yoast SEO** — SEO оптимизация
-- **UpdraftPlus** — бэкапы в Google Drive через rclone
+- **UpdraftPlus** — бэкапы (восстановление вручную)
 - **FileBird** — организация медиа файлов
 - **Redirection** — управление редиректами
+- **Next.js Status Monitor** — плагин мониторинга статуса
 
 ### Docker
 
-- **Локальная среда** (`docker-compose.yml`):
+- **Development** (`docker-compose.yml`):
     - MySQL 8.0
-    - WordPress 6.9.4 (PHP 8.2)
+    - WordPress 6.9.4 (PHP 8.2) — порт `8080`
+    - Next.js frontend (hot reload, bind mount) — порт `3000`
     - WP-CLI контейнер для инициализации
+    - Frontend в "спящем" режиме — запускается через контроллер
 
-- **Продакшен** (`docker-compose.prod.yml`):
-    - Traefik (reverse proxy + SSL через Let's Encrypt)
-    - MySQL 8.0
-    - WordPress
-    - Next.js frontend (из GitHub Container Registry)
-    - phpMyAdmin (порт 8081)
+- **Production** (`docker-compose.prod.yml`):
+    - Traefik v2.11 (reverse proxy + SSL Let's Encrypt)
+    - HTTP → HTTPS редирект
+    - MySQL 8.0 (без открытых портов)
+    - WordPress 6.9.4 (через Traefik, `wp.${DOMAIN}`)
+    - Next.js frontend (через Traefik, `${DOMAIN}`)
+    - Traefik Dashboard с Basic Auth (`traefik.${DOMAIN}`)
 
 ---
 
@@ -175,7 +233,6 @@ WORDPRESS_ADMIN_EMAIL=your@email.com
 
 - Запросы хранятся в `src/api/queries/`
 - Типы генерируются автоматически через `codegen.ts`
-- Для автодополнения установите расширение Apollo GraphQL и создайте `apollo.config.js`
 
 ### Стилизация
 
@@ -186,61 +243,59 @@ WORDPRESS_ADMIN_EMAIL=your@email.com
 
 ### Форматирование
 
-- Prettier с конфигурацией:
-    - Tab width: 4
-    - Single quotes: true
-    - Trailing comma: all
-    - Semi: true
-
-### Линтинг
-
-- ESLint с `next/core-web-vitals` и `next/typescript`
-- Отключены: `no-require-imports`, `no-explicit-any`, `ban-ts-comment`
+- Prettier: tab width 4, single quotes, trailing comma, semi
+- ESLint: `next/core-web-vitals` + `next/typescript`
 
 ---
 
 ## Важные файлы
 
-| Файл                      | Описание                                                       |
-| ------------------------- | -------------------------------------------------------------- |
-| `codegen.ts`              | Конфигурация GraphQL Codegen для генерации типов               |
-| `wp-init.sh`              | Скрипт установки и настройки WordPress (тема, плагины, бэкапы) |
-| `docker-compose.yml`      | Локальная Docker среда                                         |
-| `docker-compose.prod.yml` | Продакшен Docker среда с Traefik                               |
-| `next.config.ts`          | Next.js конфигурация (редиректы, images)                       |
-| `Dockerfile.wpcli`        | WP-CLI контейнер с rclone                                      |
-| `Dockerfile.frontend`     | Frontend контейнер                                             |
+| Файл                                        | Описание                                      |
+| ------------------------------------------- | --------------------------------------------- |
+| `codegen.ts`                                | Конфигурация GraphQL Codegen                  |
+| `wp-init.sh`                                | Скрипт установки WordPress (тема, плагины)    |
+| `nextjs-controller.js`                      | HTTP сервер для запуска/остановки Next.js     |
+| `wp-content/plugins/nextjs-status-monitor/` | Плагин: индикатор статуса Next.js в admin bar |
+| `docker-compose.yml`                        | Локальная Docker среда                        |
+| `docker-compose.prod.yml`                   | Продакшен Docker среда с Traefik              |
+| `next.config.ts`                            | Next.js конфигурация (редиректы, images)      |
 
 ---
 
 ## Развертывание
 
-### Локально
+### Development
 
 1. Скопируйте `.env.example` → `.env` и заполните переменные
-2. Запустите `npm run docker:setup` для первичной настройки WordPress
-3. Запустите `npm run docker:up` для запуска WordPress
-4. Запустите `npm run dev` для запуска Next.js
+2. В **первом терминале**: `npm run controller`
+3. Во **втором терминале**: `npm run docker:up`
+4. В WordPress admin bar нажмите **▶️ Запустить Next.js**
+5. Frontend доступен на `http://localhost:3000`, WordPress Admin на `http://localhost:8080`
+6. Включите **Public Introspection** в WPGraphQL → Settings для работы codegen
 
-### Продакшен
+### Production
 
 1. Соберите и запуште образ frontend в GitHub Container Registry
-2. Настройте `.env` для продакшена
-3. Запустите `docker compose -f docker-compose.prod.yml up -d`
-4. Traefik автоматически настроит SSL
+2. Настройте GitHub Actions Secrets
+3. Запустите `npm run docker:prod:up` — всё запускается автоматически
 
 Домены:
 
-- Frontend: `next.restoranragu.ru`
-- WordPress Admin: `wordpress.restoranragu.ru`
-- phpMyAdmin: `:8081`
+- Frontend: `${DOMAIN}` (например `restoranragu.ru`)
+- WordPress Admin: `wp.${DOMAIN}`
+- Traefik Dashboard: `traefik.${DOMAIN}` (Basic Auth)
+
+> **Безопасность**: В production нет открытых портов кроме `80`/`443` (Traefik).
+> phpMyAdmin удалён — используйте прямое подключение к БД или SSH-туннель.
 
 ---
 
 ## Заметки
 
-- **Бэкапы**: Скрипт `wp-init.sh` загружает бэкапы из Google Drive через rclone и восстанавливает через UpdraftPlus
+- **Next.js Controller**: лёгкий Node.js сервер на хосте (порт 8888). WordPress шлёт HTTP запросы для запуска/остановки Next.js
+- **UpdraftPlus**: Бэкапы хранятся в Google Drive. При разворачивании контейнера с нуля — восстановите бэкап вручную
+- **Монитор Next.js**: Плагин `nextjs-status-monitor` — индикатор статуса и кнопки запуска/остановки прямо в WordPress admin bar
+- **Frontend "спящий" режим**: Контейнер запущен (`tail -f /dev/null`), но Next.js не работает. Нажмите ▶️ в WordPress для запуска
 - **Ревалидация кэша**: При обновлении поста в WordPress автоматически отправляется запрос на `/api/revalidate` для сброса кэша
-- **Превью/Черновики**: Работает через Draft Mode Next.js + WPGraphQL JWT Authentication
+- **Превью/Черновики**: Работает через Draft Mode Next.js
 - **WooCommerce**: Продукты WooCommerce используются как меню ресторана
-```

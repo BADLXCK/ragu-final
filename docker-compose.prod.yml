@@ -1,3 +1,4 @@
+# Docker Compose — Production
 services:
     traefik:
         image: traefik:v2.11
@@ -7,19 +8,30 @@ services:
             - --providers.docker.exposedbydefault=false
             - --entrypoints.web.address=:80
             - --entrypoints.websecure.address=:443
-            - --certificatesresolvers.dev.acme.tlschallenge=true
-            - --certificatesresolvers.dev.acme.email=your@email.com
-            - --certificatesresolvers.dev.acme.storage=/letsencrypt/acme.json
+            - --entrypoints.web.http.redirections.entryPoint.to=websecure
+            - --entrypoints.web.http.redirections.entryPoint.scheme=https
+            - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
+            - --certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}
+            - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
             - --log.level=INFO
             - --api.dashboard=true
+            - --api.insecure=false
         ports:
             - "80:80"
             - "443:443"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock:ro
-            - letsencrypt:/letsencrypt
+            - traefik-letsencrypt:/letsencrypt
         networks:
-            - ragu-network
+            - prod-network
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN}`)"
+            - "traefik.http.routers.traefik.entrypoints=websecure"
+            - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+            - "traefik.http.routers.traefik.service=api@internal"
+            - "traefik.http.routers.traefik.middlewares=auth"
+            - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_ADMIN_USER}:${TRAEFIK_ADMIN_PASSWORD_HASH}"
 
     database:
         image: mysql:8.0
@@ -32,94 +44,87 @@ services:
         volumes:
             - db-data:/var/lib/mysql
         networks:
-            - ragu-network
+            - prod-network
         healthcheck:
             test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
             timeout: 20s
             retries: 10
-
-    phpmyadmin:
-        depends_on:
-            database:
-                condition: service_healthy
-        image: phpmyadmin/phpmyadmin:latest
-        restart: unless-stopped
-        ports:
-            - 8081:80
-        environment:
-            PMA_HOST: database
-            PMA_PORT: 3306
-            MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
-        networks:
-            - ragu-network
-        healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:80/"]
-            interval: 30s
-            timeout: 10s
-            retries: 5
-            start_period: 30s
+        # Нет открытых портов — доступ только через внутреннюю сеть
 
     wordpress:
         depends_on:
             database:
                 condition: service_healthy
         restart: unless-stopped
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.wordpress.rule=Host(`wordpress.restoranragu.ru`)"
-            - "traefik.http.routers.wordpress.entrypoints=websecure"
-            - "traefik.http.routers.wordpress.tls.certresolver=dev"
-        image: wordpress:6.8.2-php8.1-apache
-        ports:
-            - 8082:80
+        image: wordpress:6.9.4-php8.2-apache
         environment:
             WORDPRESS_DB_HOST: database:3306
             WORDPRESS_DB_USER: "${DATABASE_USER}"
             WORDPRESS_DB_NAME: "${DATABASE_NAME}"
             WORDPRESS_DB_PASSWORD: "${DATABASE_PASSWORD}"
-            MYSQL_ROOT_HOST: "%"
         networks:
-            - ragu-network
+            - prod-network
         volumes:
             - wp-data:/var/www/html
-        command: >
-            sh -c "
-              apt-get update && apt-get install -y curl &&
-              mkdir -p /var/www/html/wp-content/upgrade &&
-              mkdir -p /var/www/html/wp-content/uploads &&
-              mkdir -p /var/www/html/wp-content/cache &&
-              mkdir -p /var/www/html/wp-content/themes &&
-              chown -R www-data:www-data /var/www/html/wp-content &&
-              chmod -R 755 /var/www/html/wp-content &&
-              chmod -R 777 /var/www/html/wp-content/upgrade &&
-              chmod -R 777 /var/www/html/wp-content/uploads &&
-              chmod -R 777 /var/www/html/wp-content/themes &&
-              docker-entrypoint.sh apache2-foreground
-            "
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.wordpress.rule=Host(`wp.${DOMAIN}`)"
+            - "traefik.http.routers.wordpress.entrypoints=websecure"
+            - "traefik.http.routers.wordpress.tls.certresolver=letsencrypt"
+            - "traefik.http.services.wordpress.loadbalancer.server.port=80"
+        # Нет открытых портов — доступ только через Traefik
+        # Нет volumes с docker.sock — изолирован
 
     frontend:
         image: ghcr.io/ragurestaurant/ragu:main
-        restart: unless-stopped
         depends_on:
             wordpress:
                 condition: service_started
         environment:
-            WORDPRESS_URL: http://wordpress:80
-            SCHEMA_URL: http://wordpress:80/graphql
+            NEXT_PUBLIC_BASE_URL: https://${DOMAIN}
+            NEXT_PUBLIC_WORDPRESS_API_URL: http://wordpress
+            NEXT_PUBLIC_WORDPRESS_API_HOSTNAME: wordpress
+            SCHEMA_URL: http://wordpress/graphql
+        networks:
+            - prod-network
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.frontend.rule=Host(`next.restoranragu.ru`)"
+            - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)"
             - "traefik.http.routers.frontend.entrypoints=websecure"
-            - "traefik.http.routers.frontend.tls.certresolver=dev"
+            - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
             - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+        # В production Next.js запускается автоматически
+        # (в prod не нужен ручной контроль)
+
+    wpcli:
+        build:
+            dockerfile: Dockerfile.wpcli
+        user: root
+        depends_on:
+            database:
+                condition: service_healthy
+            wordpress:
+                condition: service_started
+        environment:
+            WORDPRESS_DB_HOST: database
+            WORDPRESS_DB_USER: ${DATABASE_USER}
+            WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
+            WORDPRESS_DB_NAME: ${DATABASE_NAME}
+            WORDPRESS_URL: https://${DOMAIN}
+            WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
+        volumes:
+            - wp-data:/var/www/html
+            - ./wp-init.sh:/usr/local/bin/wp-init.sh
+            - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
         networks:
-            - ragu-network
+            - prod-network
+        command: ["bash", "/usr/local/bin/wp-init.sh"]
 
 volumes:
     db-data:
     wp-data:
-    letsencrypt:
+    traefik-letsencrypt:
 
 networks:
-    ragu-network:
+    prod-network:
         driver: bridge
