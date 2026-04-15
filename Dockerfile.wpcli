@@ -2,14 +2,27 @@ FROM wordpress:cli
 
 USER root
 
-RUN apk add --no-cache bash curl unzip git
+# Устанавливаем всё необходимое
+RUN apk add --no-cache \
+	bash \
+	curl \
+	unzip \
+	git \
+	mariadb-client
 
-# Копируем wp-init.sh и конвертируем CRLF → LF на этапе сборки
+# Копируем скрипт
 COPY wp-init.sh /usr/local/bin/wp-init.sh
-RUN sed -i 's/\r$//' /usr/local/bin/wp-init.sh && chmod +x /usr/local/bin/wp-init.sh
 
-USER www-data
+RUN sed -i 's/\r$//' /usr/local/bin/wp-init.sh
 
+# Делаем исполняемым
+RUN chmod +x /usr/local/bin/wp-init.sh
+
+# Рабочая директория WP
 WORKDIR /var/www/html
 
-ENTRYPOINT ["bash", "/usr/local/bin/wp-init.sh"]
+# Гарантируем использование bash
+SHELL ["/bin/bash", "-c"]
+
+# Явный entrypoint
+ENTRYPOINT ["/usr/local/bin/wp-init.sh"]
