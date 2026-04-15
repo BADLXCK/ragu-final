@@ -82,10 +82,30 @@ wp plugin install \
 	--allow-root \
 	--path="$WP_PATH"
 
+# Композер зависимости для wp-graphql-woocommerce
+echo "[INFO] Running composer install for wp-graphql-woocommerce..."
+cd "$WP_PATH/wp-content/plugins/wp-graphql-woocommerce"
+if [ -f "composer.json" ]; then
+	# Проверяем, доступен ли composer
+	if command -v composer &> /dev/null; then
+		composer install --no-dev --optimize-autoloader --no-interaction
+	else
+		echo "[WARN] Composer not found in CLI container. wp-graphql-woocommerce may not work properly."
+	fi
+fi
+cd "$WP_PATH"
+
 # ---------------------------
 # Права
 # ---------------------------
-chown -R www-data:www-data "$WP_PATH"
+# UID 33 = www-data в Debian (WordPress контейнер)
+# UID 82 = www-data в Alpine (wpcli контейнер) — не совместим!
+chown -R 33:33 "$WP_PATH"
 chmod -R 755 "$WP_PATH/wp-content"
+
+# UpdraftPlus — директория бэкапов должна быть записываемой
+mkdir -p "$WP_PATH/wp-content/updraft"
+chown -R 33:33 "$WP_PATH/wp-content/updraft"
+chmod -R 775 "$WP_PATH/wp-content/updraft"
 
 echo "[INFO] WordPress setup completed successfully!"
