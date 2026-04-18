@@ -59,6 +59,8 @@ services:
             NEXT_PUBLIC_WORDPRESS_API_URL: http://wordpress:80
             NEXT_PUBLIC_WORDPRESS_API_HOSTNAME: wordpress
             SCHEMA_URL: http://wordpress:80/graphql
+            WATCHPACK_POLLING: "true"
+            CHOKIDAR_USEPOLLING: "true"
         volumes:
             - .:/usr/app
             - frontend-node_modules:/usr/app/node_modules

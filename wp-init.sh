@@ -75,6 +75,13 @@ PLUGINS=(
 wp plugin delete hello akismet --allow-root --path="$WP_PATH" || true
 wp plugin install "${PLUGINS[@]}" --activate --allow-root --path="$WP_PATH"
 
+# Отключаем Legacy REST API WooCommerce — используем только GraphQL
+echo "[INFO] Disabling WooCommerce Legacy REST API..."
+wp plugin deactivate woocommerce-legacy-rest-api --allow-root --path="$WP_PATH" 2> /dev/null || true
+wp plugin delete woocommerce-legacy-rest-api --allow-root --path="$WP_PATH" 2> /dev/null || true
+# Отключаем через настройки WooCommerce
+wp option update woocommerce_legacy_api_enabled "no" --allow-root --path="$WP_PATH" 2> /dev/null || true
+
 echo "[INFO] Installing wp-graphql-woocommerce..."
 wp plugin install \
 	"https://github.com/wp-graphql/wp-graphql-woocommerce/archive/refs/heads/master.zip" \
@@ -83,12 +90,12 @@ wp plugin install \
 	--path="$WP_PATH"
 
 # Композер зависимости для wp-graphql-woocommerce
-echo "[INFO] Running composer install for wp-graphql-woocommerce..."
+echo "[INFO] Running composer update for wp-graphql-woocommerce..."
 cd "$WP_PATH/wp-content/plugins/wp-graphql-woocommerce"
 if [ -f "composer.json" ]; then
 	# Проверяем, доступен ли composer
 	if command -v composer &> /dev/null; then
-		composer install --no-dev --optimize-autoloader --no-interaction
+		composer update --no-dev --optimize-autoloader --no-interaction
 	else
 		echo "[WARN] Composer not found in CLI container. wp-graphql-woocommerce may not work properly."
 	fi
