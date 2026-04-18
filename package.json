@@ -7,7 +7,7 @@
     "docker:wpcli:rebuild": "docker compose build wpcli",
     "docker:prod:up": "docker compose -f docker-compose.prod.yml up -d",
     "docker:prod:down": "docker compose -f docker-compose.prod.yml down",
-    "dev": "graphql-codegen --config codegen.ts && node ./add-ts-nocheck.js && next dev",
+    "dev": "graphql-codegen --config codegen.ts && node ./add-ts-nocheck.js && next dev --webpack",
     "build": "graphql-codegen --config codegen.ts && node ./add-ts-nocheck.js && next build",
     "start": "next start",
     "lint": "next lint",
