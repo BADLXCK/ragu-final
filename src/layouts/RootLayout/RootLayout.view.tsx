@@ -38,7 +38,13 @@ export async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const navigationItems = await getNavigationItems();
+	let navigationItems: Awaited<ReturnType<typeof getNavigationItems>> = [];
+
+	try {
+		navigationItems = await getNavigationItems();
+	} catch {
+		// Navigation items will be empty during build
+	}
 
 	const layoutClassName = `
     ${styles.layoutArea}
