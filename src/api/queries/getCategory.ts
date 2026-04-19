@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { getClient } from '../client';
+import { client } from '../client';
 import { ProductCategory } from '../gql/graphql';
 
 export const getCategory = async (
@@ -19,7 +19,7 @@ export const getCategory = async (
 
 	const response: {
 		productCategories: { nodes: ProductCategory[] };
-	} = await getClient().request(query);
+	} = await client.request(query);
 
 	return response.productCategories.nodes[0] || null;
 };

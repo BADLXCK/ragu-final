@@ -11,6 +11,9 @@ RUN npm ci
 FROM base AS builder
 WORKDIR /usr/app
 
+ARG SCHEMA_URL=http://localhost:8080/graphql
+ENV SCHEMA_URL=$SCHEMA_URL
+
 COPY --from=deps /usr/app/node_modules ./node_modules
 COPY . .
 

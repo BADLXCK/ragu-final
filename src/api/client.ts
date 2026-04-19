@@ -1,10 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
 
-let client: GraphQLClient | null = null;
+const SCHEMA_URL = process.env.SCHEMA_URL || 'http://localhost:8080/graphql';
 
-export const getClient = () => {
-	if (!client) {
-		client = new GraphQLClient(`${process.env.SCHEMA_URL}`);
-	}
-	return client;
-};
+export const client = new GraphQLClient(SCHEMA_URL);

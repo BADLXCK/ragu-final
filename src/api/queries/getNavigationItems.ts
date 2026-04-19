@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { getClient } from '../client';
+import { client } from '../client';
 import { MenuItem, MenuItemConnection } from '../gql/graphql';
 
 export const getNavigationItems = async (): Promise<MenuItem[]> => {
@@ -19,7 +19,7 @@ export const getNavigationItems = async (): Promise<MenuItem[]> => {
 		}
 	`;
 
-	const response: { menuItems: MenuItemConnection } = await getClient().request(
+	const response: { menuItems: MenuItemConnection } = await client.request(
 		query,
 	);
 
