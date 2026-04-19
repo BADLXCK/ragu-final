@@ -11,6 +11,7 @@ jobs:
       DATABASE_USER: ${{ secrets.DATABASE_USER }}
       DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
       DATABASE_ROOT_PASSWORD: ${{ secrets.DATABASE_ROOT_PASSWORD }}
+      GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
     steps:
       - uses: actions/checkout@v4
       - name: Login to GHCR
@@ -40,6 +41,7 @@ jobs:
           DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
           DATABASE_ROOT_PASSWORD=${{ secrets.DATABASE_ROOT_PASSWORD }}
           NEXT_PUBLIC_YANDEX_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_YANDEX_MAPS_API_KEY }}
+          GITHUB_REPOSITORY_OWNER=${{ github.repository_owner }}
           EOF
               "
       - name: Deploy Docker Compose to server

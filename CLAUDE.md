@@ -12,7 +12,7 @@ Restaurant "Ragu" website built with Next.js 15 (App Router) using WordPress as 
 ```bash
 npm install
 cp .env.example .env  # Configure environment variables
-npm run docker:up     # Starts db, wordpress, frontend, and runs wpcli setup
+npm run docker:up     # Starts db, wordpress, frontend, and runs setup
 ```
 
 ### Development Workflow
@@ -25,10 +25,9 @@ npm run codegen       # Regenerate GraphQL types from WordPress schema
 
 ### Docker Management
 ```bash
-npm run docker:up              # Start all containers (db, wordpress, frontend, wpcli)
+npm run docker:up              # Start all containers (db, wordpress, frontend)
 npm run docker:down            # Stop all containers
 npm run docker:restart         # Restart all containers
-npm run docker:wpcli:rebuild   # Rebuild wpcli container after wp-init.sh changes
 ```
 
 ### Code Analysis
@@ -53,6 +52,8 @@ npm run knip           # Check for unused dependencies
 - `src/layouts/` - Layout components (RootLayout)
 - `wp-content/themes/ragu/` - Custom WordPress theme
 - `wp-init.sh` - WordPress initialization script (installs plugins, configures WP)
+- `README.wordpress.md` - WordPress Docker image documentation
+- `README.frontend.md` - Frontend Docker image documentation
 
 ### GraphQL Data Flow
 1. WordPress exposes GraphQL API via WPGraphQL plugin at `/graphql`
@@ -62,7 +63,7 @@ npm run knip           # Check for unused dependencies
 5. GraphQL client (`src/api/client.ts`) uses `graphql-request` library
 
 ### WordPress Setup
-The `wp-init.sh` script (runs via wpcli container) automatically:
+The `wp-init.sh` script (runs during WordPress container startup) automatically:
 - Installs WordPress with Russian locale
 - Activates custom "ragu" theme
 - Installs and activates plugins: WooCommerce, ACF, WPGraphQL, wp-graphql-woocommerce, Yoast SEO, FileBird, UpdraftPlus, Pods
@@ -91,13 +92,14 @@ WordPress setup script can automatically restore backups from Google Drive on fi
 9. If variables are not set, backup restore is skipped
 
 ### Docker Architecture
-**Development**: 
-- Frontend (port 3000), WordPress (port 8080), MySQL (internal), wpcli (one-time setup)
+**Development**:
+- Frontend (port 3000), WordPress (port 8080), MySQL (internal)
 - Frontend container mounts source code for hot reload
+- WordPress setup runs at container startup via `wp-init.sh`
 
-**Production**: 
+**Production**:
 - Traefik reverse proxy handles SSL and routing
-- Frontend at `${DOMAIN}`, WordPress admin at `wp.${DOMAIN}`
+- Frontend and WordPress use pre-built images from GHCR
 - Database not exposed externally
 
 ## Important Patterns
@@ -132,7 +134,7 @@ Next.js Image component configured to allow images from `wordpress` hostname (Do
 
 ### Modifying WordPress Setup
 1. Edit `wp-init.sh` to add/remove plugins or change configuration
-2. Rebuild wpcli container: `npm run docker:wpcli:rebuild`
+2. Rebuild WordPress image locally to test
 3. Restart containers: `npm run docker:restart`
 
 ### Testing WordPress Changes Locally
