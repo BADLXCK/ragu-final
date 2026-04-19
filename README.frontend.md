@@ -11,7 +11,7 @@ Production-ready Next.js frontend image for restaurant "Ragu" website.
 ## Build Stages
 
 1. **deps** — install npm dependencies
-2. **builder** — run `npm run build`
+2. **builder** — run `npm run docker:build` (skips codegen)
 3. **runner** — production image with built artifacts
 
 ## Environment Variables
@@ -30,7 +30,11 @@ Production-ready Next.js frontend image for restaurant "Ragu" website.
 ## Build
 
 ```bash
+# Build the image
 docker build -f Dockerfile.frontend -t ghcr.io/<owner>/ragu-frontend:latest .
+
+# Note: The Docker build uses 'npm run docker:build' which skips codegen
+# Codegen types must be pre-generated and committed to the repository
 ```
 
 ## Notes

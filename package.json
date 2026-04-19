@@ -8,6 +8,7 @@
     "docker:prod:down": "docker compose -f docker-compose.prod.yml down",
     "dev": "graphql-codegen --config codegen.ts && node ./add-ts-nocheck.js && next dev --webpack",
     "build": "graphql-codegen --config codegen.ts && node ./add-ts-nocheck.js && next build",
+    "docker:build": "next build",
     "start": "next start",
     "lint": "next lint",
     "codegen": "graphql-codegen --config codegen.ts && node ./add-ts-nocheck.js",

@@ -14,7 +14,7 @@ WORKDIR /usr/app
 COPY --from=deps /usr/app/node_modules ./node_modules
 COPY . .
 
-RUN npm run build
+RUN npm run docker:build
 
 # Production image
 FROM base AS runner
