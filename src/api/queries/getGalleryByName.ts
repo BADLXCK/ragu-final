@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { client } from '../client';
+import { getClient } from '../client';
 import { Gallery } from '../gql/graphql';
 
 export const getGalleryByName = async (
@@ -27,7 +27,7 @@ export const getGalleryByName = async (
 
 	const response: {
 		galleries: { nodes: Gallery[] };
-	} = await client.request(query);
+	} = await getClient().request(query);
 
 	return response.galleries.nodes[0] || null;
 };

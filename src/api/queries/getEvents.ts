@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { client } from '../client';
+import { getClient } from '../client';
 import { Event, EventConnection } from '../gql/graphql';
 
 export const getEvents = async (): Promise<Event[]> => {
@@ -23,7 +23,7 @@ export const getEvents = async (): Promise<Event[]> => {
 		}
 	`;
 
-	const response: { events: EventConnection } = await client.request(query);
+	const response: { events: EventConnection } = await getClient().request(query);
 
 	return response.events.nodes;
 };

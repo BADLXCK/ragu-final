@@ -1,3 +1,10 @@
 import { GraphQLClient } from 'graphql-request';
 
-export const client = new GraphQLClient(`${process.env.SCHEMA_URL}`);
+let client: GraphQLClient | null = null;
+
+export const getClient = () => {
+	if (!client) {
+		client = new GraphQLClient(`${process.env.SCHEMA_URL}`);
+	}
+	return client;
+};

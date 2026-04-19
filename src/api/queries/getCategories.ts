@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { client } from '../client';
+import { getClient } from '../client';
 import { ProductCategory, ProductCategoryConnection } from '../gql/graphql';
 
 export const getCategories = async (): Promise<ProductCategory[]> => {
@@ -16,7 +16,7 @@ export const getCategories = async (): Promise<ProductCategory[]> => {
 	`;
 
 	const response: { productCategories: ProductCategoryConnection } =
-		await client.request(query);
+		await getClient().request(query);
 
 	return response.productCategories.nodes;
 };

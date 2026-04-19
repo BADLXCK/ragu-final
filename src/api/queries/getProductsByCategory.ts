@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { client } from '../client';
+import { getClient } from '../client';
 import { ExtendedProduct } from '../gql/extended-types';
 
 export const getProductsByCategory = async (
@@ -33,7 +33,7 @@ export const getProductsByCategory = async (
 
 	const response: {
 		products: { edges: { node: ExtendedProduct }[] };
-	} = await client.request(query, { categorySlug });
+	} = await getClient().request(query, { categorySlug });
 
 	return response.products.edges.map(edge => edge.node);
 };

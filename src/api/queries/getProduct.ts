@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { client } from '../client';
+import { getClient } from '../client';
 import { ExtendedProduct } from '../gql/extended-types';
 
 export const getProduct = async (slug: string): Promise<ExtendedProduct> => {
@@ -30,7 +30,7 @@ export const getProduct = async (slug: string): Promise<ExtendedProduct> => {
 	`;
 
 	const response: { products: { edges: { node: ExtendedProduct }[] } } =
-		await client.request(query, {
+		await getClient().request(query, {
 			slug,
 		});
 

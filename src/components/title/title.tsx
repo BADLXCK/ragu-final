@@ -3,7 +3,7 @@
 import { gql } from 'graphql-request';
 import { usePathname } from 'next/navigation';
 import React, { HTMLAttributes, useEffect, useState } from 'react';
-import { client } from '@/api/client';
+import { getClient } from '@/api/client';
 import styles from './title.module.scss';
 
 interface TitleProps extends HTMLAttributes<HTMLHeadingElement> {}
@@ -27,7 +27,7 @@ export const Title = ({ className }: TitleProps) => {
 			return;
 		}
 
-		client
+		getClient()
 			.request<{ pageBy: { title: string } | null }>(GET_PAGE_TITLE, {
 				slug,
 			})
