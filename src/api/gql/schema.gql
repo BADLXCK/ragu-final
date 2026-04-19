@@ -6438,493 +6438,493 @@ type CreateVisibleProductPayload {
 
 """Currencies enumeration"""
 enum CurrencyEnum {
-  """Дирхам ОАЭ"""
+  """United Arab Emirates dirham"""
   AED
 
-  """Афганский афгани"""
+  """Afghan afghani"""
   AFN
 
-  """Албанский лек"""
+  """Albanian lek"""
   ALL
 
-  """Армянский драм"""
+  """Armenian dram"""
   AMD
 
-  """Нидерландский антильский гульден"""
+  """Netherlands Antillean guilder"""
   ANG
 
-  """Ангольская кванза"""
+  """Angolan kwanza"""
   AOA
 
-  """Аргентинский песо"""
+  """Argentine peso"""
   ARS
 
-  """Австралийский доллар"""
+  """Australian dollar"""
   AUD
 
-  """Арубанский флорин"""
+  """Aruban florin"""
   AWG
 
-  """Азербайджанский манат"""
+  """Azerbaijani manat"""
   AZN
 
-  """Конвертируемая марка Боснии и Герцеговины"""
+  """Bosnia and Herzegovina convertible mark"""
   BAM
 
-  """Барбадосский доллар"""
+  """Barbadian dollar"""
   BBD
 
-  """Бангладешская така"""
+  """Bangladeshi taka"""
   BDT
 
-  """Болгарский лев"""
+  """Bulgarian lev"""
   BGN
 
-  """Бахрейнский динар"""
+  """Bahraini dinar"""
   BHD
 
-  """Бурундийский франк"""
+  """Burundian franc"""
   BIF
 
-  """Бермудский доллар"""
+  """Bermudian dollar"""
   BMD
 
-  """Брунейский доллар"""
+  """Brunei dollar"""
   BND
 
-  """Боливийский боливиано"""
+  """Bolivian boliviano"""
   BOB
 
-  """Бразильский реал"""
+  """Brazilian real"""
   BRL
 
-  """Багамский доллар"""
+  """Bahamian dollar"""
   BSD
 
-  """Биткойн"""
+  """Bitcoin"""
   BTC
 
-  """Бутанский нгултрум"""
+  """Bhutanese ngultrum"""
   BTN
 
-  """Ботсванская пула"""
+  """Botswana pula"""
   BWP
 
-  """Белорусский рубль"""
+  """Belarusian ruble"""
   BYN
 
-  """Белорусский рубль (старый)"""
+  """Belarusian ruble (old)"""
   BYR
 
-  """Белизский доллар"""
+  """Belize dollar"""
   BZD
 
-  """Канадский доллар"""
+  """Canadian dollar"""
   CAD
 
-  """Конголезский франк"""
+  """Congolese franc"""
   CDF
 
-  """Швейцарский франк"""
+  """Swiss franc"""
   CHF
 
-  """Чилийский песо"""
+  """Chilean peso"""
   CLP
 
-  """Китайский юань"""
+  """Chinese yuan"""
   CNY
 
-  """Колумбийский песо"""
+  """Colombian peso"""
   COP
 
-  """Коста-риканский колон"""
+  """Costa Rican col&oacute;n"""
   CRC
 
-  """Кубинское конвертируемое песо"""
+  """Cuban convertible peso"""
   CUC
 
-  """Кубинское песо"""
+  """Cuban peso"""
   CUP
 
-  """Эскудо Кабо-Верде"""
+  """Cape Verdean escudo"""
   CVE
 
-  """Чешская крона"""
+  """Czech koruna"""
   CZK
 
-  """Франк Джибути"""
+  """Djiboutian franc"""
   DJF
 
-  """Датская крона"""
+  """Danish krone"""
   DKK
 
-  """Доминиканский песо"""
+  """Dominican peso"""
   DOP
 
-  """Алжирский динар"""
+  """Algerian dinar"""
   DZD
 
-  """Египетский фунт"""
+  """Egyptian pound"""
   EGP
 
-  """Эритрейская накфа"""
+  """Eritrean nakfa"""
   ERN
 
-  """Эфиопский быр"""
+  """Ethiopian birr"""
   ETB
 
-  """Евро"""
+  """Euro"""
   EUR
 
-  """Доллар Фиджи"""
+  """Fijian dollar"""
   FJD
 
-  """Фунт Фолклендских островов"""
+  """Falkland Islands pound"""
   FKP
 
-  """Фунт стерлингов"""
+  """Pound sterling"""
   GBP
 
-  """Грузинский лари"""
+  """Georgian lari"""
   GEL
 
-  """Гернсийский фунт"""
+  """Guernsey pound"""
   GGP
 
-  """Ганский седи"""
+  """Ghana cedi"""
   GHS
 
-  """Гибралтарский фунт"""
+  """Gibraltar pound"""
   GIP
 
-  """Гамбийский даласи"""
+  """Gambian dalasi"""
   GMD
 
-  """Гвинейский франк"""
+  """Guinean franc"""
   GNF
 
-  """Гватемальский кетсаль"""
+  """Guatemalan quetzal"""
   GTQ
 
-  """Гайанский доллар"""
+  """Guyanese dollar"""
   GYD
 
-  """Гонконгский доллар"""
+  """Hong Kong dollar"""
   HKD
 
-  """Гондурасская лемпира"""
+  """Honduran lempira"""
   HNL
 
-  """Хорватская куна"""
+  """Croatian kuna"""
   HRK
 
-  """Гаитянский гурд"""
+  """Haitian gourde"""
   HTG
 
-  """Венгерский форинт"""
+  """Hungarian forint"""
   HUF
 
-  """Индонезийская рупия"""
+  """Indonesian rupiah"""
   IDR
 
-  """Новый израильский шекель"""
+  """Israeli new shekel"""
   ILS
 
-  """Фунт Острова Мэн"""
+  """Manx pound"""
   IMP
 
-  """Индийская рупия"""
+  """Indian rupee"""
   INR
 
-  """Иракский динар"""
+  """Iraqi dinar"""
   IQD
 
-  """Иранский риал"""
+  """Iranian rial"""
   IRR
 
-  """Иранский томан"""
+  """Iranian toman"""
   IRT
 
-  """Исландская крона"""
+  """Icelandic kr&oacute;na"""
   ISK
 
-  """Джерсийский фунт"""
+  """Jersey pound"""
   JEP
 
-  """Ямайский доллар"""
+  """Jamaican dollar"""
   JMD
 
-  """Иорданский динар"""
+  """Jordanian dinar"""
   JOD
 
-  """Японская йена"""
+  """Japanese yen"""
   JPY
 
-  """Кенийский шиллинг"""
+  """Kenyan shilling"""
   KES
 
-  """Киргизский сом"""
+  """Kyrgyzstani som"""
   KGS
 
-  """Камбоджийский риель"""
+  """Cambodian riel"""
   KHR
 
-  """Комoрский франк"""
+  """Comorian franc"""
   KMF
 
-  """Северокорейская вона"""
+  """North Korean won"""
   KPW
 
-  """Южнокорейская вона"""
+  """South Korean won"""
   KRW
 
-  """Кувейтский динар"""
+  """Kuwaiti dinar"""
   KWD
 
-  """Доллар Каймановых островов"""
+  """Cayman Islands dollar"""
   KYD
 
-  """Казахстанский тенге"""
+  """Kazakhstani tenge"""
   KZT
 
-  """Лаосский кип"""
+  """Lao kip"""
   LAK
 
-  """Ливанский фунт"""
+  """Lebanese pound"""
   LBP
 
-  """Шри-ланкийская рупия"""
+  """Sri Lankan rupee"""
   LKR
 
-  """Либерийский доллар"""
+  """Liberian dollar"""
   LRD
 
-  """Лоти Лесото"""
+  """Lesotho loti"""
   LSL
 
-  """Ливийский динар"""
+  """Libyan dinar"""
   LYD
 
-  """Марокканский дирхам"""
+  """Moroccan dirham"""
   MAD
 
-  """Молдавский лей"""
+  """Moldovan leu"""
   MDL
 
-  """Малагасийский ариари"""
+  """Malagasy ariary"""
   MGA
 
-  """Македонский динар"""
+  """Macedonian denar"""
   MKD
 
-  """Бирманский кьят"""
+  """Burmese kyat"""
   MMK
 
-  """Монгольский тугрик"""
+  """Mongolian t&ouml;gr&ouml;g"""
   MNT
 
-  """Патака Макао"""
+  """Macanese pataca"""
   MOP
 
-  """Мавританская угия"""
+  """Mauritanian ouguiya"""
   MRU
 
-  """Маврикийская рупия"""
+  """Mauritian rupee"""
   MUR
 
-  """Мальдивская руфия"""
+  """Maldivian rufiyaa"""
   MVR
 
-  """Малавийская квача"""
+  """Malawian kwacha"""
   MWK
 
-  """Мексиканский песо"""
+  """Mexican peso"""
   MXN
 
-  """Малайзийский ринггит"""
+  """Malaysian ringgit"""
   MYR
 
-  """Мозамбикский метикал"""
+  """Mozambican metical"""
   MZN
 
-  """Намибийский доллар"""
+  """Namibian dollar"""
   NAD
 
-  """Нигерийская найра"""
+  """Nigerian naira"""
   NGN
 
-  """Никарагуанская кордоба"""
+  """Nicaraguan c&oacute;rdoba"""
   NIO
 
-  """Норвежская крона"""
+  """Norwegian krone"""
   NOK
 
-  """Непальская рупия"""
+  """Nepalese rupee"""
   NPR
 
-  """Новозеландский доллар"""
+  """New Zealand dollar"""
   NZD
 
-  """Оманский риал"""
+  """Omani rial"""
   OMR
 
-  """Панамский бальбоа"""
+  """Panamanian balboa"""
   PAB
 
-  """Соль"""
+  """Sol"""
   PEN
 
-  """Папуа-Новогвинейская кина"""
+  """Papua New Guinean kina"""
   PGK
 
-  """Филиппинское песо"""
+  """Philippine peso"""
   PHP
 
-  """Пакистанская рупия"""
+  """Pakistani rupee"""
   PKR
 
-  """Польский злотый"""
+  """Polish z&#x142;oty"""
   PLN
 
-  """Приднестровский рубль"""
+  """Transnistrian ruble"""
   PRB
 
-  """Парагвайский гуарани&iacute;"""
+  """Paraguayan guaran&iacute;"""
   PYG
 
-  """Катарский риал"""
+  """Qatari riyal"""
   QAR
 
-  """Румынский лей"""
+  """Romanian leu"""
   RON
 
-  """Сербский динар"""
+  """Serbian dinar"""
   RSD
 
-  """Российский рубль"""
+  """Russian ruble"""
   RUB
 
-  """Франк Руанды"""
+  """Rwandan franc"""
   RWF
 
-  """Саудовский риял"""
+  """Saudi riyal"""
   SAR
 
-  """Доллар Соломоновых Островов"""
+  """Solomon Islands dollar"""
   SBD
 
-  """Сейшельская рупия"""
+  """Seychellois rupee"""
   SCR
 
-  """Суданский фунт"""
+  """Sudanese pound"""
   SDG
 
-  """Шведская крона"""
+  """Swedish krona"""
   SEK
 
-  """Сингапурский доллар"""
+  """Singapore dollar"""
   SGD
 
-  """Фунт Святой Елены"""
+  """Saint Helena pound"""
   SHP
 
-  """Сьерра-Леонский леоне"""
+  """Sierra Leonean leone"""
   SLL
 
-  """Сомалийский шиллинг"""
+  """Somali shilling"""
   SOS
 
-  """Суринамский доллар"""
+  """Surinamese dollar"""
   SRD
 
-  """Южносуданский фунт"""
+  """South Sudanese pound"""
   SSP
 
-  """Добра Сан-Томе и Принсипи"""
+  """S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra"""
   STN
 
-  """Сирийский фунт"""
+  """Syrian pound"""
   SYP
 
-  """Свазилендский лилангени"""
+  """Swazi lilangeni"""
   SZL
 
-  """Таиландский бат"""
+  """Thai baht"""
   THB
 
-  """Таджикский сомони"""
+  """Tajikistani somoni"""
   TJS
 
-  """Туркменский манат"""
+  """Turkmenistan manat"""
   TMT
 
-  """Тунисский динар"""
+  """Tunisian dinar"""
   TND
 
-  """Тонганская паанга"""
+  """Tongan pa&#x2bb;anga"""
   TOP
 
-  """Турецкая лира"""
+  """Turkish lira"""
   TRY
 
-  """Доллар Тринидада и Тобаго"""
+  """Trinidad and Tobago dollar"""
   TTD
 
-  """Новый тайваньский доллар"""
+  """New Taiwan dollar"""
   TWD
 
-  """Танзанийский шиллинг"""
+  """Tanzanian shilling"""
   TZS
 
-  """Украинская гривна"""
+  """Ukrainian hryvnia"""
   UAH
 
-  """Угандийский шиллинг"""
+  """Ugandan shilling"""
   UGX
 
-  """Доллар США"""
+  """United States (US) dollar"""
   USD
 
-  """Уругвайское песо"""
+  """Uruguayan peso"""
   UYU
 
-  """Узбекский сум"""
+  """Uzbekistani som"""
   UZS
 
-  """Венесуэльский боливар (2008–2018)"""
+  """Venezuelan bol&iacute;var (2008–2018)"""
   VEF
 
-  """Венесуэльский боливар"""
+  """Venezuelan bol&iacute;var"""
   VES
 
-  """Вьетнамский донг"""
+  """Vietnamese &#x111;&#x1ed3;ng"""
   VND
 
-  """Вануатский вату"""
+  """Vanuatu vatu"""
   VUV
 
-  """Самоанская тала"""
+  """Samoan t&#x101;l&#x101;"""
   WST
 
-  """Центральноафриканский франк КФА"""
+  """Central African CFA franc"""
   XAF
 
-  """Восточнокарибский доллар"""
+  """East Caribbean dollar"""
   XCD
 
-  """Западноафриканский франк КФА"""
+  """West African CFA franc"""
   XOF
 
-  """Тихоокеанский франк КФП"""
+  """CFP franc"""
   XPF
 
-  """Йеменский риал"""
+  """Yemeni rial"""
   YER
 
-  """Южноафриканский рэнд"""
+  """South African rand"""
   ZAR
 
-  """Замбийская квача"""
+  """Zambian kwacha"""
   ZMW
 }
 
@@ -8298,13 +8298,13 @@ type DeleteVisibleProductPayload {
 
 """Coupon discount type enumeration"""
 enum DiscountTypeEnum {
-  """Фиксированная скидка на покупку"""
+  """Fixed cart discount"""
   FIXED_CART
 
-  """Фиксированная скидка на товар"""
+  """Fixed product discount"""
   FIXED_PRODUCT
 
-  """Процент скидки"""
+  """Percentage discount"""
   PERCENT
 }
 
@@ -14578,28 +14578,28 @@ interface OrderNoteConnectionPageInfo implements PageInfo & WPPageInfo {
 
 """Order status enumeration"""
 enum OrderStatusEnum {
-  """Отменён"""
+  """Cancelled"""
   CANCELLED
 
-  """Черновик"""
+  """Draft"""
   CHECKOUT_DRAFT
 
-  """Выполнен"""
+  """Completed"""
   COMPLETED
 
-  """Не удался"""
+  """Failed"""
   FAILED
 
-  """На удержании"""
+  """On hold"""
   ON_HOLD
 
-  """Ожидается оплата"""
+  """Pending payment"""
   PENDING
 
-  """Обработка"""
+  """Processing"""
   PROCESSING
 
-  """Возвращён"""
+  """Refunded"""
   REFUNDED
 }
 
@@ -18132,7 +18132,7 @@ enum PricingFieldFormatEnum {
   RAW
 }
 
-"""Здесь вы можете просматривать товары данного магазина."""
+"""This is where you can browse products in this store."""
 interface Product implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithComments & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithTemplate & NodeWithTitle & Previewable & ProductUnion & UniformResourceIdentifiable {
   """Product average count"""
   averageRating: Float

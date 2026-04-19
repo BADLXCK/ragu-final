@@ -1,10 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "docker:up": "docker compose up -d --build db wordpress frontend && docker compose run --rm wpcli",
+    "docker:up": "docker compose up -d --build",
     "docker:down": "docker compose down",
     "docker:restart": "npm run docker:down && npm run docker:up",
-    "docker:wpcli:rebuild": "docker compose build wpcli",
     "docker:prod:up": "docker compose -f docker-compose.prod.yml up -d",
     "docker:prod:down": "docker compose -f docker-compose.prod.yml down",
     "dev": "graphql-codegen --config codegen.ts && node ./add-ts-nocheck.js && next dev --webpack",

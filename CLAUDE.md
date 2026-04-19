@@ -75,6 +75,20 @@ Key variables in `.env`:
 - `WORDPRESS_URL` - WordPress admin URL (e.g., `http://localhost:8080`)
 - `SCHEMA_URL` - GraphQL endpoint for codegen (e.g., `http://localhost:8080/graphql`)
 - `DOMAIN` - Production domain (e.g., `restoranragu.ru`)
+- `GDRIVE_SERVICE_ACCOUNT_JSON` - (Optional) Google Drive service account JSON for backup restore
+- `GDRIVE_BACKUP_FOLDER` - (Optional) Google Drive folder ID (from URL after `/folders/`)
+
+### Backup Restore from Google Drive
+WordPress setup script can automatically restore backups from Google Drive on first installation:
+1. Create a service account in Google Cloud Console
+2. Download JSON key and minify to single line: `cat key.json | jq -c`
+3. Add to `.env` as `GDRIVE_SERVICE_ACCOUNT_JSON`
+4. Get folder ID from Google Drive URL: `https://drive.google.com/drive/folders/FOLDER_ID`
+5. Share folder with service account email (from JSON `client_email` field) with Viewer access
+6. Set `GDRIVE_BACKUP_FOLDER=FOLDER_ID` in `.env`
+7. Backup files must match patterns: `backup-*-uploads-*.zip` (uploads) and `backup-*-db*.gz` (database)
+8. On first `docker-compose up`, backups are downloaded and restored automatically
+9. If variables are not set, backup restore is skipped
 
 ### Docker Architecture
 **Development**: 

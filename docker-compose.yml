@@ -23,7 +23,9 @@ services:
         depends_on:
             db:
                 condition: service_healthy
-        image: wordpress:6.9.4-php8.2-apache
+        build:
+            context: .
+            dockerfile: Dockerfile.wordpress
         restart: unless-stopped
         ports:
             - "8080:80"
@@ -32,17 +34,20 @@ services:
             WORDPRESS_DB_USER: ${DATABASE_USER}
             WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
             WORDPRESS_DB_NAME: ${DATABASE_NAME}
+            WORDPRESS_URL: ${WORDPRESS_URL}
+            WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
+            GDRIVE_SERVICE_ACCOUNT_JSON: ${GDRIVE_SERVICE_ACCOUNT_JSON:-}
+            GDRIVE_BACKUP_FOLDER: ${GDRIVE_BACKUP_FOLDER:-}
         volumes:
             - wp_data:/var/www/html
-            - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
         networks:
             - dev-network
         healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:80"] # Check if the server returns 200 OK
-            interval: 10s
-            timeout: 15s
-            retries: 20
-            start_period: 60s
+            test: ["CMD", "test", "-f", "/tmp/wordpress-setup-complete"]
+            interval: 5s
+            timeout: 3s
+            retries: 30
+            start_period: 90s
 
     frontend:
         build:
@@ -68,27 +73,6 @@ services:
         networks:
             - dev-network
 
-    wpcli:
-        build:
-            context: .
-            dockerfile: Dockerfile.wpcli
-        user: root
-        restart: "no"
-        depends_on:
-            wordpress:
-                condition: service_healthy
-        environment:
-            WORDPRESS_DB_HOST: db
-            WORDPRESS_DB_USER: ${DATABASE_USER}
-            WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
-            WORDPRESS_DB_NAME: ${DATABASE_NAME}
-            WORDPRESS_URL: ${WORDPRESS_URL}
-            WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
-        volumes:
-            - wp_data:/var/www/html
-            - ./wp-content/themes/ragu:/var/www/html/wp-content/themes/ragu
-        networks:
-            - dev-network
 
 volumes:
     db_data:

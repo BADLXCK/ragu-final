@@ -65,10 +65,16 @@ ragu-final/
 │   ├── components/     # React компоненты
 │   ├── layouts/        # Layout компоненты
 │   ├── hooks/          # Кастомные хуки
-│   └── utils/          # Утилиты
-├── wp-content/
-│   ├── themes/ragu/    # Кастомная тема WordPress
-│   └── plugins/        # Плагины WordPress
+│   ├── utils/          # Утилиты
+│   └── wordpress/      # WordPress setup
+│       ├── themes/     # Кастомная тема WordPress
+│       ├── setup.sh    # Скрипт инициализации WP
+│       └── entrypoint.sh # Entrypoint для Docker
+├── .github/
+│   └── workflows/
+│       └── docker-wordpress.yml # CI/CD для WordPress образа
+├── Dockerfile.wordpress     # WordPress образ
+├── Dockerfile.frontend      # Frontend образ
 ├── docker-compose.yml       # Development конфигурация
 ├── docker-compose.prod.yml  # Production конфигурация
 └── codegen.ts               # GraphQL Codegen конфигурация
@@ -133,6 +139,9 @@ npm run docker:restart # Перезапуск контейнеров
 # Docker (Production)
 npm run docker:prod:up   # Запуск production
 npm run docker:prod:down # Остановка production
+
+# Сборка образов
+docker build -f Dockerfile.wordpress -t ragu-wordpress .  # Сборка WordPress образа
 
 # Анализ кода
 npm run find-deadcode # Поиск неиспользуемого кода
@@ -217,10 +226,37 @@ npm run codegen
 1. Скопируйте `.env.example` → `.env`
 2. Запустите `npm run docker:up`
 
+WordPress автоматически настроится при первом запуске:
+- Установит WordPress с русской локализацией
+- Активирует тему `ragu`
+- Установит необходимые плагины (WPGraphQL, WooCommerce, ACF и др.)
+- Настроит права доступа
+
 ### Production
 
-1. Соберите Docker образ и запуште в GitHub Container Registry
-2. Настройте GitHub Actions Secrets
+#### Автоматический деплой через GitHub Actions
+
+При пуше в `main` с изменениями в `src/wordpress/` или `Dockerfile.wordpress`:
+- GitHub Actions автоматически соберет WordPress образ
+- Образ будет опубликован в GitHub Container Registry как `ghcr.io/<username>/ragu-wordpress:latest`
+
+#### Ручная сборка и публикация
+
+```bash
+# Сборка WordPress образа
+docker build -f Dockerfile.wordpress -t ghcr.io/<username>/ragu-wordpress:latest .
+
+# Логин в GitHub Container Registry
+echo $GITHUB_TOKEN | docker login ghcr.io -u <username> --password-stdin
+
+# Публикация образа
+docker push ghcr.io/<username>/ragu-wordpress:latest
+```
+
+#### Запуск на сервере
+
+1. Настройте `.env` на сервере
+2. Обновите `docker-compose.prod.yml` для использования образа из GHCR
 3. Запустите `npm run docker:prod:up`
 
 **Домены в production:**

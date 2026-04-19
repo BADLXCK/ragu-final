@@ -4186,331 +4186,331 @@ export type CreateVisibleProductPayload = {
 
 /** Currencies enumeration */
 export enum CurrencyEnum {
-  /** Дирхам ОАЭ */
+  /** United Arab Emirates dirham */
   Aed = 'AED',
-  /** Афганский афгани */
+  /** Afghan afghani */
   Afn = 'AFN',
-  /** Албанский лек */
+  /** Albanian lek */
   All = 'ALL',
-  /** Армянский драм */
+  /** Armenian dram */
   Amd = 'AMD',
-  /** Нидерландский антильский гульден */
+  /** Netherlands Antillean guilder */
   Ang = 'ANG',
-  /** Ангольская кванза */
+  /** Angolan kwanza */
   Aoa = 'AOA',
-  /** Аргентинский песо */
+  /** Argentine peso */
   Ars = 'ARS',
-  /** Австралийский доллар */
+  /** Australian dollar */
   Aud = 'AUD',
-  /** Арубанский флорин */
+  /** Aruban florin */
   Awg = 'AWG',
-  /** Азербайджанский манат */
+  /** Azerbaijani manat */
   Azn = 'AZN',
-  /** Конвертируемая марка Боснии и Герцеговины */
+  /** Bosnia and Herzegovina convertible mark */
   Bam = 'BAM',
-  /** Барбадосский доллар */
+  /** Barbadian dollar */
   Bbd = 'BBD',
-  /** Бангладешская така */
+  /** Bangladeshi taka */
   Bdt = 'BDT',
-  /** Болгарский лев */
+  /** Bulgarian lev */
   Bgn = 'BGN',
-  /** Бахрейнский динар */
+  /** Bahraini dinar */
   Bhd = 'BHD',
-  /** Бурундийский франк */
+  /** Burundian franc */
   Bif = 'BIF',
-  /** Бермудский доллар */
+  /** Bermudian dollar */
   Bmd = 'BMD',
-  /** Брунейский доллар */
+  /** Brunei dollar */
   Bnd = 'BND',
-  /** Боливийский боливиано */
+  /** Bolivian boliviano */
   Bob = 'BOB',
-  /** Бразильский реал */
+  /** Brazilian real */
   Brl = 'BRL',
-  /** Багамский доллар */
+  /** Bahamian dollar */
   Bsd = 'BSD',
-  /** Биткойн */
+  /** Bitcoin */
   Btc = 'BTC',
-  /** Бутанский нгултрум */
+  /** Bhutanese ngultrum */
   Btn = 'BTN',
-  /** Ботсванская пула */
+  /** Botswana pula */
   Bwp = 'BWP',
-  /** Белорусский рубль */
+  /** Belarusian ruble */
   Byn = 'BYN',
-  /** Белорусский рубль (старый) */
+  /** Belarusian ruble (old) */
   Byr = 'BYR',
-  /** Белизский доллар */
+  /** Belize dollar */
   Bzd = 'BZD',
-  /** Канадский доллар */
+  /** Canadian dollar */
   Cad = 'CAD',
-  /** Конголезский франк */
+  /** Congolese franc */
   Cdf = 'CDF',
-  /** Швейцарский франк */
+  /** Swiss franc */
   Chf = 'CHF',
-  /** Чилийский песо */
+  /** Chilean peso */
   Clp = 'CLP',
-  /** Китайский юань */
+  /** Chinese yuan */
   Cny = 'CNY',
-  /** Колумбийский песо */
+  /** Colombian peso */
   Cop = 'COP',
-  /** Коста-риканский колон */
+  /** Costa Rican col&oacute;n */
   Crc = 'CRC',
-  /** Кубинское конвертируемое песо */
+  /** Cuban convertible peso */
   Cuc = 'CUC',
-  /** Кубинское песо */
+  /** Cuban peso */
   Cup = 'CUP',
-  /** Эскудо Кабо-Верде */
+  /** Cape Verdean escudo */
   Cve = 'CVE',
-  /** Чешская крона */
+  /** Czech koruna */
   Czk = 'CZK',
-  /** Франк Джибути */
+  /** Djiboutian franc */
   Djf = 'DJF',
-  /** Датская крона */
+  /** Danish krone */
   Dkk = 'DKK',
-  /** Доминиканский песо */
+  /** Dominican peso */
   Dop = 'DOP',
-  /** Алжирский динар */
+  /** Algerian dinar */
   Dzd = 'DZD',
-  /** Египетский фунт */
+  /** Egyptian pound */
   Egp = 'EGP',
-  /** Эритрейская накфа */
+  /** Eritrean nakfa */
   Ern = 'ERN',
-  /** Эфиопский быр */
+  /** Ethiopian birr */
   Etb = 'ETB',
-  /** Евро */
+  /** Euro */
   Eur = 'EUR',
-  /** Доллар Фиджи */
+  /** Fijian dollar */
   Fjd = 'FJD',
-  /** Фунт Фолклендских островов */
+  /** Falkland Islands pound */
   Fkp = 'FKP',
-  /** Фунт стерлингов */
+  /** Pound sterling */
   Gbp = 'GBP',
-  /** Грузинский лари */
+  /** Georgian lari */
   Gel = 'GEL',
-  /** Гернсийский фунт */
+  /** Guernsey pound */
   Ggp = 'GGP',
-  /** Ганский седи */
+  /** Ghana cedi */
   Ghs = 'GHS',
-  /** Гибралтарский фунт */
+  /** Gibraltar pound */
   Gip = 'GIP',
-  /** Гамбийский даласи */
+  /** Gambian dalasi */
   Gmd = 'GMD',
-  /** Гвинейский франк */
+  /** Guinean franc */
   Gnf = 'GNF',
-  /** Гватемальский кетсаль */
+  /** Guatemalan quetzal */
   Gtq = 'GTQ',
-  /** Гайанский доллар */
+  /** Guyanese dollar */
   Gyd = 'GYD',
-  /** Гонконгский доллар */
+  /** Hong Kong dollar */
   Hkd = 'HKD',
-  /** Гондурасская лемпира */
+  /** Honduran lempira */
   Hnl = 'HNL',
-  /** Хорватская куна */
+  /** Croatian kuna */
   Hrk = 'HRK',
-  /** Гаитянский гурд */
+  /** Haitian gourde */
   Htg = 'HTG',
-  /** Венгерский форинт */
+  /** Hungarian forint */
   Huf = 'HUF',
-  /** Индонезийская рупия */
+  /** Indonesian rupiah */
   Idr = 'IDR',
-  /** Новый израильский шекель */
+  /** Israeli new shekel */
   Ils = 'ILS',
-  /** Фунт Острова Мэн */
+  /** Manx pound */
   Imp = 'IMP',
-  /** Индийская рупия */
+  /** Indian rupee */
   Inr = 'INR',
-  /** Иракский динар */
+  /** Iraqi dinar */
   Iqd = 'IQD',
-  /** Иранский риал */
+  /** Iranian rial */
   Irr = 'IRR',
-  /** Иранский томан */
+  /** Iranian toman */
   Irt = 'IRT',
-  /** Исландская крона */
+  /** Icelandic kr&oacute;na */
   Isk = 'ISK',
-  /** Джерсийский фунт */
+  /** Jersey pound */
   Jep = 'JEP',
-  /** Ямайский доллар */
+  /** Jamaican dollar */
   Jmd = 'JMD',
-  /** Иорданский динар */
+  /** Jordanian dinar */
   Jod = 'JOD',
-  /** Японская йена */
+  /** Japanese yen */
   Jpy = 'JPY',
-  /** Кенийский шиллинг */
+  /** Kenyan shilling */
   Kes = 'KES',
-  /** Киргизский сом */
+  /** Kyrgyzstani som */
   Kgs = 'KGS',
-  /** Камбоджийский риель */
+  /** Cambodian riel */
   Khr = 'KHR',
-  /** Комoрский франк */
+  /** Comorian franc */
   Kmf = 'KMF',
-  /** Северокорейская вона */
+  /** North Korean won */
   Kpw = 'KPW',
-  /** Южнокорейская вона */
+  /** South Korean won */
   Krw = 'KRW',
-  /** Кувейтский динар */
+  /** Kuwaiti dinar */
   Kwd = 'KWD',
-  /** Доллар Каймановых островов */
+  /** Cayman Islands dollar */
   Kyd = 'KYD',
-  /** Казахстанский тенге */
+  /** Kazakhstani tenge */
   Kzt = 'KZT',
-  /** Лаосский кип */
+  /** Lao kip */
   Lak = 'LAK',
-  /** Ливанский фунт */
+  /** Lebanese pound */
   Lbp = 'LBP',
-  /** Шри-ланкийская рупия */
+  /** Sri Lankan rupee */
   Lkr = 'LKR',
-  /** Либерийский доллар */
+  /** Liberian dollar */
   Lrd = 'LRD',
-  /** Лоти Лесото */
+  /** Lesotho loti */
   Lsl = 'LSL',
-  /** Ливийский динар */
+  /** Libyan dinar */
   Lyd = 'LYD',
-  /** Марокканский дирхам */
+  /** Moroccan dirham */
   Mad = 'MAD',
-  /** Молдавский лей */
+  /** Moldovan leu */
   Mdl = 'MDL',
-  /** Малагасийский ариари */
+  /** Malagasy ariary */
   Mga = 'MGA',
-  /** Македонский динар */
+  /** Macedonian denar */
   Mkd = 'MKD',
-  /** Бирманский кьят */
+  /** Burmese kyat */
   Mmk = 'MMK',
-  /** Монгольский тугрик */
+  /** Mongolian t&ouml;gr&ouml;g */
   Mnt = 'MNT',
-  /** Патака Макао */
+  /** Macanese pataca */
   Mop = 'MOP',
-  /** Мавританская угия */
+  /** Mauritanian ouguiya */
   Mru = 'MRU',
-  /** Маврикийская рупия */
+  /** Mauritian rupee */
   Mur = 'MUR',
-  /** Мальдивская руфия */
+  /** Maldivian rufiyaa */
   Mvr = 'MVR',
-  /** Малавийская квача */
+  /** Malawian kwacha */
   Mwk = 'MWK',
-  /** Мексиканский песо */
+  /** Mexican peso */
   Mxn = 'MXN',
-  /** Малайзийский ринггит */
+  /** Malaysian ringgit */
   Myr = 'MYR',
-  /** Мозамбикский метикал */
+  /** Mozambican metical */
   Mzn = 'MZN',
-  /** Намибийский доллар */
+  /** Namibian dollar */
   Nad = 'NAD',
-  /** Нигерийская найра */
+  /** Nigerian naira */
   Ngn = 'NGN',
-  /** Никарагуанская кордоба */
+  /** Nicaraguan c&oacute;rdoba */
   Nio = 'NIO',
-  /** Норвежская крона */
+  /** Norwegian krone */
   Nok = 'NOK',
-  /** Непальская рупия */
+  /** Nepalese rupee */
   Npr = 'NPR',
-  /** Новозеландский доллар */
+  /** New Zealand dollar */
   Nzd = 'NZD',
-  /** Оманский риал */
+  /** Omani rial */
   Omr = 'OMR',
-  /** Панамский бальбоа */
+  /** Panamanian balboa */
   Pab = 'PAB',
-  /** Соль */
+  /** Sol */
   Pen = 'PEN',
-  /** Папуа-Новогвинейская кина */
+  /** Papua New Guinean kina */
   Pgk = 'PGK',
-  /** Филиппинское песо */
+  /** Philippine peso */
   Php = 'PHP',
-  /** Пакистанская рупия */
+  /** Pakistani rupee */
   Pkr = 'PKR',
-  /** Польский злотый */
+  /** Polish z&#x142;oty */
   Pln = 'PLN',
-  /** Приднестровский рубль */
+  /** Transnistrian ruble */
   Prb = 'PRB',
-  /** Парагвайский гуарани&iacute; */
+  /** Paraguayan guaran&iacute; */
   Pyg = 'PYG',
-  /** Катарский риал */
+  /** Qatari riyal */
   Qar = 'QAR',
-  /** Румынский лей */
+  /** Romanian leu */
   Ron = 'RON',
-  /** Сербский динар */
+  /** Serbian dinar */
   Rsd = 'RSD',
-  /** Российский рубль */
+  /** Russian ruble */
   Rub = 'RUB',
-  /** Франк Руанды */
+  /** Rwandan franc */
   Rwf = 'RWF',
-  /** Саудовский риял */
+  /** Saudi riyal */
   Sar = 'SAR',
-  /** Доллар Соломоновых Островов */
+  /** Solomon Islands dollar */
   Sbd = 'SBD',
-  /** Сейшельская рупия */
+  /** Seychellois rupee */
   Scr = 'SCR',
-  /** Суданский фунт */
+  /** Sudanese pound */
   Sdg = 'SDG',
-  /** Шведская крона */
+  /** Swedish krona */
   Sek = 'SEK',
-  /** Сингапурский доллар */
+  /** Singapore dollar */
   Sgd = 'SGD',
-  /** Фунт Святой Елены */
+  /** Saint Helena pound */
   Shp = 'SHP',
-  /** Сьерра-Леонский леоне */
+  /** Sierra Leonean leone */
   Sll = 'SLL',
-  /** Сомалийский шиллинг */
+  /** Somali shilling */
   Sos = 'SOS',
-  /** Суринамский доллар */
+  /** Surinamese dollar */
   Srd = 'SRD',
-  /** Южносуданский фунт */
+  /** South Sudanese pound */
   Ssp = 'SSP',
-  /** Добра Сан-Томе и Принсипи */
+  /** S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra */
   Stn = 'STN',
-  /** Сирийский фунт */
+  /** Syrian pound */
   Syp = 'SYP',
-  /** Свазилендский лилангени */
+  /** Swazi lilangeni */
   Szl = 'SZL',
-  /** Таиландский бат */
+  /** Thai baht */
   Thb = 'THB',
-  /** Таджикский сомони */
+  /** Tajikistani somoni */
   Tjs = 'TJS',
-  /** Туркменский манат */
+  /** Turkmenistan manat */
   Tmt = 'TMT',
-  /** Тунисский динар */
+  /** Tunisian dinar */
   Tnd = 'TND',
-  /** Тонганская паанга */
+  /** Tongan pa&#x2bb;anga */
   Top = 'TOP',
-  /** Турецкая лира */
+  /** Turkish lira */
   Try = 'TRY',
-  /** Доллар Тринидада и Тобаго */
+  /** Trinidad and Tobago dollar */
   Ttd = 'TTD',
-  /** Новый тайваньский доллар */
+  /** New Taiwan dollar */
   Twd = 'TWD',
-  /** Танзанийский шиллинг */
+  /** Tanzanian shilling */
   Tzs = 'TZS',
-  /** Украинская гривна */
+  /** Ukrainian hryvnia */
   Uah = 'UAH',
-  /** Угандийский шиллинг */
+  /** Ugandan shilling */
   Ugx = 'UGX',
-  /** Доллар США */
+  /** United States (US) dollar */
   Usd = 'USD',
-  /** Уругвайское песо */
+  /** Uruguayan peso */
   Uyu = 'UYU',
-  /** Узбекский сум */
+  /** Uzbekistani som */
   Uzs = 'UZS',
-  /** Венесуэльский боливар (2008–2018) */
+  /** Venezuelan bol&iacute;var (2008–2018) */
   Vef = 'VEF',
-  /** Венесуэльский боливар */
+  /** Venezuelan bol&iacute;var */
   Ves = 'VES',
-  /** Вьетнамский донг */
+  /** Vietnamese &#x111;&#x1ed3;ng */
   Vnd = 'VND',
-  /** Вануатский вату */
+  /** Vanuatu vatu */
   Vuv = 'VUV',
-  /** Самоанская тала */
+  /** Samoan t&#x101;l&#x101; */
   Wst = 'WST',
-  /** Центральноафриканский франк КФА */
+  /** Central African CFA franc */
   Xaf = 'XAF',
-  /** Восточнокарибский доллар */
+  /** East Caribbean dollar */
   Xcd = 'XCD',
-  /** Западноафриканский франк КФА */
+  /** West African CFA franc */
   Xof = 'XOF',
-  /** Тихоокеанский франк КФП */
+  /** CFP franc */
   Xpf = 'XPF',
-  /** Йеменский риал */
+  /** Yemeni rial */
   Yer = 'YER',
-  /** Южноафриканский рэнд */
+  /** South African rand */
   Zar = 'ZAR',
-  /** Замбийская квача */
+  /** Zambian kwacha */
   Zmw = 'ZMW'
 }
 
@@ -5511,11 +5511,11 @@ export type DeleteVisibleProductPayload = {
 
 /** Coupon discount type enumeration */
 export enum DiscountTypeEnum {
-  /** Фиксированная скидка на покупку */
+  /** Fixed cart discount */
   FixedCart = 'FIXED_CART',
-  /** Фиксированная скидка на товар */
+  /** Fixed product discount */
   FixedProduct = 'FIXED_PRODUCT',
-  /** Процент скидки */
+  /** Percentage discount */
   Percent = 'PERCENT'
 }
 
@@ -9828,21 +9828,21 @@ export type OrderNoteConnectionPageInfo = {
 
 /** Order status enumeration */
 export enum OrderStatusEnum {
-  /** Отменён */
+  /** Cancelled */
   Cancelled = 'CANCELLED',
-  /** Черновик */
+  /** Draft */
   CheckoutDraft = 'CHECKOUT_DRAFT',
-  /** Выполнен */
+  /** Completed */
   Completed = 'COMPLETED',
-  /** Не удался */
+  /** Failed */
   Failed = 'FAILED',
-  /** На удержании */
+  /** On hold */
   OnHold = 'ON_HOLD',
-  /** Ожидается оплата */
+  /** Pending payment */
   Pending = 'PENDING',
-  /** Обработка */
+  /** Processing */
   Processing = 'PROCESSING',
-  /** Возвращён */
+  /** Refunded */
   Refunded = 'REFUNDED'
 }
 
@@ -12269,7 +12269,7 @@ export enum PricingFieldFormatEnum {
   Raw = 'RAW'
 }
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type Product = {
   /** Product average count */
   averageRating?: Maybe<Scalars['Float']['output']>;
@@ -12431,7 +12431,7 @@ export type Product = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductCommentsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12441,19 +12441,19 @@ export type ProductCommentsArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductContentArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductDescriptionArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductEnqueuedScriptsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12462,7 +12462,7 @@ export type ProductEnqueuedScriptsArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductEnqueuedStylesheetsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12471,13 +12471,13 @@ export type ProductEnqueuedStylesheetsArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductExcerptArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductGalleryImagesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12487,7 +12487,7 @@ export type ProductGalleryImagesArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductMetaDataArgs = {
   key?: InputMaybe<Scalars['String']['input']>;
   keysIn?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -12495,13 +12495,13 @@ export type ProductMetaDataArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductParentArgs = {
   where?: InputMaybe<ProductToProductConnectionWhereArgs>;
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductProductBrandsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12511,7 +12511,7 @@ export type ProductProductBrandsArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductProductCategoriesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12521,7 +12521,7 @@ export type ProductProductCategoriesArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductProductTagsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12531,7 +12531,7 @@ export type ProductProductTagsArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductProductTypesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12541,7 +12541,7 @@ export type ProductProductTypesArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductRelatedArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12551,7 +12551,7 @@ export type ProductRelatedArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductReviewsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12561,7 +12561,7 @@ export type ProductReviewsArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductShippingClassesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12571,13 +12571,13 @@ export type ProductShippingClassesArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductShortDescriptionArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductTermsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12587,13 +12587,13 @@ export type ProductTermsArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductTitleArgs = {
   format?: InputMaybe<PostObjectFieldFormatEnum>;
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductUpsellArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -12603,7 +12603,7 @@ export type ProductUpsellArgs = {
 };
 
 
-/** Здесь вы можете просматривать товары данного магазина. */
+/** This is where you can browse products in this store. */
 export type ProductVisibleProductsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;

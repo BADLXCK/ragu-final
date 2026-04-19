@@ -1,2 +1,45 @@
+# Node
 node_modules
+npm-debug.log
+.npm
+
+# Next.js
 .next
+out
+.vercel
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# Docker
+docker-compose*.yml
+Dockerfile
+Dockerfile.*
+!Dockerfile.wordpress
+
+# CI/CD
+.github
+
+# Docs
+README.md
+CLAUDE.md
+
+# Other
+*.log
+.cache
