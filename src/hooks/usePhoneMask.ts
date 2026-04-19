@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, KeyboardEvent, ChangeEvent } from 'react';
+import { useState, KeyboardEvent, InputEvent } from 'react';
 
 export const usePhoneMask = () => {
 	const [mask, setMask] = useState('');
@@ -28,8 +28,8 @@ export const usePhoneMask = () => {
 		return result;
 	};
 
-	const onInput = (event: ChangeEvent<HTMLInputElement>) => {
-		const target = event.target;
+	const onInput = (event: InputEvent<HTMLInputElement>) => {
+		const target = event.target as HTMLInputElement;
 		const input = target.value;
 		const inputNumbers = getNumbers(input);
 		let maskedPhone = '';

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import styles from './product-page.module.scss';
 import { getProductsByCategory } from '@/api/queries/getProductsByCategory';
 import { getProduct } from '@/api/queries/getProduct';
@@ -13,6 +14,10 @@ export default async function ProductPage({ params }: { params: Promise<{ catego
     const nextProduct = productIndex !== products.length - 1 ? products[productIndex + 1] : null;
     const previousProduct = productIndex !== 0 ? products[productIndex - 1] : null;
     const productInfo = await getProduct(product);
+
+    if (!productInfo) {
+        notFound();
+    }
 
     return (
         <div className={styles.wrapper}>

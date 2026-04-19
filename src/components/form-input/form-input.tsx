@@ -8,6 +8,7 @@ interface IFormInput extends InputHTMLAttributes<HTMLInputElement> {
     placeholder?: string,
     required?: boolean,
     pattern?: string,
+    padding?: string,
     borderRadius?: string,
     background?: string,
     color?: string,
@@ -23,11 +24,12 @@ export const FormInput: FC<IFormInput> = ({
     placeholder = '',
     required = false,
     pattern,
+    padding,
     className,
     ...props
 }) => {
     return (
-        <label className={`${styles.label} ${className}`} style={{ borderRadius, background }}>
+        <label className={`${styles.label} ${className}`} style={{ borderRadius, background, padding }}>
             {label}
             <input
                 className={styles.input}

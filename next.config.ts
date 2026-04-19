@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
 	sassOptions: {
 		silenceDeprecations: ['legacy-js-api'],
 	},
+	turbopack: {},
 	webpack: (config) => {
 		config.watchOptions = {
 			poll: 1000,
