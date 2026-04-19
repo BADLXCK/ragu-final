@@ -1,6 +1,5 @@
 import { AfishaPage } from "@/routes/afisha";
 
-// ISR: обновление страницы каждые 60 секунд
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
-export default AfishaPage
+export default AfishaPage;
