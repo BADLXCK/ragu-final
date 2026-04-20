@@ -1,11 +1,11 @@
 name: Build WordPress Image
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/wordpress/**'
-      - 'Dockerfile.wordpress'
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - 'src/wordpress/**'
+  #     - 'Dockerfile.wordpress'
   workflow_dispatch:
 
 env:

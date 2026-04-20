@@ -1,14 +1,14 @@
 name: Build Frontend Image
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/**'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'next.config.ts'
-      - 'Dockerfile.frontend'
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - 'src/**'
+  #     - 'package.json'
+  #     - 'package-lock.json'
+  #     - 'next.config.ts'
+  #     - 'Dockerfile.frontend'
   workflow_dispatch:
 
 env:

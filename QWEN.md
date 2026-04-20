@@ -2,11 +2,11 @@
 
 ## Обзор проекта
 
-Это **Next.js 15** приложение (App Router) для ресторана «Рагу», использующее **WordPress** как headless CMS для управления контентом. Проект построен на основе примера `cms-wordpress` от Vercel и адаптирован под нужды ресторана.
+Это **Next.js 16** приложение (App Router) для ресторана «Рагу», использующее **WordPress** как headless CMS для управления контентом. Проект построен на основе примера `cms-wordpress` от Vercel и адаптирован под нужды ресторана.
 
 ### Основные технологии
 
-- **Frontend**: Next.js 15 (App Router), React 19, TypeScript
+- **Frontend**: Next.js 16 (App Router), React 19, TypeScript
 - **Стили**: SCSS Modules, CSS
 - **CMS**: WordPress 6.9.4 (headless)
 - **API**: WPGraphQL для получения данных из WordPress

@@ -53,6 +53,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile.frontend
+            target: development
         depends_on:
             wordpress:
                 condition: service_healthy

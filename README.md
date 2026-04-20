@@ -5,7 +5,7 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6)](https://www.typescriptlang.org/)
 
-Современный сайт ресторана «Рагу» построенный на **Next.js 15** (App Router) с использованием **WordPress** как Headless CMS для управления контентом.
+Современный сайт ресторана «Рагу» построенный на **Next.js 16** (App Router) с использованием **WordPress** как Headless CMS для управления контентом.
 
 ## Возможности
 
@@ -24,7 +24,7 @@
 
 ### Frontend
 
-- **Next.js 15** — React фреймворк с App Router
+- **Next.js 16** — React фреймворк с App Router
 - **React 19** — библиотека для создания UI
 - **TypeScript 5.9** — типизация JavaScript
 - **GraphQL Codegen** — автоматическая генерация типов из WordPress

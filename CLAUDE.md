@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Restaurant "Ragu" website built with Next.js 15 (App Router) using WordPress as a Headless CMS. The frontend fetches data via GraphQL from WordPress/WooCommerce, which manages menu items, events, galleries, and other content.
+Restaurant "Ragu" website built with Next.js 16 (App Router) using WordPress as a Headless CMS. The frontend fetches data via GraphQL from WordPress/WooCommerce, which manages menu items, events, galleries, and other content.
 
 ## Development Commands
 
@@ -39,7 +39,7 @@ npm run knip           # Check for unused dependencies
 ## Architecture
 
 ### Tech Stack
-- **Frontend**: Next.js 15 (App Router), React 19, TypeScript 5.9, SCSS Modules
+- **Frontend**: Next.js 16 (App Router), React 19, TypeScript 5.9, SCSS Modules
 - **CMS**: WordPress 6.9.4 with WPGraphQL, WooCommerce, ACF Pro
 - **Data Layer**: GraphQL via graphql-request, auto-generated types via GraphQL Codegen
 - **Infrastructure**: Docker Compose (dev), Traefik + Docker (production)
