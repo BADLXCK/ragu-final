@@ -1,16 +1,21 @@
+@use "../../app/styles/mixins" as *;
+
 .title {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: var(--background);
     width: 175px;
     height: 83px;
-    z-index: 1000;
-    border-bottom-left-radius: 90%;
     font-family: var(--font-kudry);
-    font-size: 2rem;
+    font-size: 3rem;
     align-content: center;
     text-align: center;
-    padding-bottom: 1rem;
-    padding-left: 2rem;
+    margin-top: 30px;
+}
+
+@include mobile {
+    .title {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: var(--background);
+        border-bottom-left-radius: 90%;
+    }
 }

@@ -14,4 +14,6 @@ export interface ExtendedProduct extends Product {
 	customCarbohydrate?: string | null;
 	/** Цена продукта */
 	price?: string | null;
+	/** Slug категории продукта */
+	category?: string | null;
 }

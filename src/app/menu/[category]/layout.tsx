@@ -1,3 +1,3 @@
-import { MenuCategoryLayout } from "@/layouts/MenuCategoriesLayout";
+import { MenuLayout } from '@/layouts/MenuLayout';
 
-export default MenuCategoryLayout;
+export default MenuLayout;

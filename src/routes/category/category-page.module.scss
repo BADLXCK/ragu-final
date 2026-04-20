@@ -19,10 +19,33 @@
     grid-template-rows: repeat(3, 1fr);
     grid-column-gap: 15px;
     grid-row-gap: 15px;
-    overflow-y: scroll;
-    width: 100%;
+    overflow-y: auto;
+    width: calc(100% + 20px);
+    padding-right: 20px;
     height: 100%;
     padding-bottom: 100px;
+}
+
+.list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.list::-webkit-scrollbar-thumb {
+    background-color: #dcb68e;
+    border-radius: 10px;
+}
+
+.list::-webkit-scrollbar-thumb:hover {
+    background-color: #f3e5d8;
+}
+
+.list {
+    scrollbar-width: thin;
+    scrollbar-color: #dcb68e transparent;
 }
 
 @include xxl {

@@ -1,6 +1,5 @@
 import { gql } from 'graphql-request';
 import { client } from '../client';
-import { Page } from '../gql/graphql';
 
 export const getPageTitle = async (slug?: string): Promise<string> => {
 	if (!slug) {

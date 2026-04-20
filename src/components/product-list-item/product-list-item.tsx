@@ -5,11 +5,13 @@ import { ExtendedProduct } from '@/api/gql/extended-types';
 import { getWordPressUrl } from '@/lib/wordpress-url';
 import styles from './product-list-item.module.scss';
 
-export const ProductListItem: FC<{
-	product: ExtendedProduct;
-	category: string;
-}> = ({
-	product: { name, description, customWeight, price, image, slug },
+export const ProductListItem: FC<ExtendedProduct> = ({
+	name,
+	description,
+	customWeight,
+	price,
+	image,
+	slug,
 	category,
 }) => {
 	return (

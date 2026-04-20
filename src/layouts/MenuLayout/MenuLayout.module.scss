@@ -1,15 +1,9 @@
 @use "../../app/styles/mixins" as *;
 
 .wrapper {
-    padding-top: 33px;
     display: flex;
     flex-direction: column;
     height: 100%;
-}
-
-.title {
-    font-family: var(--font-kudry);
-    font-size: 3rem;
 }
 
 .slogan {
@@ -17,6 +11,7 @@
     font-size: 2rem;
     font-weight: 700;
     margin-top: 8px;
+    text-transform: uppercase;
 }
 
 .navigationArea {
@@ -54,11 +49,3 @@
         overflow: auto;
     }
 }
-
-// @include sm {
-//     @include smallSizes;
-// }
-
-// @include md {
-//     @include smallSizes;
-// }

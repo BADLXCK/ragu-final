@@ -5,7 +5,6 @@ import { Burger } from '@/components/burger';
 import { Contacts } from '@/components/contacts';
 import { Logo } from '@/components/logo';
 import { Motto } from '@/components/Motto';
-import { Title } from '@/components/title';
 import { MainNavigation } from '../../components/main-navigation';
 import styles from './RootLayout.module.scss';
 
@@ -58,7 +57,6 @@ export async function RootLayout({
 		<html lang="ru">
 			<body className={layoutClassName}>
 				<Burger />
-				<Title className={styles.title} />
 				<div className={styles.sidebarArea}>
 					<Logo className={styles.logo} />
 					<Motto />

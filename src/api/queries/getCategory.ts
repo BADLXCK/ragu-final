@@ -6,8 +6,8 @@ export const getCategory = async (
 	slug: string,
 ): Promise<ProductCategory | null> => {
 	const query = gql`
-		query getCategory {
-			productCategories(where: { slug: ["${slug}"] }) {
+		query getCategory($slug: [String]) {
+			productCategories(where: { slug: $slug }) {
 				nodes {
 					id
 					name
@@ -19,7 +19,7 @@ export const getCategory = async (
 
 	const response: {
 		productCategories: { nodes: ProductCategory[] };
-	} = await client.request(query);
+	} = await client.request(query, { slug: [slug] });
 
 	return response.productCategories.nodes[0] || null;
 };

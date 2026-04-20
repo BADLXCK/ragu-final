@@ -22,6 +22,11 @@ export const getProductsByCategory = async (
 							filePath
 							altText
 						}
+						productCategories {
+							nodes {
+								slug
+							}
+						}
 						... on SimpleProduct {
 							price(format: RAW)
 						}
@@ -35,5 +40,5 @@ export const getProductsByCategory = async (
 		products: { edges: { node: ExtendedProduct }[] };
 	} = await client.request(query, { categorySlug });
 
-	return response.products.edges.map(edge => edge.node);
+	return response.products.edges.map(({ node }) => ({ ...node, category: node.productCategories?.nodes[0].slug }));
 };

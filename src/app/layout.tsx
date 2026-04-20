@@ -1,4 +1,4 @@
-import { RootLayout } from "../layouts/RootLayout";
-import "./styles/globals.css";
+import { RootLayout } from '../layouts/RootLayout';
+import './styles/globals.css';
 
-export default RootLayout
+export default RootLayout;
