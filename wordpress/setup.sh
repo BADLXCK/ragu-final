@@ -124,10 +124,15 @@ wp plugin delete woocommerce-legacy-rest-api --allow-root  2> /dev/null || true
 wp option update woocommerce_legacy_api_enabled "no" --allow-root  2> /dev/null || true
 
 echo "[INFO] Installing wp-graphql-woocommerce..."
-wp plugin install \
-	"https://github.com/wp-graphql/wp-graphql-woocommerce/archive/refs/heads/master.zip" \
-	--activate \
-	--allow-root
+if ! wp plugin is-installed wp-graphql-woocommerce --allow-root 2>/dev/null; then
+	wp plugin install \
+		"https://github.com/wp-graphql/wp-graphql-woocommerce/archive/refs/heads/master.zip" \
+		--activate \
+		--allow-root
+else
+	echo "[INFO] wp-graphql-woocommerce already installed, activating..."
+	wp plugin activate wp-graphql-woocommerce --allow-root 2>/dev/null || true
+fi
 
 # Композер зависимости для wp-graphql-woocommerce
 echo "[INFO] Running composer update for wp-graphql-woocommerce..."

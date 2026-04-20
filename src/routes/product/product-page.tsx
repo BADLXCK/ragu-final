@@ -5,6 +5,7 @@ import { getProductsByCategory } from '@/api/queries/getProductsByCategory';
 import { getProduct } from '@/api/queries/getProduct';
 import { CloseButton } from '@/components/close-button';
 import { ForwardLink } from '@/components/forward-link';
+import { getWordPressUrl } from '@/lib/wordpress-url';
 
 export default async function ProductPage({ params }: { params: Promise<{ category: string, product: string }> }) {
     const { category, product } = await params;
@@ -31,7 +32,7 @@ export default async function ProductPage({ params }: { params: Promise<{ catego
                 <div className={styles.imageContainer}>
                     {productInfo.image && productInfo.image.filePath && (
                         <Image
-                            src={`http://wordpress:80${productInfo.image.filePath}`}
+                            src={`${getWordPressUrl()}${productInfo.image.filePath}`}
                             className={styles.image}
                             alt={productInfo.image.altText || productInfo.name || 'Изображение продукта'}
                             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"

@@ -63,6 +63,7 @@ services:
         environment:
             NEXT_PUBLIC_BASE_URL: http://localhost:3000
             NEXT_PUBLIC_WORDPRESS_API_URL: http://wordpress:80
+            NEXT_PUBLIC_WORDPRESS_URL: http://localhost:8080
             NEXT_PUBLIC_WORDPRESS_API_HOSTNAME: wordpress
             SCHEMA_URL: http://wordpress:80/graphql
             WATCHPACK_POLLING: "true"
