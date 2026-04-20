@@ -61,7 +61,7 @@ export async function RootLayout({
 				<Title className={styles.title} />
 				<div className={styles.sidebarArea}>
 					<Logo className={styles.logo} />
-					<Motto className={styles.motto} />
+					<Motto />
 					<MainNavigation items={navigationItems} />
 					<Contacts />
 				</div>

@@ -1,5 +1,11 @@
 @use "./breakpoints" as *;
 
+@mixin mobile {
+    @media (width <= #{$screen-lg}) {
+        @content;
+    }
+}
+
 @mixin sm {
     @media (width <= #{$screen-md}) {
         @content;

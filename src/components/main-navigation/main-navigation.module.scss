@@ -2,7 +2,7 @@
 
 .navigation {
     font-family: var(--font-kudry);
-    font-size: 2rem;
+    font-size: 3rem;
     font-weight: 300;
     align-items: center;
     width: 100%;
@@ -45,4 +45,10 @@
     text-align: center;
     align-content: center;
     text-transform: lowercase;
+}
+
+@include mobile {
+    .navigation {
+        font-size: 2rem;
+    }
 }
