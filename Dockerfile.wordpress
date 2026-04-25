@@ -1,18 +1,28 @@
 FROM wordpress:latest
 
-# Install WP-CLI, MySQL client, Composer, and rclone
-RUN apt-get update && apt-get install -y default-mysql-client unzip curl && rm -rf /var/lib/apt/lists/* \
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    default-mysql-client \
+    unzip \
+    curl \
+    && rm -rf /var/lib/apt/lists/* \
+    # Install WP-CLI
     && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp \
+    # Install Composer
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    # Install rclone
     && curl https://rclone.org/install.sh | bash
 
-COPY wordpress/themes /usr/src
-
+# Copy application files
+COPY wordpress/themes /usr/src/
 COPY wordpress/setup.sh /usr/local/bin/setup-wordpress.sh
 COPY wordpress/entrypoint.sh /usr/local/bin/custom-entrypoint.sh
-RUN chmod +x /usr/local/bin/setup-wordpress.sh /usr/local/bin/custom-entrypoint.sh
+
+# ⚠️ CRITICAL: Normalize line endings AND set executable
+RUN sed -i 's/\r$//' /usr/local/bin/custom-entrypoint.sh /usr/local/bin/setup-wordpress.sh \
+    && chmod +x /usr/local/bin/custom-entrypoint.sh /usr/local/bin/setup-wordpress.sh
 
 ENTRYPOINT ["/usr/local/bin/custom-entrypoint.sh"]
 CMD ["apache2-foreground"]
