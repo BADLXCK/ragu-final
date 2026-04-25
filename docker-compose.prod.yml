@@ -1,4 +1,3 @@
-# Docker Compose — Production
 services:
     traefik:
         image: traefik:v2.11
@@ -64,9 +63,10 @@ services:
             WORDPRESS_DB_USER: ${DATABASE_USER}
             WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
             WORDPRESS_DB_NAME: ${DATABASE_NAME}
+            # 🔑 Все три переменные для надёжности
             WORDPRESS_URL: https://wordpress.${DOMAIN}
-            WORDPRESS_SITEURL: https://wordpress.${DOMAIN} # ← критично!
-            WORDPRESS_HOME: https://wordpress.${DOMAIN} # ← критично!
+            WORDPRESS_SITEURL: https://wordpress.${DOMAIN}
+            WORDPRESS_HOME: https://wordpress.${DOMAIN}
             WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
             GDRIVE_SERVICE_ACCOUNT_JSON: ${GDRIVE_SERVICE_ACCOUNT_JSON:-}
             GDRIVE_BACKUP_FOLDER: ${GDRIVE_BACKUP_FOLDER:-}
@@ -80,6 +80,13 @@ services:
             - "traefik.http.routers.wordpress.entrypoints=websecure"
             - "traefik.http.routers.wordpress.tls.certresolver=letsencrypt"
             - "traefik.http.services.wordpress.loadbalancer.server.port=80"
+            # 🔑 Middleware для корректных заголовков
+            - "traefik.http.middlewares.wordpress-headers.headers.customrequest\
+              headers.X-Forwarded-Proto=https"
+            - "traefik.http.middlewares.wordpress-headers.headers.customrequest\
+              headers.X-Forwarded-Port=443"
+            - "traefik.http.routers.wordpress.middlewares=wordpress-headers@doc\
+              ker"
 
     frontend:
         depends_on:
