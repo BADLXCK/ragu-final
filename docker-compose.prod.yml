@@ -65,6 +65,8 @@ services:
             WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
             WORDPRESS_DB_NAME: ${DATABASE_NAME}
             WORDPRESS_URL: https://wordpress.${DOMAIN}
+            WORDPRESS_SITEURL: https://wordpress.${DOMAIN} # ← критично!
+            WORDPRESS_HOME: https://wordpress.${DOMAIN} # ← критично!
             WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
             GDRIVE_SERVICE_ACCOUNT_JSON: ${GDRIVE_SERVICE_ACCOUNT_JSON:-}
             GDRIVE_BACKUP_FOLDER: ${GDRIVE_BACKUP_FOLDER:-}
