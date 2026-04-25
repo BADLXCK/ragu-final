@@ -31,7 +31,8 @@ services:
             - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
             - "traefik.http.routers.traefik.service=api@internal"
             - "traefik.http.routers.traefik.middlewares=auth"
-            - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_ADMIN_USER}:${TRAEFIK_ADMIN_PASSWORD_HASH}"
+            - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_ADMIN_US\
+              ER}:${TRAEFIK_ADMIN_PASSWORD_HASH}"
 
     database:
         image: mysql:8.0
@@ -46,7 +47,7 @@ services:
         networks:
             - prod-network
         healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
             interval: 5s
             timeout: 3s
             retries: 20
@@ -63,7 +64,7 @@ services:
             WORDPRESS_DB_USER: ${DATABASE_USER}
             WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
             WORDPRESS_DB_NAME: ${DATABASE_NAME}
-            WORDPRESS_URL: https://${DOMAIN}
+            WORDPRESS_URL: https://wordpress.${DOMAIN}
             WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
             GDRIVE_SERVICE_ACCOUNT_JSON: ${GDRIVE_SERVICE_ACCOUNT_JSON:-}
             GDRIVE_BACKUP_FOLDER: ${GDRIVE_BACKUP_FOLDER:-}
@@ -73,7 +74,7 @@ services:
             - wp-data:/var/www/html
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.wordpress.rule=Host(`wp.${DOMAIN}`)"
+            - "traefik.http.routers.wordpress.rule=Host(`wordpress.${DOMAIN}`)"
             - "traefik.http.routers.wordpress.entrypoints=websecure"
             - "traefik.http.routers.wordpress.tls.certresolver=letsencrypt"
             - "traefik.http.services.wordpress.loadbalancer.server.port=80"
@@ -85,7 +86,7 @@ services:
         restart: unless-stopped
         image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/ragu-frontend:latest
         environment:
-            NEXT_PUBLIC_BASE_URL: https://${DOMAIN}
+            NEXT_PUBLIC_BASE_URL: https://next.${DOMAIN}
             NEXT_PUBLIC_WORDPRESS_API_URL: http://wordpress
             NEXT_PUBLIC_WORDPRESS_API_HOSTNAME: wordpress
             SCHEMA_URL: http://wordpress/graphql
@@ -93,7 +94,7 @@ services:
             - prod-network
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.frontend.rule=Host(`${DOMAIN}`)"
+            - "traefik.http.routers.frontend.rule=Host(`next.${DOMAIN}`)"
             - "traefik.http.routers.frontend.entrypoints=websecure"
             - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
             - "traefik.http.services.frontend.loadbalancer.server.port=3000"
