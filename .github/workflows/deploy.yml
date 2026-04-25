@@ -55,11 +55,10 @@ jobs:
       # 🔑 КЛЮЧЕВОЙ ШАГ: Генерация .env (именно .env, в той же папке что и docker-compose.yml)
       - name: Generate .env on server
         run: |
+          ENCODED_GDRIVE=$(echo -n '${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}' | base64 -w 0)
+
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            # Очищаем старый файл
             > ~/.env
-            
-            # Простые переменные — через echo
             echo 'DATABASE_NAME=${{ secrets.DATABASE_NAME }}' >> ~/.env
             echo 'DATABASE_USER=${{ secrets.DATABASE_USER }}' >> ~/.env
             echo 'DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}' >> ~/.env
@@ -72,11 +71,7 @@ jobs:
             echo 'NEXT_PUBLIC_YANDEX_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_YANDEX_MAPS_API_KEY }}' >> ~/.env
             echo 'GITHUB_REPOSITORY_OWNER=badlxck' >> ~/.env
             echo 'GDRIVE_BACKUP_FOLDER=${{ secrets.GDRIVE_BACKUP_FOLDER }}' >> ~/.env
-            
-            # 🔐 JSON-секрет — через printf (безопасно для кавычек и \n)
-            printf 'GDRIVE_SERVICE_ACCOUNT_JSON=%s\n' '${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}' >> ~/.env
-            
-            # Защищаем файл
+            echo \"GDRIVE_SERVICE_ACCOUNT_JSON=\$(echo '$ENCODED_GDRIVE' | base64 -d)\" >> ~/.env
             chmod 600 ~/.env
           "
 
