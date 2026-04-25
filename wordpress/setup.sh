@@ -196,5 +196,12 @@ chmod -R 775 "/var/www/html/wp-content/updraft"
 
 echo "[INFO] WordPress setup completed successfully!"
 
+# Гарантированная фиксация URL в конце установки
+TARGET_URL="${WORDPRESS_URL:-https://wordpress.${DOMAIN:-restoranragu.ru}}"
+echo "" >> /var/www/html/wp-config.php
+echo "/* Auto-fixed on setup */" >> /var/www/html/wp-config.php
+echo "define(\"WP_SITEURL\", \"$TARGET_URL\");" >> /var/www/html/wp-config.php
+echo "define(\"WP_HOME\", \"$TARGET_URL\");" >> /var/www/html/wp-config.php
+
 # Create marker file for healthcheck
 touch /tmp/wordpress-setup-complete
