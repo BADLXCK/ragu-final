@@ -99,8 +99,8 @@ if ! wp core is-installed --allow-root 2>/dev/null; then
     echo "[INFO] WordPress installed"
     
     # 🔹 Бэкап только при чистой установке
-    echo "[INFO] Checking for backups..."
-    restore_backup
+    # echo "[INFO] Checking for backups..."
+    # restore_backup
 fi
 
 # 🔹 Тема
