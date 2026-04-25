@@ -4,6 +4,12 @@ set -e
 WP_THEME="ragu"
 WP_TITLE="Рагу"
 
+# 🔑 Валидация обязательных переменных окружения
+: "${WORDPRESS_DB_HOST:?WORDPRESS_DB_HOST is required}"
+: "${WORDPRESS_DB_USER:?WORDPRESS_DB_USER is required}"
+: "${WORDPRESS_DB_PASSWORD:?WORDPRESS_DB_PASSWORD is required}"
+: "${WORDPRESS_DB_NAME:?WORDPRESS_DB_NAME is required}"
+
 # Function to restore backup from Google Drive
 restore_backup() {
 	if [ -z "$GDRIVE_SERVICE_ACCOUNT_JSON" ] || [ -z "$GDRIVE_BACKUP_FOLDER" ]; then
@@ -40,7 +46,12 @@ EOF
 
 	if [ -n "$DB_BACKUP" ]; then
 		echo "[INFO] Restoring database from $DB_BACKUP..."
-		gunzip -c "$DB_BACKUP" | mysql -h db -u "$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" "$WORDPRESS_DB_NAME" --skip-ssl
+		# 🔑 ИСПРАВЛЕНО: -h db → -h "$WORDPRESS_DB_HOST"
+		gunzip -c "$DB_BACKUP" | mysql -h "$WORDPRESS_DB_HOST" \
+			-u "$WORDPRESS_DB_USER" \
+			-p"$WORDPRESS_DB_PASSWORD" \
+			"$WORDPRESS_DB_NAME" \
+			--skip-ssl
 		echo "[SUCCESS] Database restored"
 	else
 		echo "[WARN] No database backup found"
@@ -50,25 +61,32 @@ EOF
 	echo "[SUCCESS] Backup restore completed"
 }
 
-until mysql -h db -u "$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" "$WORDPRESS_DB_NAME" --skip-ssl -e "SELECT 1;" >/dev/null 2>&1; do
-  echo "[INFO]Waiting for database..."
+# 🔑 ИСПРАВЛЕНО: -h db → -h "$WORDPRESS_DB_HOST" в цикле ожидания
+echo "[INFO] Waiting for database at $WORDPRESS_DB_HOST..."
+until mysql -h "$WORDPRESS_DB_HOST" \
+            -u "$WORDPRESS_DB_USER" \
+            -p"$WORDPRESS_DB_PASSWORD" \
+            "$WORDPRESS_DB_NAME" \
+            --skip-ssl \
+            -e "SELECT 1;" >/dev/null 2>&1; do
+  echo "[INFO] Waiting for database at $WORDPRESS_DB_HOST..."
   sleep 3
 done
 
 echo "[SUCCESS] Database is ready"
 
-if ! wp core is-installed --allow-root  2> /dev/null; then
+if ! wp core is-installed --allow-root 2>/dev/null; then
 	echo "[INFO] Installing WordPress..."
 
 	wp core install \
 		--url="${WORDPRESS_URL:-http://localhost}" \
-		--title="${WORDPRESS_TITLE:-My WordPress Site}" \
+		--title="${WP_TITLE:-My WordPress Site}" \
 		--admin_user="${WORDPRESS_DB_USER:-admin}" \
 		--admin_password="${WORDPRESS_DB_PASSWORD:-changeme}" \
 		--admin_email="${WORDPRESS_ADMIN_EMAIL:-admin@example.com}" \
 		--locale=ru_RU \
 		--skip-email \
-		--allow-root \
+		--allow-root
 
 	echo "Removing default plugins..."
 	wp plugin delete akismet --allow-root 2>/dev/null || true
@@ -86,12 +104,11 @@ fi
 wp theme activate "$WP_THEME" --allow-root
 
 # Activate the headless theme (always run, safe if already active)
-# Note: Theme directory name must match the actual directory in wp-content/themes
 echo "Activating Ragu theme..."
 wp theme activate ragu --allow-root
 
 # безопасное удаление дефолтных тем
-THEMES=$(wp theme list --field=name --allow-root  | grep '^twenty' || true)
+THEMES=$(wp theme list --field=name --allow-root | grep '^twenty' || true)
 if [ -n "$THEMES" ]; then
 	echo "$THEMES" | xargs -r wp theme delete --allow-root 
 fi
@@ -118,10 +135,9 @@ wp option update graphql_general_settings '{"public_introspection_enabled":"on"}
 
 # Отключаем Legacy REST API WooCommerce — используем только GraphQL
 echo "[INFO] Disabling WooCommerce Legacy REST API..."
-wp plugin deactivate woocommerce-legacy-rest-api --allow-root  2> /dev/null || true
-wp plugin delete woocommerce-legacy-rest-api --allow-root  2> /dev/null || true
-# Отключаем через настройки WooCommerce
-wp option update woocommerce_legacy_api_enabled "no" --allow-root  2> /dev/null || true
+wp plugin deactivate woocommerce-legacy-rest-api --allow-root 2>/dev/null || true
+wp plugin delete woocommerce-legacy-rest-api --allow-root 2>/dev/null || true
+wp option update woocommerce_legacy_api_enabled "no" --allow-root 2>/dev/null || true
 
 echo "[INFO] Installing wp-graphql-woocommerce..."
 if ! wp plugin is-installed wp-graphql-woocommerce --allow-root 2>/dev/null; then
@@ -138,7 +154,6 @@ fi
 echo "[INFO] Running composer update for wp-graphql-woocommerce..."
 cd "/var/www/html/wp-content/plugins/wp-graphql-woocommerce"
 if [ -f "composer.json" ]; then
-	# Проверяем, доступен ли composer
 	if command -v composer &> /dev/null; then
 		composer update --no-dev --optimize-autoloader --no-interaction
 	else
