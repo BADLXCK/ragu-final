@@ -6,14 +6,34 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env: # эти переменные будут доступны для docker compose
+    env:
+      # ===== DATABASE =====
       DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
       DATABASE_USER: ${{ secrets.DATABASE_USER }}
       DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
       DATABASE_ROOT_PASSWORD: ${{ secrets.DATABASE_ROOT_PASSWORD }}
+
+      # ===== DOMAINS & SSL =====
+      DOMAIN: ${{ secrets.DOMAIN }} # 🔑 НОВОЕ
+      ACME_EMAIL: ${{ secrets.ACME_EMAIL }} # 🔑 НОВОЕ
+
+      # ===== TRAEFIK ADMIN =====
+      TRAEFIK_ADMIN_USER: ${{ secrets.TRAEFIK_ADMIN_USER }} # 🔑 НОВОЕ
+      TRAEFIK_ADMIN_PASSWORD_HASH: ${{ secrets.TRAEFIK_ADMIN_PASSWORD_HASH }} # 🔑 НОВОЕ
+
+      # ===== WORDPRESS =====
+      WORDPRESS_ADMIN_EMAIL: ${{ secrets.WORDPRESS_ADMIN_EMAIL }} # 🔑 НОВОЕ
+
+      # ===== OPTIONAL: GOOGLE DRIVE BACKUP =====
+      GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+      GDRIVE_BACKUP_FOLDER: ${{ secrets.GDRIVE_BACKUP_FOLDER }}
+
+      # ===== GITHUB =====
       GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
@@ -32,7 +52,7 @@ jobs:
         run: |
           scp -i ~/.ssh/id_ragu ./docker-compose.prod.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/docker-compose.prod.yml
 
-      - name: Generate ragu.env on server
+      - name: Generate .env on server
         run: |
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
           cat > ~/ragu.env <<'EOF'
@@ -40,20 +60,52 @@ jobs:
           DATABASE_USER=${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
           DATABASE_ROOT_PASSWORD=${{ secrets.DATABASE_ROOT_PASSWORD }}
+          DOMAIN=${{ secrets.DOMAIN }}
+          ACME_EMAIL=${{ secrets.ACME_EMAIL }}
+          TRAEFIK_ADMIN_USER=${{ secrets.TRAEFIK_ADMIN_USER }}
+          TRAEFIK_ADMIN_PASSWORD_HASH=${{ secrets.TRAEFIK_ADMIN_PASSWORD_HASH }}
+          WORDPRESS_ADMIN_EMAIL=${{ secrets.WORDPRESS_ADMIN_EMAIL }}
           NEXT_PUBLIC_YANDEX_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_YANDEX_MAPS_API_KEY }}
           GITHUB_REPOSITORY_OWNER=${{ github.repository_owner }}
+          GDRIVE_SERVICE_ACCOUNT_JSON=${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          GDRIVE_BACKUP_FOLDER=${{ secrets.GDRIVE_BACKUP_FOLDER }}
           EOF
-              "
+          "
+
       - name: Deploy Docker Compose to server
         run: |
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            # Login to GHCR
             echo '${{ secrets.GHCR_TOKEN }}' | docker login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin
-            docker compose - ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml down
+            
+            # Export variables for inline use in MySQL check
+            export DATABASE_USER='${{ secrets.DATABASE_USER }}'
+            export DATABASE_ROOT_PASSWORD='${{ secrets.DATABASE_ROOT_PASSWORD }}'
+            
+            # Stop old containers
+            docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml down --remove-orphans
+            
+            # Pull and start
             docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml pull
             docker compose -p ragu --env-file ~/ragu.env -f ~/docker-compose.prod.yml up -d
+            
+            # Wait for DB to be ready
+            sleep 15
+            
+            # Check MySQL user (optional debug)
+            echo '🔍 Checking MySQL user...'
+            docker exec -i \$(docker ps -qf 'name=ragu-database' | head -1) \
+              mysql -uroot -p\${DATABASE_ROOT_PASSWORD} -e \
+              \"SELECT user, host FROM mysql.user WHERE user = '\${DATABASE_USER}';\" 2>/dev/null || \
+              echo '⚠️ Could not verify MySQL user (may still be initializing)'
+          "
 
-            # Проверка пользователя MySQL
-            echo 'SELECT user, host FROM mysql.user WHERE user = \"${DATABASE_USER}\";' | \
-            docker exec -i $(docker ps -qf "name=ragu-database") mysql -uroot -p${DATABASE_ROOT_PASSWORD} || \
-            echo 'Пользователь ${DATABASE_USER} не найден или нет доступа с %'
+      - name: Verify deployment
+        run: |
+          ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            echo '📊 Container status:'
+            docker compose -p ragu -f ~/docker-compose.prod.yml ps
+            
+            echo '🔍 Last 10 logs from wordpress:'
+            docker compose -p ragu -f ~/docker-compose.prod.yml logs --tail=10 wordpress
           "
