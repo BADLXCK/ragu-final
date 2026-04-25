@@ -15,7 +15,6 @@ done
 echo "[SUCCESS] Database is ready"
 
 # 🔑 Запускаем официальный entrypoint — он создаст wp-config.php и файлы
-# НЕ в фоне! Пусть выполнится полностью перед нашим кодом
 echo "[INFO] Running official WordPress entrypoint..."
 /usr/local/bin/docker-entrypoint.sh "$@" &
 OFFICIAL_PID=$!

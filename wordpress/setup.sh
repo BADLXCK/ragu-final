@@ -4,6 +4,7 @@ set -e
 WP_THEME="ragu"
 WP_TITLE="Рагу"
 BACKUP_MARKER="/tmp/backup-restored.marker"
+URL_FIX_MARKER="/tmp/urls-fixed.marker"
 
 # 🔑 Валидация переменных
 : "${WORDPRESS_DB_HOST:?WORDPRESS_DB_HOST is required}"
@@ -12,7 +13,7 @@ BACKUP_MARKER="/tmp/backup-restored.marker"
 : "${WORDPRESS_DB_NAME:?WORDPRESS_DB_NAME is required}"
 
 # =============================================================================
-# 🔐 Восстановление бэкапа
+# 🔐 Восстановление бэкапа из Google Drive
 # =============================================================================
 restore_backup() {
     if [ -f "$BACKUP_MARKER" ]; then
@@ -55,7 +56,7 @@ EOF
             -p"$WORDPRESS_DB_PASSWORD" \
             "$WORDPRESS_DB_NAME" \
             --skip-ssl 2>/dev/null || true
-        echo "[SUCCESS] Database restored"
+        echo "[SUCCESS] Database restored from backup"
     }
 
     rm -rf /tmp/backups
@@ -64,18 +65,69 @@ EOF
 }
 
 # =============================================================================
-# 🔗 Безопасная фиксация URL (БЕЗ sed, только echo >>)
+# 🔗 Замена старых URL в БД на актуальные (ВЫЗЫВАТЬ ПОСЛЕ ВОССТАНОВЛЕНИЯ БЭКАПА!)
 # =============================================================================
-fix_urls() {
+fix_urls_in_db() {
+    # Пропускаем, если уже чинили
+    if [ -f "$URL_FIX_MARKER" ]; then
+        echo "[INFO] URLs already fixed in DB, skipping..."
+        return 0
+    fi
+
+    local OLD_URL="http://localhost:8080"
+    local NEW_URL="${WORDPRESS_URL:-https://wordpress.${DOMAIN:-restoranragu.ru}}"
+    
+    echo "[INFO] Fixing URLs in database: $OLD_URL → $NEW_URL"
+    
+    # Ждём, пока БД будет доступна
+    until mysql -h "$WORDPRESS_DB_HOST" -u "$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" --skip-ssl -e "SELECT 1;" >/dev/null 2>&1; do
+        sleep 1
+    done
+    
+    # Используем WP-CLI search-replace (надёжнее прямого SQL)
+    if command -v wp &>/dev/null && wp core is-installed --allow-root 2>/dev/null; then
+        wp search-replace "$OLD_URL" "$NEW_URL" \
+            --all-tables \
+            --skip-columns=guid \
+            --allow-root \
+            --quiet 2>/dev/null && \
+        echo "[SUCCESS] URLs replaced via WP-CLI" || \
+        echo "[WARN] search-replace completed with warnings"
+    else
+        # Fallback: прямой SQL (менее идеально, но работает)
+        mysql -h "$WORDPRESS_DB_HOST" \
+              -u "$WORDPRESS_DB_USER" \
+              -p"$WORDPRESS_DB_PASSWORD" \
+              "$WORDPRESS_DB_NAME" \
+              --skip-ssl \
+              -e "
+                UPDATE wp_options SET option_value = REPLACE(option_value, '$OLD_URL', '$NEW_URL') WHERE option_value LIKE '%$OLD_URL%';
+                UPDATE wp_posts SET post_content = REPLACE(post_content, '$OLD_URL', '$NEW_URL') WHERE post_content LIKE '%$OLD_URL%';
+                UPDATE wp_postmeta SET meta_value = REPLACE(meta_value, '$OLD_URL', '$NEW_URL') WHERE meta_value LIKE '%$OLD_URL%';
+              " 2>/dev/null && \
+        echo "[SUCCESS] URLs replaced via SQL" || \
+        echo "[WARN] SQL replace completed with warnings"
+    fi
+    
+    # Ставим маркер, чтобы не чинить повторно
+    touch "$URL_FIX_MARKER"
+}
+
+# =============================================================================
+# 🔗 Фиксация URL в wp-config.php (БЕЗ sed, только echo >>)
+# =============================================================================
+fix_wp_config() {
     local TARGET_URL="${WORDPRESS_URL:-https://wordpress.${DOMAIN:-restoranragu.ru}}"
     local WP_CONFIG="/var/www/html/wp-config.php"
     
     # Добавляем в КОНЕЦ файла — никаких поисков, никаких экранирований
-    echo "" >> "$WP_CONFIG"
-    echo "/* === Fixed URLs === */" >> "$WP_CONFIG"
-    echo "if(!defined('WP_SITEURL'))define('WP_SITEURL','$TARGET_URL');" >> "$WP_CONFIG"
-    echo "if(!defined('WP_HOME'))define('WP_HOME','$TARGET_URL');" >> "$WP_CONFIG"
-    echo "[INFO] URLs fixed: $TARGET_URL"
+    if [ -f "$WP_CONFIG" ] && ! grep -q "WP_SITEURL" "$WP_CONFIG"; then
+        echo "" >> "$WP_CONFIG"
+        echo "/* === Fixed URLs === */" >> "$WP_CONFIG"
+        echo "if(!defined('WP_SITEURL'))define('WP_SITEURL','$TARGET_URL');" >> "$WP_CONFIG"
+        echo "if(!defined('WP_HOME'))define('WP_HOME','$TARGET_URL');" >> "$WP_CONFIG"
+        echo "[INFO] URLs fixed in wp-config.php: $TARGET_URL"
+    fi
 }
 
 # =============================================================================
@@ -99,8 +151,11 @@ if ! wp core is-installed --allow-root 2>/dev/null; then
     echo "[INFO] WordPress installed"
     
     # 🔹 Бэкап только при чистой установке
-    # echo "[INFO] Checking for backups..."
-    # restore_backup
+    echo "[INFO] Checking for backups..."
+    restore_backup
+    
+    # 🔑 КРИТИЧНО: Чиним URL в БД СРАЗУ ПОСЛЕ восстановления бэкапа
+    fix_urls_in_db
 fi
 
 # 🔹 Тема
@@ -136,8 +191,8 @@ chmod -R 755 /var/www/html/wp-content
 mkdir -p /var/www/html/wp-content/updraft
 chown -R 33:33 /var/www/html/wp-content/updraft
 
-# 🔹 🔑 ФИКСИРУЕМ URL (в самом конце, когда всё точно готово)
-echo "[INFO] Fixing WordPress URLs..."
-fix_urls
+# 🔹 Фиксируем URL в wp-config.php (в самом конце)
+echo "[INFO] Fixing WordPress URLs in wp-config.php..."
+fix_wp_config
 
 echo "[INFO] Setup completed successfully!"
