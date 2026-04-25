@@ -6,30 +6,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      # ===== DATABASE =====
-      DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-      DATABASE_USER: ${{ secrets.DATABASE_USER }}
-      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-      DATABASE_ROOT_PASSWORD: ${{ secrets.DATABASE_ROOT_PASSWORD }}
-
-      # ===== DOMAINS & SSL =====
-      DOMAIN: ${{ secrets.DOMAIN }} # 🔑 НОВОЕ
-      ACME_EMAIL: ${{ secrets.ACME_EMAIL }} # 🔑 НОВОЕ
-
-      # ===== TRAEFIK ADMIN =====
-      TRAEFIK_ADMIN_USER: ${{ secrets.TRAEFIK_ADMIN_USER }} # 🔑 НОВОЕ
-      TRAEFIK_ADMIN_PASSWORD_HASH: ${{ secrets.TRAEFIK_ADMIN_PASSWORD_HASH }} # 🔑 НОВОЕ
-
-      # ===== WORDPRESS =====
-      WORDPRESS_ADMIN_EMAIL: ${{ secrets.WORDPRESS_ADMIN_EMAIL }} # 🔑 НОВОЕ
-
-      # ===== OPTIONAL: GOOGLE DRIVE BACKUP =====
-      GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
-      GDRIVE_BACKUP_FOLDER: ${{ secrets.GDRIVE_BACKUP_FOLDER }}
-
-      # ===== GITHUB =====
-      GITHUB_REPOSITORY_OWNER: badlxck
 
     steps:
       - uses: actions/checkout@v4
