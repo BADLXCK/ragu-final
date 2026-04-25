@@ -103,7 +103,7 @@ copy_custom_files() {
     if [ ! -d /var/www/html/wp-content/themes/ragu ]; then
         echo "📦 Installing ragu theme..."
         cp -r /usr/src/ragu /var/www/html/wp-content/themes/
-        chown -R www-www-data /var/www/html/wp-content/themes/ragu
+        chown -R www-data /var/www/html/wp-content/themes/ragu
     fi
 
     # Создаём robots.txt
@@ -112,7 +112,7 @@ copy_custom_files() {
 User-agent: *
 Disallow: /
 ROBOTS
-    chown www-www-data /var/www/html/robots.txt
+    chown www-data /var/www/html/robots.txt
 
     # Запускаем ваш скрипт настройки
     echo "⚙️ Running setup script..."
