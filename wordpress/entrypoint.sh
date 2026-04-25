@@ -105,14 +105,6 @@ if ! grep -q "define('WP_SITEURL'" "$WP_CONFIG"; then
     echo "[SUCCESS] WP_SITEURL and WP_HOME set to ${TARGET_URL}"
 fi
 
-# 🔑 Исправляем БД через WP-CLI (на всякий случай)
-echo "[INFO] Ensuring database URLs are correct..."
-until wp core is-installed --allow-root 2>/dev/null; do
-    sleep 2
-done
-wp option update siteurl "${TARGET_URL}" --allow-root 2>/dev/null || true
-wp option update home "${TARGET_URL}" --allow-root 2>/dev/null || true
-
 # 🔑 Копирование файлов (ваша логика)
 copy_custom_files() {
     while [ ! -d /var/www/html/wp-content/plugins ]; do
