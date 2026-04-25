@@ -5,7 +5,9 @@ set -e
 BACKUP_MARKER="/tmp/backup-restored.marker"
 WP_CONFIG="/var/www/html/wp-config.php"
 
-# Function to restore backup from Google Drive
+# =============================================================================
+# 🔐 Функция: восстановление бэкапа из Google Drive
+# =============================================================================
 restore_backup() {
     # Пропускаем, если бэкап уже восстанавливали
     if [ -f "$BACKUP_MARKER" ]; then
@@ -67,7 +69,61 @@ EOF
     echo "[SUCCESS] Backup restore completed + marker set"
 }
 
-# 🔑 Ожидание БД
+# =============================================================================
+# 🔗 Функция: безопасная фиксация URL в wp-config.php (БЕЗ sed!)
+# =============================================================================
+fix_wp_config_urls() {
+    local TARGET_URL="${WORDPRESS_URL:-https://wordpress.${DOMAIN:-restoranragu.ru}}"
+    
+    # Ждём, пока файл не появится
+    until [ -f "$WP_CONFIG" ]; do
+        sleep 1
+    done
+    
+    # Если константы ещё не добавлены — добавляем в КОНЕЦ файла (безопасно!)
+    if ! grep -q "WP_SITEURL" "$WP_CONFIG"; then
+        echo "" >> "$WP_CONFIG"
+        echo "/* === Auto-fixed URLs (entrypoint) === */" >> "$WP_CONFIG"
+        echo "if (!defined('WP_SITEURL')) define('WP_SITEURL', '$TARGET_URL');" >> "$WP_CONFIG"
+        echo "if (!defined('WP_HOME')) define('WP_HOME', '$TARGET_URL');" >> "$WP_CONFIG"
+        echo "[INFO] Fixed URLs in wp-config.php: $TARGET_URL"
+    fi
+}
+
+# =============================================================================
+# 📁 Функция: копирование темы и настройка
+# =============================================================================
+copy_custom_files() {
+    # Ждём, пока официальный entrypoint развернёт файлы WordPress
+    while [ ! -d /var/www/html/wp-content/plugins ]; do
+        sleep 1
+    done
+
+    # Копируем тему, если её ещё нет
+    if [ ! -d /var/www/html/wp-content/themes/ragu ]; then
+        echo "📦 Installing ragu theme..."
+        cp -r /usr/src/ragu /var/www/html/wp-content/themes/
+        chown -R www-www-data /var/www/html/wp-content/themes/ragu
+    fi
+
+    # Создаём robots.txt
+    echo "🤖 Creating robots.txt..."
+    cat > /var/www/html/robots.txt << 'ROBOTS'
+User-agent: *
+Disallow: /
+ROBOTS
+    chown www-www-data /var/www/html/robots.txt
+
+    # Запускаем ваш скрипт настройки
+    echo "⚙️ Running setup script..."
+    /usr/local/bin/setup-wordpress.sh
+}
+
+# =============================================================================
+# 🚀 ОСНОВНАЯ ЛОГИКА
+# =============================================================================
+
+# 1. 🔑 Ожидание БД
 echo "[INFO] Waiting for database at $WORDPRESS_DB_HOST..."
 until mysql -h "$WORDPRESS_DB_HOST" \
             -u "$WORDPRESS_DB_USER" \
@@ -80,55 +136,22 @@ until mysql -h "$WORDPRESS_DB_HOST" \
 done
 echo "[SUCCESS] Database is ready"
 
-# 🔑 Запускаем официальный entrypoint в фоне, чтобы он создал wp-config.php
+# 2. 🔑 Запускаем официальный entrypoint (БЕЗ фона! Пусть выполнится полностью)
 echo "[INFO] Starting WordPress initialization..."
 /usr/local/bin/docker-entrypoint.sh "$@" &
-WP_PID=$!
+OFFICIAL_PID=$!
 
-# Ждём, пока wp-config.php не появится
-until [ -f "$WP_CONFIG" ]; do
-    sleep 1
-done
-
-# 🔑 КРИТИЧНО: Фиксируем URL в wp-config.php (переопределит БД)
-if ! grep -q "define('WP_SITEURL'" "$WP_CONFIG"; then
-    echo "[INFO] Fixing WordPress URL in wp-config.php..."
-    
-    TARGET_URL="${WORDPRESS_URL:-https://wordpress.${DOMAIN}}"
-    
-    # Добавляем константы ПЕРЕД "That's all, stop editing"
-    sed -i "/That's all, stop editing/a \
-\ndefine('WP_SITEURL', '${TARGET_URL}');\
-\ndefine('WP_HOME', '${TARGET_URL}');" \
-    "$WP_CONFIG"
-    
-    echo "[SUCCESS] WP_SITEURL and WP_HOME set to ${TARGET_URL}"
-fi
-
-# 🔑 Копирование файлов (ваша логика)
-copy_custom_files() {
-    while [ ! -d /var/www/html/wp-content/plugins ]; do
-        sleep 1
-    done
-
-    if [ ! -d /var/www/html/wp-content/themes/ragu ]; then
-        echo "📦 Installing ragu theme..."
-        cp -r /usr/src/ragu /var/www/html/wp-content/themes/
-        chown -R www-data:www-data /var/www/html/wp-content/themes/ragu
-    fi
-
-    echo "🤖 Creating robots.txt..."
-    cat > /var/www/html/robots.txt << 'ROBOTS'
-User-agent: *
-Disallow: /
-ROBOTS
-    chown www-data:www-data /var/www/html/robots.txt
-
-    echo "⚙️ Running setup script..."
-    /usr/local/bin/setup-wordpress.sh
-}
-
+# 3. 🔑 Копируем файлы (в фоне, чтобы не блокировать)
 copy_custom_files &
 
-# 🔑 Ждём завершения фонового процесса (Apache запустится)
-wait $WP_PID
+# 4. 🔑 Ждём завершения официального entrypoint (он запустит Apache)
+wait $OFFICIAL_PID
+
+# 5. 🔑 ФИКСИРУЕМ URL в wp-config.php (после того, как всё установлено)
+echo "[INFO] Ensuring WordPress URLs are correct..."
+fix_wp_config_urls
+
+# 6. 🔑 Apache уже запущен официальным entrypoint, просто держим процесс
+# (если нужно, можно добавить healthcheck или логирование)
+echo "[INFO] WordPress is running. URLs fixed."
+wait  # Ждём завершения всех фоновых процессов
