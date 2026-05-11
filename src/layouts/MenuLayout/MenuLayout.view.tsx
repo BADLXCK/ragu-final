@@ -2,6 +2,7 @@ import { headers } from 'next/headers';
 import { PropsWithChildren } from 'react';
 import { getCategories } from '@/api/queries/getCategories';
 import { CategoriesNavigation } from '@/components/categories-navigation';
+import { Scrollbar } from '@/components/Scrollbar';
 import { Title } from '@/components/Title';
 import styles from './MenuLayout.module.scss';
 
@@ -23,6 +24,7 @@ export const MenuLayout = async ({ children }: PropsWithChildren) => {
 				</div>
 			</div>
 			<section className={styles.pageArea}>{children}</section>
+			<Scrollbar targetId="category-list" anchorId="category-list-container" className={styles.scrollbar} />
 		</div>
 	);
 };

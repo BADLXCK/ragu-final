@@ -11,41 +11,36 @@
     font-family: var(--font-montserrat-alternates);
     font-size: 2rem;
     text-align: center;
+    color: var(--foreground);
+    text-transform: capitalize;
+}
+
+.separator {
+    font-weight: 300;
+}
+
+.listContainer {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
 }
 
 .list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    grid-column-gap: 15px;
-    grid-row-gap: 15px;
+    gap: 16.9px;
     overflow-y: auto;
-    width: calc(100% + 20px);
-    padding-right: 20px;
+    width: 100%;
     height: 100%;
     padding-bottom: 100px;
-}
+    justify-content: center;
 
-.list::-webkit-scrollbar {
-    width: 6px;
-}
-
-.list::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.list::-webkit-scrollbar-thumb {
-    background-color: #dcb68e;
-    border-radius: 10px;
-}
-
-.list::-webkit-scrollbar-thumb:hover {
-    background-color: #f3e5d8;
-}
-
-.list {
-    scrollbar-width: thin;
-    scrollbar-color: #dcb68e transparent;
+    /* Hide native scrollbar */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    scrollbar-width: none;
 }
 
 @include xxl {
@@ -62,7 +57,7 @@
     .list {
         grid-template-columns: repeat(1, 1fr);
         grid-template-rows: repeat(2, 1fr);
-        overflow-y: unset;
+        overflow-y: auto;
     }
 }
 

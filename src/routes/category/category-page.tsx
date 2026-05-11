@@ -21,11 +21,15 @@ export const CategoryPage: FC<CategoryPageProps> = async ({ params }) => {
 
 	return (
 		<div className={styles.wrapper}>
-			<h1 className={styles.title}>{categoryName}</h1>
-			<div className={styles.list}>
-				{productList.map(product => (
-					<ProductListItem key={product.id} {...product} />
-				))}
+			<h2 className={styles.title}>
+				<span className={styles.name}>{categoryName}</span>
+			</h2>
+			<div id="category-list-container" className={styles.listContainer}>
+				<div id="category-list" className={styles.list}>
+					{productList.map(product => (
+						<ProductListItem key={product.id} {...product} />
+					))}
+				</div>
 			</div>
 		</div>
 	);

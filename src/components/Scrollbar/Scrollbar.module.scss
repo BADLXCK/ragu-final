@@ -1,0 +1,23 @@
+.track {
+    width: 8px;
+    background-color: rgba(207, 168, 135, 0.4);
+    border-radius: 26px;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+}
+
+.thumb {
+    width: 10px; /* Thumb is slightly wider than track */
+    background-color: #cfa887;
+    border-radius: 26px;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    will-change: transform;
+
+    &:hover {
+        background-color: rgba(207, 168, 135, 0.8);
+    }
+}
