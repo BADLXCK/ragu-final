@@ -17,7 +17,11 @@ jobs:
       - name: Update code via Git on server
         run: |
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            if [ ! -d '~/ragu' ]; then
+            set -e
+            mkdir -p ~/.ssh
+            ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2>/dev/null || true
+            
+            if [ ! -d ~/ragu ]; then
               git clone git@github.com:badlxck/ragu-final.git ~/ragu
             fi
             cd ~/ragu
