@@ -25,9 +25,6 @@ function seo_rest_clean_title( $title ) {
 	return preg_replace( '/^(Category|Архив|Категория|Tag|Метка|Products|Товары):\s+/iu', '', $title );
 }
 
-/**
- * Parses TSF robots string into Next.js robots object
- */
 function seo_rest_parse_robots( $robots_str ) {
 	if ( ! $robots_str ) return null;
 	return [
@@ -36,17 +33,17 @@ function seo_rest_parse_robots( $robots_str ) {
 	];
 }
 
-/**
- * Main data extractor — returns Next.js Metadata compatible structure
- */
 function seo_rest_get_metadata_object( $args ) {
 	if ( ! function_exists( 'the_seo_framework' ) ) return [];
 	$tsf = the_seo_framework();
 
-	$title       = seo_rest_clean_title( $tsf->get_title( $args ) );
-	$description = $tsf->get_description( $args );
-	$og_title    = seo_rest_clean_title( $tsf->get_social_title( $args ) ) ?: $title;
+	$title       = seo_rest_clean_title( $tsf->get_title( $args ) ) ?: get_bloginfo('name');
+	$description = $tsf->get_description( $args ) ?: get_bloginfo('description');
+	
+	$social_title = seo_rest_clean_title( $tsf->get_social_title( $args ) );
+	$og_title    = $social_title ?: $title;
 	$og_desc     = $tsf->get_social_description( $args ) ?: $description;
+	
 	$tw_title    = seo_rest_clean_title( $tsf->get_twitter_title( $args ) ) ?: $og_title;
 	$tw_desc     = $tsf->get_twitter_description( $args ) ?: $og_desc;
 
@@ -84,29 +81,41 @@ function seo_rest_get_metadata_object( $args ) {
 		$metadata['twitter']['images'][] = reset( $og_images )['url'];
 	}
 
-	// Recursively remove empty values
-	return array_filter( $metadata, function($v) {
-		return ! empty($v);
-	});
+	return $metadata;
 }
 
 function seo_rest_get_by_uri( WP_REST_Request $request ): WP_REST_Response {
-	$uri = trailingslashit( $request->get_param( 'uri' ) );
-	if ( $uri === '/' ) return seo_rest_get_global( $request );
-
-	$post_id = url_to_postid( home_url( $uri ) );
-	if ( $post_id ) {
-		return new WP_REST_Response( seo_rest_get_metadata_object( [ 'id' => $post_id ] ) );
+	$uri = untrailingslashit( ltrim( $request->get_param( 'uri' ), '/' ) );
+	
+	if ( empty( $uri ) ) {
+		return seo_rest_get_global( $request );
 	}
 
+	// Try to find by path (more reliable in Docker than url_to_postid)
+	$post = get_page_by_path( $uri, OBJECT, [ 'post', 'page', 'product' ] );
+	
+	if ( $post ) {
+		return new WP_REST_Response( seo_rest_get_metadata_object( [ 'id' => $post->ID ] ) );
+	}
+
+	// Fallback to terms (categories)
 	return seo_rest_from_term( $uri );
 }
 
 function seo_rest_from_term( string $uri ): WP_REST_Response {
 	$parts = array_values( array_filter( explode( '/', $uri ) ) );
 	$slug  = end( $parts );
-	$tax_map = [ 'product-category' => 'product_cat', 'product-tag' => 'product_tag', 'category' => 'category', 'tag' => 'post_tag' ];
-	$tax = $tax_map[ $parts[ count( $parts ) - 2 ] ?? '' ] ?? '';
+	
+	$tax_map = [ 
+		'product-category' => 'product_cat', 
+		'product-tag'      => 'product_tag', 
+		'category'         => 'category', 
+		'tag'              => 'post_tag' 
+	];
+	
+	// Determine taxonomy from the part before slug
+	$tax_key = count( $parts ) >= 2 ? $parts[ count( $parts ) - 2 ] : '';
+	$tax = $tax_map[ $tax_key ] ?? '';
 
 	if ( $tax && $slug ) {
 		$term = get_term_by( 'slug', $slug, $tax );
@@ -114,20 +123,22 @@ function seo_rest_from_term( string $uri ): WP_REST_Response {
 			return new WP_REST_Response( seo_rest_get_metadata_object( [ 'id' => $term->term_id, 'taxonomy' => $tax ] ) );
 		}
 	}
-	
-	if ( count( $parts ) >= 2 && $parts[0] === 'product' ) {
-		$post = get_page_by_path( $parts[1], OBJECT, 'product' );
-		if ( $post ) return new WP_REST_Response( seo_rest_get_metadata_object( [ 'id' => $post->ID ] ) );
-	}
 
-	return new WP_REST_Response( [] );
+	// Special case for WooCommerce shop or other archives if needed
+	return new WP_REST_Response( seo_rest_get_global( new WP_REST_Request() ) );
 }
 
 function seo_rest_get_global( WP_REST_Request $request ): WP_REST_Response {
-	if ( ! function_exists( 'the_seo_framework' ) ) return new WP_REST_Response( [] );
+	if ( ! function_exists( 'the_seo_framework' ) ) {
+		return new WP_REST_Response( [
+			'title'       => get_bloginfo( 'name' ),
+			'description' => get_bloginfo( 'description' ),
+		] );
+	}
+	
 	$tsf = the_seo_framework();
 	return new WP_REST_Response( [
-		'title'       => $tsf->get_home_title() ?: get_bloginfo( 'name' ),
+		'title'       => seo_rest_clean_title( $tsf->get_home_title() ) ?: get_bloginfo( 'name' ),
 		'description' => $tsf->get_home_description() ?: get_bloginfo( 'description' ),
 	] );
 }
