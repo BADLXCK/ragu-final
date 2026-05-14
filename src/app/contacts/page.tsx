@@ -1,14 +1,11 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
+import { getSeoByUri } from '@/api/queries/getSeoByUri';
 import { ContactsPage } from "@/routes/contacts";
 
-import { generatePageMetadata } from "@/utils/generatePageMetadata";
+const PAGE_URI = '/contacts/';
 
 export async function generateMetadata(): Promise<Metadata> {
-  return generatePageMetadata(
-    "/contacts/",
-    "Контакты | Семейный ресторан Рагу",
-    "Контакты ресторана Рагу: адрес, телефон, время работы и как добраться"
-  );
+	return await getSeoByUri(PAGE_URI);
 }
 
 export default ContactsPage;

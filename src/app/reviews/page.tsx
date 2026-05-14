@@ -1,14 +1,11 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
+import { getSeoByUri } from '@/api/queries/getSeoByUri';
 import { ReviewsPage } from "@/routes/reviews";
 
-import { generatePageMetadata } from "@/utils/generatePageMetadata";
+const PAGE_URI = '/reviews/';
 
 export async function generateMetadata(): Promise<Metadata> {
-  return generatePageMetadata(
-    "/reviews/",
-    "Отзывы | Семейный ресторан Рагу",
-    "Отзывы гостей о семейном ресторане Рагу"
-  );
+	return await getSeoByUri(PAGE_URI);
 }
 
 export default ReviewsPage;

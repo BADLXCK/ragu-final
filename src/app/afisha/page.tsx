@@ -1,16 +1,11 @@
-import { Metadata } from "next";
-import { AfishaPage } from "@/routes/afisha";
+import { Metadata } from 'next';
+import { getSeoByUri } from '@/api/queries/getSeoByUri';
+import { AfishaPage } from '@/routes/afisha';
 
-import { generatePageMetadata } from "@/utils/generatePageMetadata";
+const PAGE_URI = '/afisha/';
 
 export async function generateMetadata(): Promise<Metadata> {
-  return generatePageMetadata(
-    "/afisha/",
-    "Афиша | Семейный ресторан Рагу",
-    "Афиша мероприятий и мастер-классов в ресторане Рагу"
-  );
+	return await getSeoByUri(PAGE_URI);
 }
-
-export const dynamic = 'force-dynamic';
 
 export default AfishaPage;

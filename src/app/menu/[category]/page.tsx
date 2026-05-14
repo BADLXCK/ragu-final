@@ -1,7 +1,8 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
+import { getSeoByUri } from '@/api/queries/getSeoByUri';
 import { CategoryPage } from "@/routes/category";
 
-import { generatePageMetadata } from "@/utils/generatePageMetadata";
+const BASE_URI = '/product-category/';
 
 type Props = {
   params: Promise<{ category: string }>;
@@ -9,11 +10,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params;
-  return generatePageMetadata(
-    `/product-category/${category}/`,
-    "Меню | Семейный ресторан Рагу",
-    "Меню доставки и ресторана Рагу"
-  );
+  return await getSeoByUri(`${BASE_URI}${category}/`);
 }
 
 export default CategoryPage;

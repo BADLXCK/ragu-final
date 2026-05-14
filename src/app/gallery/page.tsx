@@ -1,14 +1,11 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
+import { getSeoByUri } from '@/api/queries/getSeoByUri';
 import { GalleryPage } from "@/routes/gallery";
 
-import { generatePageMetadata } from "@/utils/generatePageMetadata";
+const PAGE_URI = '/gallery/';
 
 export async function generateMetadata(): Promise<Metadata> {
-  return generatePageMetadata(
-    "/gallery/",
-    "Галерея | Семейный ресторан Рагу",
-    "Фотографии интерьера и блюд семейного ресторана Рагу"
-  );
+	return await getSeoByUri(PAGE_URI);
 }
 
-export default GalleryPage
+export default GalleryPage;

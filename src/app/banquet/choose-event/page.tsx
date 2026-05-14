@@ -1,14 +1,11 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
+import { getSeoByUri } from '@/api/queries/getSeoByUri';
 import { ChooseEventPage } from "@/routes/choose-event";
 
-import { generatePageMetadata } from "@/utils/generatePageMetadata";
+const PAGE_URI = '/banquet/choose-event/';
 
 export async function generateMetadata(): Promise<Metadata> {
-  return generatePageMetadata(
-    "/banquet/choose-event/",
-    "Выбор мероприятия | Семейный ресторан Рагу",
-    "Выберите тип мероприятия для вашего банкета в ресторане Рагу"
-  );
+	return await getSeoByUri(PAGE_URI);
 }
 
-export default ChooseEventPage
+export default ChooseEventPage;
