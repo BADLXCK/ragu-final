@@ -1,0 +1,6 @@
+pre-push:
+  commands:
+    biome:
+      run: npx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown {push_files}
+    knip:
+      run: npm run knip

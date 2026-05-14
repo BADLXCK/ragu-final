@@ -11,6 +11,32 @@ WP_TITLE="Рагу"
 : "${WORDPRESS_DB_NAME:?WORDPRESS_DB_NAME is required}"
 
 # =============================================================================
+# 🔗 Замена старых URL в БД на актуальные
+# =============================================================================
+fix_urls_in_db() {
+    local OLD_URL="http://localhost:8080"
+    local NEW_URL="${WORDPRESS_URL:-https://wordpress.${DOMAIN:-restoranragu.ru}}"
+    
+    echo "[INFO] Checking for URLs to fix in database: $OLD_URL → $NEW_URL"
+    
+    # Ждём, пока БД будет доступна
+    until mysql -h "$WORDPRESS_DB_HOST" -u "$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" --skip-ssl -e "SELECT 1;" >/dev/null 2>&1; do
+        sleep 1
+    done
+    
+    # Используем WP-CLI search-replace
+    if command -v wp &>/dev/null && wp core is-installed --allow-root 2>/dev/null; then
+        echo "[INFO] Running search-replace via WP-CLI..."
+        wp search-replace "$OLD_URL" "$NEW_URL" \
+            --all-tables \
+            --skip-columns=guid \
+            --allow-root \
+            --quiet 2>/dev/null || true
+        echo "[SUCCESS] URL check/replace completed"
+    fi
+}
+
+# =============================================================================
 # 🚀 Основная логика
 # =============================================================================
 
@@ -72,6 +98,9 @@ chown -R 33:33 /var/www/html
 chmod -R 755 /var/www/html/wp-content
 mkdir -p /var/www/html/wp-content/updraft
 chown -R 33:33 /var/www/html/wp-content/updraft
+
+# 🔹 Фиксируем URL в БД
+fix_urls_in_db
 
 # 🔹 Создаем маркер завершения для healthcheck
 touch /tmp/wordpress-setup-complete

@@ -15,7 +15,8 @@
     "lint": "next lint",
     "codegen": "graphql-codegen --config codegen.ts && node ./add-ts-nocheck.js",
     "find-deadcode": "ts-prune",
-    "knip": "knip"
+    "knip": "knip",
+    "postinstall": "lefthook install"
   },
   "dependencies": {
     "@iminside/react-yandex-maps": "^1.2.7",
@@ -38,6 +39,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "knip": "^6.4.1",
+    "lefthook": "^2.1.6",
     "nanoid": "^5.1.9",
     "next-devtools-mcp": "^0.3.10",
     "sass": "^1.99.0",
