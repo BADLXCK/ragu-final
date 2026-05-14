@@ -6,41 +6,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      # ===== DATABASE =====
-      DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-      DATABASE_USER: ${{ secrets.DATABASE_USER }}
-      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-      DATABASE_ROOT_PASSWORD: ${{ secrets.DATABASE_ROOT_PASSWORD }}
-
-      # ===== DOMAINS & SSL =====
-      DOMAIN: ${{ secrets.DOMAIN }}
-      ACME_EMAIL: ${{ secrets.ACME_EMAIL }}
-
-      # ===== TRAEFIK ADMIN =====
-      TRAEFIK_ADMIN_USER: ${{ secrets.TRAEFIK_ADMIN_USER }}
-      TRAEFIK_ADMIN_PASSWORD_HASH: ${{ secrets.TRAEFIK_ADMIN_PASSWORD_HASH }}
-
-      # ===== WORDPRESS =====
-      WORDPRESS_ADMIN_EMAIL: ${{ secrets.WORDPRESS_ADMIN_EMAIL }}
-
-      # ===== OPTIONAL: GOOGLE DRIVE BACKUP =====
-      GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
-      GDRIVE_BACKUP_FOLDER: ${{ secrets.GDRIVE_BACKUP_FOLDER }}
-
-      # ===== GITHUB (lowercase для GHCR) =====
-      GITHUB_REPOSITORY_OWNER: badlxck
-
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
@@ -48,69 +14,66 @@ jobs:
           chmod 600 ~/.ssh/id_ragu
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Copy docker-compose.prod.yml to server
+      - name: Update code via Git on server
         run: |
-          scp -i ~/.ssh/id_ragu ./docker-compose.prod.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/docker-compose.prod.yml
+          ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            if [ ! -d '~/ragu' ]; then
+              git clone git@github.com:badlxck/ragu-final.git ~/ragu
+            fi
+            cd ~/ragu
+            git fetch origin
+            git reset --hard origin/main
+          "
 
-      # 🔑 КЛЮЧЕВОЙ ШАГ: Генерация .env (именно .env, в той же папке что и docker-compose.yml)
       - name: Generate .env on server
         run: |
           ENCODED_GDRIVE=$(echo -n '${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}' | base64 -w 0)
 
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            > ~/.env
-            echo 'DATABASE_NAME=${{ secrets.DATABASE_NAME }}' >> ~/.env
-            echo 'DATABASE_USER=${{ secrets.DATABASE_USER }}' >> ~/.env
-            echo 'DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}' >> ~/.env
-            echo 'DATABASE_ROOT_PASSWORD=${{ secrets.DATABASE_ROOT_PASSWORD }}' >> ~/.env
-            echo 'DOMAIN=${{ secrets.DOMAIN }}' >> ~/.env
-            echo 'ACME_EMAIL=${{ secrets.ACME_EMAIL }}' >> ~/.env
-            echo 'TRAEFIK_ADMIN_USER=${{ secrets.TRAEFIK_ADMIN_USER }}' >> ~/.env
-            echo 'TRAEFIK_ADMIN_PASSWORD_HASH=${{ secrets.TRAEFIK_ADMIN_PASSWORD_HASH }}' >> ~/.env
-            echo 'WORDPRESS_ADMIN_EMAIL=${{ secrets.WORDPRESS_ADMIN_EMAIL }}' >> ~/.env
-            echo 'NEXT_PUBLIC_YANDEX_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_YANDEX_MAPS_API_KEY }}' >> ~/.env
-            echo 'GITHUB_REPOSITORY_OWNER=badlxck' >> ~/.env
-            echo 'GDRIVE_BACKUP_FOLDER=${{ secrets.GDRIVE_BACKUP_FOLDER }}' >> ~/.env
-            echo \"GDRIVE_SERVICE_ACCOUNT_JSON=\$(echo '$ENCODED_GDRIVE' | base64 -d)\" >> ~/.env
-            chmod 600 ~/.env
+            cd ~/ragu
+            > .env
+            echo 'DATABASE_NAME=${{ secrets.DATABASE_NAME }}' >> .env
+            echo 'DATABASE_USER=${{ secrets.DATABASE_USER }}' >> .env
+            echo 'DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}' >> .env
+            echo 'DATABASE_ROOT_PASSWORD=${{ secrets.DATABASE_ROOT_PASSWORD }}' >> .env
+            echo 'DOMAIN=${{ secrets.DOMAIN }}' >> .env
+            echo 'ACME_EMAIL=${{ secrets.ACME_EMAIL }}' >> .env
+            echo 'TRAEFIK_ADMIN_USER=${{ secrets.TRAEFIK_ADMIN_USER }}' >> .env
+            echo 'TRAEFIK_ADMIN_PASSWORD_HASH=${{ secrets.TRAEFIK_ADMIN_PASSWORD_HASH }}' >> .env
+            echo 'WORDPRESS_ADMIN_EMAIL=${{ secrets.WORDPRESS_ADMIN_EMAIL }}' >> .env
+            echo 'NEXT_PUBLIC_YANDEX_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_YANDEX_MAPS_API_KEY }}' >> .env
+            echo 'GITHUB_REPOSITORY_OWNER=badlxck' >> .env
+            echo 'GDRIVE_BACKUP_FOLDER=${{ secrets.GDRIVE_BACKUP_FOLDER }}' >> .env
+            echo \"GDRIVE_SERVICE_ACCOUNT_JSON=\$(echo '$ENCODED_GDRIVE' | base64 -d)\" >> .env
+            
+            # Переменные для фронтенда (внутренние)
+            echo 'NEXT_PUBLIC_WORDPRESS_API_URL=http://wordpress' >> .env
+            echo 'SCHEMA_URL=http://wordpress/graphql' >> .env
+            
+            chmod 600 .env
           "
 
       - name: Deploy Docker Compose to server
         run: |
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            # Login to GHCR
-            echo '${{ secrets.GHCR_TOKEN }}' | docker login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin
+            cd ~/ragu
             
-            # 🔑 .env загрузится автоматически (нет --env-file!)
-            docker compose -p ragu -f ~/docker-compose.prod.yml down --remove-orphans
-            docker compose -p ragu -f ~/docker-compose.prod.yml pull
-            docker compose -p ragu -f ~/docker-compose.prod.yml up -d
+            # Останавливаем и пересобираем на месте
+            docker compose -p ragu -f docker-compose.prod.yml down --remove-orphans
+            docker compose -p ragu -f docker-compose.prod.yml up -d --build
             
             # Ждём готовности БД
             sleep 15
-            
-            # Проверка пользователя MySQL (опционально)
-            echo '🔍 Checking MySQL user...'
-            CONTAINER_ID=\$(docker ps -qf 'name=ragu-database' | head -1)
-            if [ -n \"\$CONTAINER_ID\" ]; then
-              docker exec -i \$CONTAINER_ID \
-                mysql -uroot -p'${{ secrets.DATABASE_ROOT_PASSWORD }}' \
-                -e \"SELECT user, host FROM mysql.user WHERE user = '${{ secrets.DATABASE_USER }}';\" 2>/dev/null || \
-                echo '⚠️ Could not verify MySQL user'
-            fi
           "
 
       - name: Verify deployment
         run: |
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            cd ~/ragu
             echo '📊 Container status:'
-            docker compose -p ragu -f ~/docker-compose.prod.yml ps
+            docker compose -p ragu -f docker-compose.prod.yml ps
             
             echo ''
             echo '🔍 Checking for env warnings (should be empty):'
-            docker compose -p ragu -f ~/docker-compose.prod.yml config >/dev/null 2>&1 && echo '✅ No parsing warnings' || echo '⚠️ Config issues'
-            
-            echo ''
-            echo '🔍 Last 15 logs from wordpress:'
-            docker compose -p ragu -f ~/docker-compose.prod.yml logs --tail=15 wordpress | grep -v 'variable is not set' || true
+            docker compose -p ragu -f docker-compose.prod.yml config >/dev/null 2>&1 && echo '✅ No parsing warnings' || echo '⚠️ Config issues'
           "
