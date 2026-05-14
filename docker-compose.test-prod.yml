@@ -1,0 +1,61 @@
+services:
+    database:
+        image: mysql:8.0
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DATABASE_NAME}
+            MYSQL_USER: ${DATABASE_USER}
+            MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+            MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+        volumes:
+            - db-test-data:/var/lib/mysql
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+            interval: 5s
+            timeout: 3s
+            retries: 20
+
+    wordpress:
+        depends_on:
+            database:
+                condition: service_healthy
+        image: wordpress:latest
+        build:
+            context: .
+            dockerfile: Dockerfile.wordpress
+        ports:
+            - "8080:80"
+        environment:
+            WORDPRESS_DB_HOST: database
+            WORDPRESS_DB_USER: ${DATABASE_USER}
+            WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
+            WORDPRESS_DB_NAME: ${DATABASE_NAME}
+            WORDPRESS_URL: http://localhost:8080
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost/wp-json/"]
+            interval: 10s
+            timeout: 5s
+            retries: 15
+        volumes:
+            - wp-test-data:/var/www/html
+
+    frontend:
+        depends_on:
+            wordpress:
+                condition: service_healthy
+        build:
+            context: .
+            dockerfile: Dockerfile.frontend
+            target: production
+        ports:
+            - "3000:3000"
+        environment:
+            NEXT_PUBLIC_BASE_URL: http://localhost:3000
+            NEXT_PUBLIC_WORDPRESS_API_URL: http://wordpress
+            SCHEMA_URL: http://wordpress/graphql
+        # Принудительно запускаем npm run build при старте
+        command: ["sh", "-c", "npm run build && npm start"]
+
+volumes:
+    db-test-data:
+    wp-test-data:

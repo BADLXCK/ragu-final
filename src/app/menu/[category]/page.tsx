@@ -3,6 +3,7 @@ import { getSeoByUri } from '@/api/queries/getSeoByUri';
 import { CategoryPage } from '@/routes/category';
 
 const BASE_URI = '/product-category/';
+export const revalidate = 60;
 
 export async function generateMetadata({
 	params,

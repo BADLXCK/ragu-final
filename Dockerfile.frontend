@@ -20,11 +20,14 @@ CMD ["npm", "run", "dev"]
 FROM base AS production
 WORKDIR /usr/app
 ENV NODE_ENV=production
-COPY --from=deps /usr/app/node_modules ./node_modules
-COPY . .
+
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs && \
     chown -R nextjs:nodejs /usr/app
+
+COPY --from=deps --chown=nextjs:nodejs /usr/app/node_modules ./node_modules
+COPY --chown=nextjs:nodejs . .
+
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
