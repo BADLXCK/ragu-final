@@ -1,4 +1,4 @@
-pre-push:
+pre-commit:
   commands:
     biome:
       run: npx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown {push_files}
