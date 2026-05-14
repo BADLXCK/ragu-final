@@ -18,15 +18,14 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             set -e
-            mkdir -p ~/.ssh
-            ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2>/dev/null || true
-            
             if [ ! -d ~/ragu ]; then
-              git clone git@github.com:badlxck/ragu-final.git ~/ragu
+              git clone https://x-access-token:${{ github.token }}@github.com/badlxck/ragu-final.git ~/ragu
+            else
+              cd ~/ragu
+              git remote set-url origin https://x-access-token:${{ github.token }}@github.com/badlxck/ragu-final.git
+              git fetch origin
+              git reset --hard origin/main
             fi
-            cd ~/ragu
-            git fetch origin
-            git reset --hard origin/main
           "
 
       - name: Generate .env on server
