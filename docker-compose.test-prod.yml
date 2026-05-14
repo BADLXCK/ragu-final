@@ -43,6 +43,7 @@ services:
         depends_on:
             wordpress:
                 condition: service_healthy
+        restart: unless-stopped
         build:
             context: .
             dockerfile: Dockerfile.frontend
