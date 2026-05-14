@@ -53,11 +53,13 @@ services:
             start_period: 10s
 
     wordpress:
+        build:
+            context: .
+            dockerfile: Dockerfile.wordpress
         depends_on:
             database:
                 condition: service_healthy
         restart: unless-stopped
-        image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/ragu-wordpress:latest
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost/graphql"]
             interval: 10s
