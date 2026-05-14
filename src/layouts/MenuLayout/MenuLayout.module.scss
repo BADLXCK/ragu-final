@@ -49,3 +49,15 @@
         overflow: auto;
     }
 }
+
+// Скрываем скроллбар, если внутри контента есть карточка товара
+.wrapper:has(#product-card-context) {
+    .scrollbar {
+        display: none !important;
+    }
+}
+
+.scrollbar {
+    // Базовые стили для скроллбара, если они нужны в этом слое
+}
+
