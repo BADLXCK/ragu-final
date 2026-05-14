@@ -58,6 +58,12 @@ services:
                 condition: service_healthy
         restart: unless-stopped
         image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/ragu-wordpress:latest
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost/graphql"]
+            interval: 10s
+            timeout: 5s
+            retries: 15
+            start_period: 30s
         environment:
             WORDPRESS_DB_HOST: database
             WORDPRESS_DB_USER: ${DATABASE_USER}
@@ -91,9 +97,12 @@ services:
     frontend:
         depends_on:
             wordpress:
-                condition: service_started
+                condition: service_healthy
         restart: unless-stopped
-        image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/ragu-frontend:latest
+        build:
+            context: .
+            dockerfile: Dockerfile.frontend
+            target: production
         environment:
             NEXT_PUBLIC_BASE_URL: https://next.${DOMAIN}
             NEXT_PUBLIC_WORDPRESS_API_URL: http://wordpress

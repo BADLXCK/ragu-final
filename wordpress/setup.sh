@@ -159,13 +159,23 @@ if ! wp core is-installed --allow-root 2>/dev/null; then
 fi
 
 # 🔹 Тема
+# Синхронизируем тему из образа в volume (volume может быть уже существующим)
+if [ -d "/usr/src/wordpress/wp-content/themes/$WP_THEME" ]; then
+    cp -r "/usr/src/wordpress/wp-content/themes/$WP_THEME" /var/www/html/wp-content/themes/ 2>/dev/null || true
+fi
 wp theme activate "$WP_THEME" --allow-root 2>/dev/null || true
+
+# 🔹 Синхронизируем mu-plugins из образа в volume
+mkdir -p /var/www/html/wp-content/mu-plugins
+if [ -d "/usr/src/wordpress/wp-content/mu-plugins" ]; then
+    cp -r /usr/src/wordpress/wp-content/mu-plugins/. /var/www/html/wp-content/mu-plugins/ 2>/dev/null || true
+fi
 
 # 🔹 Удаление дефолтных тем
 wp theme list --field=name --allow-root 2>/dev/null | grep '^twenty' | xargs -r wp theme delete --allow-root 2>/dev/null || true
 
 # 🔹 Плагины
-PLUGINS=(woocommerce advanced-custom-fields wordpress-seo filebird updraftplus organize-media-folder pods wp-graphql)
+PLUGINS=(woocommerce advanced-custom-fields autodescription filebird updraftplus organize-media-folder pods wp-graphql)
 wp plugin install "${PLUGINS[@]}" --activate --allow-root 2>/dev/null || true
 
 # 🔹 WPGraphQL

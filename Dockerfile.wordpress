@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y \
     && curl https://rclone.org/install.sh | bash
 
 # Copy application files
-COPY wordpress/themes /usr/src/
+COPY wordpress/themes /usr/src/wordpress/wp-content/themes/
+COPY wordpress/mu-plugins /usr/src/wordpress/wp-content/mu-plugins/
 COPY wordpress/setup.sh /usr/local/bin/setup-wordpress.sh
 COPY wordpress/entrypoint.sh /usr/local/bin/custom-entrypoint.sh
 

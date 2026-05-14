@@ -1508,13 +1508,13 @@ export enum CommentNodeIdTypeEnum {
 
 /** Moderation state for user comments. Determines whether comments are publicly visible, pending approval, or marked as spam. */
 export enum CommentStatusEnum {
-  /** Comments with the Одобрен status */
+  /** Comments with the Approved status */
   Approve = 'APPROVE',
-  /** Comments with the Не одобрен status */
+  /** Comments with the Unapproved status */
   Hold = 'HOLD',
-  /** Comments with the Спам status */
+  /** Comments with the Spam status */
   Spam = 'SPAM',
-  /** Comments with the Удалён status */
+  /** Comments with the Trash status */
   Trash = 'TRASH'
 }
 
@@ -5522,9 +5522,9 @@ export enum DiscountTypeEnum {
 /** The discussion setting type */
 export type DiscussionSettings = {
   __typename?: 'DiscussionSettings';
-  /** Разрешить оставлять комментарии к новым записям. */
+  /** Allow people to submit comments on new posts. */
   defaultCommentStatus?: Maybe<Scalars['String']['output']>;
-  /** Разрешить ссылки оповещения с других блогов (уведомления и обратные ссылки) на новые статьи. */
+  /** Allow link notifications from other blogs (pingbacks and trackbacks) on new articles. */
   defaultPingStatus?: Maybe<Scalars['String']['output']>;
 };
 
@@ -6888,27 +6888,27 @@ export type Gallery_Image_ConnectionPageInfo = MediaItemConnectionPageInfo & Pag
 /** The general setting type */
 export type GeneralSettings = {
   __typename?: 'GeneralSettings';
-  /** Общий формат даты. */
+  /** A date format for all date strings. */
   dateFormat?: Maybe<Scalars['String']['output']>;
-  /** Слоган сайта. */
+  /** Site tagline. */
   description?: Maybe<Scalars['String']['output']>;
-  /** Этот адрес используется в целях администрирования. Например, для уведомления о новых пользователях. */
+  /** This address is used for admin purposes, like new user notification. */
   email?: Maybe<Scalars['String']['output']>;
-  /** Код локали WordPress. */
+  /** WordPress locale code. */
   language?: Maybe<Scalars['String']['output']>;
   /** The media item representing the site icon configured in site settings, used as the site&#039;s favicon and app icon. */
   siteIcon?: Maybe<GeneralSettingsToMediaItemConnectionEdge>;
   /** Site icon URL configured in site settings, used as the site&#039;s favicon and app icon. */
   siteIconUrl?: Maybe<Scalars['String']['output']>;
-  /** Первый день недели. */
+  /** A day number of the week that the week should start on. */
   startOfWeek?: Maybe<Scalars['Int']['output']>;
-  /** Общий формат времени. */
+  /** A time format for all time strings. */
   timeFormat?: Maybe<Scalars['String']['output']>;
-  /** Город в той же временной зоне что и у вас. */
+  /** A city in the same timezone as you. */
   timezone?: Maybe<Scalars['String']['output']>;
-  /** Название сайта. */
+  /** Site title. */
   title?: Maybe<Scalars['String']['output']>;
-  /** Адрес сайта (URL) */
+  /** Site URL. */
   url?: Maybe<Scalars['String']['output']>;
 };
 
@@ -11525,14 +11525,10 @@ export enum PostStatusEnum {
   AutoDraft = 'AUTO_DRAFT',
   /** Content that is saved but not yet published or visible to the public */
   Draft = 'DRAFT',
-  /** Objects with the failed status */
-  Failed = 'FAILED',
   /** Objects with the future status */
   Future = 'FUTURE',
   /** Content that inherits its status from a parent object */
   Inherit = 'INHERIT',
-  /** Objects with the in-progress status */
-  InProgress = 'IN_PROGRESS',
   /** Content awaiting review before publication */
   Pending = 'PENDING',
   /** Content only visible to authorized users with appropriate permissions */
@@ -17341,13 +17337,13 @@ export type RatingCount = {
 /** The reading setting type */
 export type ReadingSettings = {
   __typename?: 'ReadingSettings';
-  /** ID страницы, на которой должны отображаться последние записи */
+  /** The ID of the page that should display the latest posts */
   pageForPosts?: Maybe<Scalars['Int']['output']>;
-  /** ID страницы, которая должна отображаться на главной странице */
+  /** The ID of the page that should be displayed on the front page */
   pageOnFront?: Maybe<Scalars['Int']['output']>;
-  /** Максимум страниц блога для показа. */
+  /** Blog pages show at most. */
   postsPerPage?: Maybe<Scalars['Int']['output']>;
-  /** Что показать на главной странице */
+  /** What to show on the front page */
   showOnFront?: Maybe<Scalars['String']['output']>;
 };
 
@@ -25775,41 +25771,41 @@ export type UpdateSessionPayload = {
 export type UpdateSettingsInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** Разрешить оставлять комментарии к новым записям. */
+  /** Allow people to submit comments on new posts. */
   discussionSettingsDefaultCommentStatus?: InputMaybe<Scalars['String']['input']>;
-  /** Разрешить ссылки оповещения с других блогов (уведомления и обратные ссылки) на новые статьи. */
+  /** Allow link notifications from other blogs (pingbacks and trackbacks) on new articles. */
   discussionSettingsDefaultPingStatus?: InputMaybe<Scalars['String']['input']>;
-  /** Общий формат даты. */
+  /** A date format for all date strings. */
   generalSettingsDateFormat?: InputMaybe<Scalars['String']['input']>;
-  /** Слоган сайта. */
+  /** Site tagline. */
   generalSettingsDescription?: InputMaybe<Scalars['String']['input']>;
-  /** Этот адрес используется в целях администрирования. Например, для уведомления о новых пользователях. */
+  /** This address is used for admin purposes, like new user notification. */
   generalSettingsEmail?: InputMaybe<Scalars['String']['input']>;
-  /** Код локали WordPress. */
+  /** WordPress locale code. */
   generalSettingsLanguage?: InputMaybe<Scalars['String']['input']>;
-  /** Первый день недели. */
+  /** A day number of the week that the week should start on. */
   generalSettingsStartOfWeek?: InputMaybe<Scalars['Int']['input']>;
-  /** Общий формат времени. */
+  /** A time format for all time strings. */
   generalSettingsTimeFormat?: InputMaybe<Scalars['String']['input']>;
-  /** Город в той же временной зоне что и у вас. */
+  /** A city in the same timezone as you. */
   generalSettingsTimezone?: InputMaybe<Scalars['String']['input']>;
-  /** Название сайта. */
+  /** Site title. */
   generalSettingsTitle?: InputMaybe<Scalars['String']['input']>;
-  /** Адрес сайта (URL) */
+  /** Site URL. */
   generalSettingsUrl?: InputMaybe<Scalars['String']['input']>;
-  /** ID страницы, на которой должны отображаться последние записи */
+  /** The ID of the page that should display the latest posts */
   readingSettingsPageForPosts?: InputMaybe<Scalars['Int']['input']>;
-  /** ID страницы, которая должна отображаться на главной странице */
+  /** The ID of the page that should be displayed on the front page */
   readingSettingsPageOnFront?: InputMaybe<Scalars['Int']['input']>;
-  /** Максимум страниц блога для показа. */
+  /** Blog pages show at most. */
   readingSettingsPostsPerPage?: InputMaybe<Scalars['Int']['input']>;
-  /** Что показать на главной странице */
+  /** What to show on the front page */
   readingSettingsShowOnFront?: InputMaybe<Scalars['String']['input']>;
-  /** Рубрика для записей по умолчанию. */
+  /** Default post category. */
   writingSettingsDefaultCategory?: InputMaybe<Scalars['Int']['input']>;
-  /** Формат записей по умолчанию. */
+  /** Default post format. */
   writingSettingsDefaultPostFormat?: InputMaybe<Scalars['String']['input']>;
-  /** Преобразовывать смайлики наподобие :-) и :-P в картинки при показе. */
+  /** Convert emoticons like :-) and :-P to graphics on display. */
   writingSettingsUseSmilies?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -28265,10 +28261,10 @@ export type WriteReviewPayload = {
 /** The writing setting type */
 export type WritingSettings = {
   __typename?: 'WritingSettings';
-  /** Рубрика для записей по умолчанию. */
+  /** Default post category. */
   defaultCategory?: Maybe<Scalars['Int']['output']>;
-  /** Формат записей по умолчанию. */
+  /** Default post format. */
   defaultPostFormat?: Maybe<Scalars['String']['output']>;
-  /** Преобразовывать смайлики наподобие :-) и :-P в картинки при показе. */
+  /** Convert emoticons like :-) and :-P to graphics on display. */
   useSmilies?: Maybe<Scalars['Boolean']['output']>;
 };

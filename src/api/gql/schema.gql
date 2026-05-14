@@ -2053,16 +2053,16 @@ enum CommentNodeIdTypeEnum {
 Moderation state for user comments. Determines whether comments are publicly visible, pending approval, or marked as spam.
 """
 enum CommentStatusEnum {
-  """Comments with the Одобрен status"""
+  """Comments with the Approved status"""
   APPROVE
 
-  """Comments with the Не одобрен status"""
+  """Comments with the Unapproved status"""
   HOLD
 
-  """Comments with the Спам status"""
+  """Comments with the Spam status"""
   SPAM
 
-  """Comments with the Удалён status"""
+  """Comments with the Trash status"""
   TRASH
 }
 
@@ -8310,11 +8310,11 @@ enum DiscountTypeEnum {
 
 """The discussion setting type"""
 type DiscussionSettings {
-  """Разрешить оставлять комментарии к новым записям."""
+  """Allow people to submit comments on new posts."""
   defaultCommentStatus: String
 
   """
-  Разрешить ссылки оповещения с других блогов (уведомления и обратные ссылки) на новые статьи.
+  Allow link notifications from other blogs (pingbacks and trackbacks) on new articles.
   """
   defaultPingStatus: String
 }
@@ -10244,18 +10244,16 @@ type Gallery_image_connectionPageInfo implements MediaItemConnectionPageInfo & P
 
 """The general setting type"""
 type GeneralSettings {
-  """Общий формат даты."""
+  """A date format for all date strings."""
   dateFormat: String
 
-  """Слоган сайта."""
+  """Site tagline."""
   description: String
 
-  """
-  Этот адрес используется в целях администрирования. Например, для уведомления о новых пользователях.
-  """
+  """This address is used for admin purposes, like new user notification."""
   email: String
 
-  """Код локали WordPress."""
+  """WordPress locale code."""
   language: String
 
   """
@@ -10271,19 +10269,19 @@ type GeneralSettings {
     size: Int
   ): String
 
-  """Первый день недели."""
+  """A day number of the week that the week should start on."""
   startOfWeek: Int
 
-  """Общий формат времени."""
+  """A time format for all time strings."""
   timeFormat: String
 
-  """Город в той же временной зоне что и у вас."""
+  """A city in the same timezone as you."""
   timezone: String
 
-  """Название сайта."""
+  """Site title."""
   title: String
 
-  """Адрес сайта (URL)"""
+  """Site URL."""
   url: String
 }
 
@@ -17049,17 +17047,11 @@ enum PostStatusEnum {
   """Content that is saved but not yet published or visible to the public"""
   DRAFT
 
-  """Objects with the failed status"""
-  FAILED
-
   """Objects with the future status"""
   FUTURE
 
   """Content that inherits its status from a parent object"""
   INHERIT
-
-  """Objects with the in-progress status"""
-  IN_PROGRESS
 
   """Content awaiting review before publication"""
   PENDING
@@ -25875,16 +25867,16 @@ type RatingCount {
 
 """The reading setting type"""
 type ReadingSettings {
-  """ID страницы, на которой должны отображаться последние записи"""
+  """The ID of the page that should display the latest posts"""
   pageForPosts: Int
 
-  """ID страницы, которая должна отображаться на главной странице"""
+  """The ID of the page that should be displayed on the front page"""
   pageOnFront: Int
 
-  """Максимум страниц блога для показа."""
+  """Blog pages show at most."""
   postsPerPage: Int
 
-  """Что показать на главной странице"""
+  """What to show on the front page"""
   showOnFront: String
 }
 
@@ -37436,62 +37428,60 @@ input UpdateSettingsInput {
   """
   clientMutationId: String
 
-  """Разрешить оставлять комментарии к новым записям."""
+  """Allow people to submit comments on new posts."""
   discussionSettingsDefaultCommentStatus: String
 
   """
-  Разрешить ссылки оповещения с других блогов (уведомления и обратные ссылки) на новые статьи.
+  Allow link notifications from other blogs (pingbacks and trackbacks) on new articles.
   """
   discussionSettingsDefaultPingStatus: String
 
-  """Общий формат даты."""
+  """A date format for all date strings."""
   generalSettingsDateFormat: String
 
-  """Слоган сайта."""
+  """Site tagline."""
   generalSettingsDescription: String
 
-  """
-  Этот адрес используется в целях администрирования. Например, для уведомления о новых пользователях.
-  """
+  """This address is used for admin purposes, like new user notification."""
   generalSettingsEmail: String
 
-  """Код локали WordPress."""
+  """WordPress locale code."""
   generalSettingsLanguage: String
 
-  """Первый день недели."""
+  """A day number of the week that the week should start on."""
   generalSettingsStartOfWeek: Int
 
-  """Общий формат времени."""
+  """A time format for all time strings."""
   generalSettingsTimeFormat: String
 
-  """Город в той же временной зоне что и у вас."""
+  """A city in the same timezone as you."""
   generalSettingsTimezone: String
 
-  """Название сайта."""
+  """Site title."""
   generalSettingsTitle: String
 
-  """Адрес сайта (URL)"""
+  """Site URL."""
   generalSettingsUrl: String
 
-  """ID страницы, на которой должны отображаться последние записи"""
+  """The ID of the page that should display the latest posts"""
   readingSettingsPageForPosts: Int
 
-  """ID страницы, которая должна отображаться на главной странице"""
+  """The ID of the page that should be displayed on the front page"""
   readingSettingsPageOnFront: Int
 
-  """Максимум страниц блога для показа."""
+  """Blog pages show at most."""
   readingSettingsPostsPerPage: Int
 
-  """Что показать на главной странице"""
+  """What to show on the front page"""
   readingSettingsShowOnFront: String
 
-  """Рубрика для записей по умолчанию."""
+  """Default post category."""
   writingSettingsDefaultCategory: Int
 
-  """Формат записей по умолчанию."""
+  """Default post format."""
   writingSettingsDefaultPostFormat: String
 
-  """Преобразовывать смайлики наподобие :-) и :-P в картинки при показе."""
+  """Convert emoticons like :-) and :-P to graphics on display."""
   writingSettingsUseSmilies: Boolean
 }
 
@@ -41183,12 +41173,12 @@ type WriteReviewPayload {
 
 """The writing setting type"""
 type WritingSettings {
-  """Рубрика для записей по умолчанию."""
+  """Default post category."""
   defaultCategory: Int
 
-  """Формат записей по умолчанию."""
+  """Default post format."""
   defaultPostFormat: String
 
-  """Преобразовывать смайлики наподобие :-) и :-P в картинки при показе."""
+  """Convert emoticons like :-) and :-P to graphics on display."""
   useSmilies: Boolean
 }

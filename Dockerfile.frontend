@@ -16,27 +16,17 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 CMD ["npm", "run", "dev"]
 
-# Builder for production
-FROM base AS builder
-WORKDIR /usr/app
-ARG SCHEMA_URL=http://localhost:8080/graphql
-ENV SCHEMA_URL=$SCHEMA_URL
-COPY --from=deps /usr/app/node_modules ./node_modules
-COPY . .
-RUN npm run docker:build
-
 # Production runner
 FROM base AS production
 WORKDIR /usr/app
 ENV NODE_ENV=production
+COPY --from=deps /usr/app/node_modules ./node_modules
+COPY . .
 RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs
-COPY --from=builder /usr/app/public ./public
-RUN mkdir .next && chown nextjs:nodejs .next
-COPY --from=builder --chown=nextjs:nodejs /usr/app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /usr/app/.next/static ./.next/static
+    adduser --system --uid 1001 nextjs && \
+    chown -R nextjs:nodejs /usr/app
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "npm run build && npm start"]
