@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, KeyboardEvent, InputEvent } from 'react';
+import { InputEvent, KeyboardEvent, useState } from 'react';
 
 export const usePhoneMask = () => {
 	const [mask, setMask] = useState('');

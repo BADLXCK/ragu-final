@@ -19,9 +19,8 @@ export const getNavigationItems = async (): Promise<MenuItem[]> => {
 		}
 	`;
 
-	const response: { menuItems: MenuItemConnection } = await client.request(
-		query,
-	);
+	const response: { menuItems: MenuItemConnection } =
+		await client.request(query);
 
 	return response.menuItems.edges.map(edge => edge.node);
 };

@@ -7,7 +7,7 @@ export const getSeoByUri = async (uri: string): Promise<Metadata> => {
 	try {
 		const encodedUri = encodeURIComponent(uri);
 		const fetchUrl = `${WP_URL}/wp-json/seo/v1/page?uri=${encodedUri}`;
-		
+
 		const res = await fetch(fetchUrl, {
 			next: { revalidate: 60 },
 		});
@@ -18,7 +18,7 @@ export const getSeoByUri = async (uri: string): Promise<Metadata> => {
 		}
 
 		const data = await res.json();
-		
+
 		// Лог для проверки в Docker (можно будет убрать потом)
 		if (Object.keys(data).length === 0) {
 			console.warn(`SEO API returned empty data for ${uri}`);

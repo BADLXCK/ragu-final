@@ -24,7 +24,11 @@ export const MenuLayout = async ({ children }: PropsWithChildren) => {
 				</div>
 			</div>
 			<section className={styles.pageArea}>{children}</section>
-			<Scrollbar targetId="category-list" anchorId="category-list-container" className={styles.scrollbar} />
+			<Scrollbar
+				targetId="category-list"
+				anchorId="category-list-container"
+				className={styles.scrollbar}
+			/>
 		</div>
 	);
 };

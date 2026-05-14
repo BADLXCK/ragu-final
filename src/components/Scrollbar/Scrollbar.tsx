@@ -1,7 +1,7 @@
 'use client';
 
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Scrollbar.module.scss';
 
 interface ScrollbarProps {
@@ -24,7 +24,7 @@ export const Scrollbar: FC<ScrollbarProps> = ({
 	className,
 }) => {
 	const pathname = usePathname();
-	
+
 	// Если в пути более 2-х сегментов после /menu/, значит это страница товара
 	// Пример: /menu/goryachee/ - 2 сегмента (категория)
 	// Пример: /menu/goryachee/steak - 3 сегмента (товар)
@@ -119,7 +119,8 @@ export const Scrollbar: FC<ScrollbarProps> = ({
 			const scrollHeight = target.scrollHeight;
 
 			const scrollRatio = scrollHeight / trackHeight;
-			target.scrollTop = dragRef.current.startScrollTop + deltaY * scrollRatio;
+			target.scrollTop =
+				dragRef.current.startScrollTop + deltaY * scrollRatio;
 		};
 
 		const handleMouseUp = () => {

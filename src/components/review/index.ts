@@ -1,1 +1,1 @@
-export { Review, type IReview } from './review';
+export { type IReview, Review } from './review';

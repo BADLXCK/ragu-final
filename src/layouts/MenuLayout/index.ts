@@ -1,3 +1,1 @@
-export {
-	MenuLayout,
-} from './MenuLayout.view';
+export { MenuLayout } from './MenuLayout.view';

@@ -4,7 +4,7 @@ import { getProductsByCategory } from '@/api/queries/getProductsByCategory';
 import { ProductListItem } from '@/components/product-list-item';
 import styles from './category-page.module.scss';
 
-export interface CategoryPageProps {
+interface CategoryPageProps {
 	params: Promise<{ category: string }>;
 }
 

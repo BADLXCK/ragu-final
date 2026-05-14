@@ -1,6 +1,11 @@
 pre-commit:
+  parallel: true
   commands:
     biome:
-      run: npx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown {push_files}
+      glob: "{src/api/queries,src/api/utils,src/components,src/hooks,src/pages,src/styles,wordpress}/**/*.{js,ts,jsx,tsx,json}"
+      run: npx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown {staged_files}
+      stage_fixed: true
+    type-check:
+      run: npx tsc --noEmit
     knip:
       run: npm run knip

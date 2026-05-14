@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { getSeoByUri } from '@/api/queries/getSeoByUri';
-import { GalleryPage } from "@/routes/gallery";
+import { GalleryPage } from '@/routes/gallery';
 
 const PAGE_URI = '/gallery/';
 export const revalidate = 60;

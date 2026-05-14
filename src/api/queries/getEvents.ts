@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 import { client } from '../client';
-import { Event, EventConnection } from '../gql/graphql';
+import type { IEvent, IEventConnection } from '../manual-types';
 
-export const getEvents = async (): Promise<Event[]> => {
+export const getEvents = async (): Promise<IEvent[]> => {
 	const query = gql`
 		query getEvents {
 			events(first: 1000, where: { status: PUBLISH }) {
@@ -23,7 +23,7 @@ export const getEvents = async (): Promise<Event[]> => {
 		}
 	`;
 
-	const response: { events: EventConnection } = await client.request(query);
+	const response: { events: IEventConnection } = await client.request(query);
 
 	return response.events.nodes;
 };

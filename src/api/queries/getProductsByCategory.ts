@@ -40,5 +40,8 @@ export const getProductsByCategory = async (
 		products: { edges: { node: ExtendedProduct }[] };
 	} = await client.request(query, { categorySlug });
 
-	return response.products.edges.map(({ node }) => ({ ...node, category: node.productCategories?.nodes[0].slug }));
+	return response.products.edges.map(({ node }) => ({
+		...node,
+		category: node.productCategories?.nodes[0].slug,
+	}));
 };
