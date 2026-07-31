@@ -9,11 +9,18 @@ RUN apt-get update && apt-get install -y \
     # Install WP-CLI
     && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
-    && mv wp-cli.phar /usr/local/bin/wp \
-    # Install Composer
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    # Install rclone
-    && curl https://rclone.org/install.sh | bash
+    && mv wp-cli.phar /usr/local/bin/wp
+
+# Pre-download and extract plugins at build time (baked into the image)
+RUN mkdir -p /usr/src/wordpress/wp-content/plugins \
+    && for p in woocommerce advanced-custom-fields autodescription filebird updraftplus organize-media-folder pods wp-graphql; do \
+        curl -fsSL -o "/tmp/${p}.zip" "https://downloads.wordpress.org/plugin/${p}.zip" \
+        && unzip -q "/tmp/${p}.zip" -d /usr/src/wordpress/wp-content/plugins/ \
+        && rm -f "/tmp/${p}.zip"; \
+    done \
+    && curl -fsSL -o /tmp/wpgql-woo.zip "https://github.com/wp-graphql/wp-graphql-woocommerce/releases/download/v1.0.3/wp-graphql-woocommerce.zip" \
+    && unzip -q /tmp/wpgql-woo.zip -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm -f /tmp/wpgql-woo.zip
 
 # Copy application files
 COPY wordpress/themes /usr/src/wordpress/wp-content/themes/
@@ -21,7 +28,7 @@ COPY wordpress/mu-plugins /usr/src/wordpress/wp-content/mu-plugins/
 COPY wordpress/setup.sh /usr/local/bin/setup-wordpress.sh
 COPY wordpress/entrypoint.sh /usr/local/bin/custom-entrypoint.sh
 
-# ⚠️ CRITICAL: Normalize line endings AND set executable
+# Normalize line endings and set executable
 RUN sed -i 's/\r$//' /usr/local/bin/custom-entrypoint.sh /usr/local/bin/setup-wordpress.sh \
     && chmod +x /usr/local/bin/custom-entrypoint.sh /usr/local/bin/setup-wordpress.sh
 

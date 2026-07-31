@@ -1404,6 +1404,11 @@ input CategoryToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -1441,6 +1446,9 @@ input CategoryToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -1543,6 +1551,11 @@ input CategoryToPostConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -1599,6 +1612,9 @@ input CategoryToPostConnectionWhereArgs {
   """Array of tag slugs, used to include objects in ANY specified tags"""
   tagSlugIn: [String]
 
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
+
   """Title of the object"""
   title: String
 }
@@ -1626,6 +1642,11 @@ input CheckoutInput {
   This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.
   """
   clientMutationId: String
+
+  """
+  Source of the order. Useful when WooCommerce is driven from multiple sources. Defaults to "checkout".
+  """
+  createdVia: String
 
   """Order customer note"""
   customerNote: String
@@ -2781,6 +2802,14 @@ interface ContentTemplate {
   templateName: String
 }
 
+"""
+The templates that can be assigned to content. Used to filter a connection by the template its content uses.
+"""
+enum ContentTemplateEnum {
+  """The default template, applied when no specific template is assigned."""
+  DEFAULT_TEMPLATE
+}
+
 """An Post Type object"""
 type ContentType implements Node & UniformResourceIdentifiable {
   """Whether this content type should can be exported."""
@@ -2994,6 +3023,12 @@ enum ContentTypeEnum {
   ATTACHMENT
 
   """The Type of Content object"""
+  EVENT
+
+  """The Type of Content object"""
+  GALLERY
+
+  """The Type of Content object"""
   PAGE
 
   """The Type of Content object"""
@@ -3076,6 +3111,11 @@ input ContentTypeToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -3113,6 +3153,9 @@ input ContentTypeToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -5225,6 +5268,94 @@ type CreateCouponPayload {
   coupon: Coupon
 }
 
+"""Input for the createEvent mutation."""
+input CreateEventInput {
+  """
+  This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """The content of the object"""
+  content: String
+
+  """
+  The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17 
+  """
+  date: String
+
+  """
+  A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types.
+  """
+  menuOrder: Int
+
+  """The password used to protect the content of the object"""
+  password: String
+
+  """The slug of the object"""
+  slug: String
+
+  """The status of the object"""
+  status: PostStatusEnum
+
+  """The title of the object"""
+  title: String
+}
+
+"""The payload for the createEvent mutation."""
+type CreateEventPayload {
+  """
+  If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """The Post object mutation type."""
+  event: Event
+}
+
+"""Input for the createGallery mutation."""
+input CreateGalleryInput {
+  """
+  This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """The content of the object"""
+  content: String
+
+  """
+  The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17 
+  """
+  date: String
+
+  """
+  A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types.
+  """
+  menuOrder: Int
+
+  """The password used to protect the content of the object"""
+  password: String
+
+  """The slug of the object"""
+  slug: String
+
+  """The status of the object"""
+  status: PostStatusEnum
+
+  """The title of the object"""
+  title: String
+}
+
+"""The payload for the createGallery mutation."""
+type CreateGalleryPayload {
+  """
+  If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """The Post object mutation type."""
+  gallery: Gallery
+}
+
 """Input for the createMediaItem mutation."""
 input CreateMediaItemInput {
   """Alternative text to display when mediaItem is not displayed"""
@@ -5298,6 +5429,11 @@ input CreateOrderInput {
 
   """Coupons codes to be applied to order"""
   coupons: [String]
+
+  """
+  Source of the order. Useful when WooCommerce is driven from multiple sources. Defaults to "graphql-api".
+  """
+  createdVia: String
 
   """Currency the order was created with, in ISO format."""
   currency: CurrencyEnum
@@ -7347,8 +7483,17 @@ input DateInput {
   """Day of the month (from 1 to 31)"""
   day: Int
 
+  """Hour of the day (from 0 to 23)"""
+  hour: Int
+
+  """Minute of the hour (from 0 to 59)"""
+  minute: Int
+
   """Month number (from 1 to 12)"""
   month: Int
+
+  """Second of the minute (from 0 to 59)"""
+  second: Int
 
   """4 digit year (e.g. 2017)"""
   year: Int
@@ -7483,6 +7628,72 @@ type DeleteCouponPayload {
 
   """"""
   coupon: Coupon
+}
+
+"""Input for the deleteEvent mutation."""
+input DeleteEventInput {
+  """
+  This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """
+  Whether the object should be force deleted instead of being moved to the trash
+  """
+  forceDelete: Boolean
+
+  """The ID of the event to delete"""
+  id: ID!
+
+  """Override the edit lock when another user is editing the post"""
+  ignoreEditLock: Boolean
+}
+
+"""The payload for the deleteEvent mutation."""
+type DeleteEventPayload {
+  """
+  If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """The ID of the deleted object"""
+  deletedId: ID
+
+  """The object before it was deleted"""
+  event: Event
+}
+
+"""Input for the deleteGallery mutation."""
+input DeleteGalleryInput {
+  """
+  This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """
+  Whether the object should be force deleted instead of being moved to the trash
+  """
+  forceDelete: Boolean
+
+  """The ID of the gallery to delete"""
+  id: ID!
+
+  """Override the edit lock when another user is editing the post"""
+  ignoreEditLock: Boolean
+}
+
+"""The payload for the deleteGallery mutation."""
+type DeleteGalleryPayload {
+  """
+  If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """The ID of the deleted object"""
+  deletedId: ID
+
+  """The object before it was deleted"""
+  gallery: Gallery
 }
 
 """Input for the deleteMediaItem mutation."""
@@ -8149,7 +8360,7 @@ enum DiscountTypeEnum {
 }
 
 """The discussion setting type"""
-type DiscussionSettings {
+type DiscussionSettings implements Node {
   """Allow people to submit comments on new posts."""
   defaultCommentStatus: String
 
@@ -8157,6 +8368,9 @@ type DiscussionSettings {
   Allow link notifications from other blogs (pingbacks and trackbacks) on new articles.
   """
   defaultPingStatus: String
+
+  """The globally unique identifier of the settings group."""
+  id: ID!
 }
 
 """A downloadable item"""
@@ -8535,6 +8749,345 @@ interface EnqueuedStylesheetConnectionPageInfo implements PageInfo & WPPageInfo 
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
+}
+
+"""Мероприятия"""
+type Event implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithContentEditor & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable {
+  """The ancestors of the content node."""
+  ancestors(
+    """
+    Cursor used along with the "first" argument to reference where in the dataset to get data
+    """
+    after: String
+
+    """
+    Cursor used along with the "last" argument to reference where in the dataset to get data
+    """
+    before: String
+
+    """The number of items to return after the referenced "after" cursor"""
+    first: Int
+
+    """The number of items to return before the referenced "before" cursor"""
+    last: Int
+  ): EventToEventConnection @deprecated(reason: "This content type is not hierarchical and typically will not have ancestors")
+
+  """The content of the post."""
+  content(
+    """Format of the field output"""
+    format: PostObjectFieldFormatEnum
+  ): String
+
+  """Connection between the ContentNode type and the ContentType type"""
+  contentType: ContentNodeToContentTypeConnectionEdge
+
+  """The name of the Content Type the node belongs to"""
+  contentTypeName: String!
+
+  """The unique identifier stored in the database"""
+  databaseId: Int!
+
+  """Post publishing date."""
+  date: String
+
+  """The publishing date set in GMT."""
+  dateGmt: String
+
+  """The desired slug of the post"""
+  desiredSlug: String
+
+  """
+  If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds
+  """
+  editingLockedBy: ContentNodeToEditLockConnectionEdge
+
+  """The RSS enclosure for the object"""
+  enclosure: String
+
+  """Connection between the ContentNode type and the EnqueuedScript type"""
+  enqueuedScripts(
+    """
+    Cursor used along with the "first" argument to reference where in the dataset to get data
+    """
+    after: String
+
+    """
+    Cursor used along with the "last" argument to reference where in the dataset to get data
+    """
+    before: String
+
+    """The number of items to return after the referenced "after" cursor"""
+    first: Int
+
+    """The number of items to return before the referenced "before" cursor"""
+    last: Int
+  ): ContentNodeToEnqueuedScriptConnection
+
+  """
+  Connection between the ContentNode type and the EnqueuedStylesheet type
+  """
+  enqueuedStylesheets(
+    """
+    Cursor used along with the "first" argument to reference where in the dataset to get data
+    """
+    after: String
+
+    """
+    Cursor used along with the "last" argument to reference where in the dataset to get data
+    """
+    before: String
+
+    """The number of items to return after the referenced "after" cursor"""
+    first: Int
+
+    """The number of items to return before the referenced "before" cursor"""
+    last: Int
+  ): ContentNodeToEnqueuedStylesheetConnection
+
+  """The id field matches the WP_Post-&gt;ID field."""
+  eventId: Int! @deprecated(reason: "Deprecated in favor of the databaseId field")
+
+  """"""
+  eventdate(
+    """Format of the field output"""
+    format: PostObjectFieldFormatEnum
+  ): String
+
+  """"""
+  eventdescription(
+    """Format of the field output"""
+    format: PostObjectFieldFormatEnum
+  ): String
+
+  """Connection between the event type and the mediaItem type"""
+  eventimage: Event_eventimage_connectionEdge
+
+  """"""
+  eventname(
+    """Format of the field output"""
+    format: PostObjectFieldFormatEnum
+  ): String
+
+  """
+  The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
+  """
+  guid: String
+
+  """Whether the event object is password protected."""
+  hasPassword: Boolean
+
+  """The globally unique identifier of the event object."""
+  id: ID!
+
+  """Whether the node is a Comment"""
+  isComment: Boolean!
+
+  """Whether the node is a Content Node"""
+  isContentNode: Boolean!
+
+  """Whether the node represents the front page."""
+  isFrontPage: Boolean!
+
+  """Whether  the node represents the blog page."""
+  isPostsPage: Boolean!
+
+  """Whether the object is a node in the preview state"""
+  isPreview: Boolean
+
+  """Whether the object is restricted from the current viewer"""
+  isRestricted: Boolean
+
+  """Whether the node is a Term"""
+  isTermNode: Boolean!
+
+  """The user that most recently edited the node"""
+  lastEditedBy: ContentNodeToEditLastConnectionEdge
+
+  """The permalink of the post"""
+  link: String
+
+  """
+  The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time.
+  """
+  modified: String
+
+  """
+  The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT.
+  """
+  modifiedGmt: String
+
+  """The parent of the content node."""
+  parent: EventToParentConnectionEdge @deprecated(reason: "This content type is not hierarchical and typically will not have a parent")
+
+  """The password for the event object."""
+  password: String
+
+  """Connection between the event type and the event type"""
+  preview: EventToPreviewConnectionEdge
+
+  """The database id of the preview node"""
+  previewRevisionDatabaseId: Int
+
+  """Whether the object is a node in the preview state"""
+  previewRevisionId: ID
+
+  """
+  The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
+  """
+  slug: String
+
+  """The current status of the object"""
+  status: String
+
+  """The template assigned to the node"""
+  template: ContentTemplate
+
+  """
+  The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
+  """
+  title(
+    """Format of the field output"""
+    format: PostObjectFieldFormatEnum
+  ): String
+
+  """The unique resource identifier path"""
+  uri: String
+}
+
+"""
+A paginated collection of event Nodes, Supports cursor-based pagination and filtering to efficiently retrieve sets of event Nodes
+"""
+interface EventConnection implements Connection {
+  """
+  A list of edges (relational context) between RootQuery and connected event Nodes
+  """
+  edges: [EventConnectionEdge!]!
+
+  """A list of connected event Nodes"""
+  nodes: [Event!]!
+
+  """Information about pagination in a connection."""
+  pageInfo: EventConnectionPageInfo!
+}
+
+"""
+Represents a connection to a event. Contains both the event Node and metadata about the relationship.
+"""
+interface EventConnectionEdge implements Edge {
+  """
+  Opaque reference to the nodes position in the connection. Value can be used with pagination args.
+  """
+  cursor: String
+
+  """The connected event Node"""
+  node: Event!
+}
+
+"""
+Pagination metadata specific to &quot;EventConnectionEdge&quot; collections. Provides cursors and flags for navigating through sets of &quot;EventConnectionEdge&quot; Nodes.
+"""
+interface EventConnectionPageInfo implements PageInfo & WPPageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+"""
+Identifier types for retrieving a specific Event. Specifies which unique attribute is used to find an exact Event.
+"""
+enum EventIdType {
+  """Identify a resource by the Database ID."""
+  DATABASE_ID
+
+  """Identify a resource by the (hashed) Global ID."""
+  ID
+
+  """
+  Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier.
+  """
+  SLUG
+
+  """Identify a resource by the URI."""
+  URI
+}
+
+"""Connection between the event type and the event type"""
+type EventToEventConnection implements Connection & EventConnection {
+  """Edges for the EventToEventConnection connection"""
+  edges: [EventToEventConnectionEdge!]!
+
+  """The nodes of the connection, without the edges"""
+  nodes: [Event!]!
+
+  """Information about pagination in a connection."""
+  pageInfo: EventToEventConnectionPageInfo!
+}
+
+"""An edge in a connection"""
+type EventToEventConnectionEdge implements Edge & EventConnectionEdge {
+  """A cursor for use in pagination"""
+  cursor: String
+
+  """The item at the end of the edge"""
+  node: Event!
+}
+
+"""
+Pagination metadata specific to &quot;EventToEventConnection&quot; collections. Provides cursors and flags for navigating through sets of EventToEventConnection Nodes.
+"""
+type EventToEventConnectionPageInfo implements EventConnectionPageInfo & PageInfo & WPPageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+"""Connection between the event type and the event type"""
+type EventToParentConnectionEdge implements Edge & EventConnectionEdge & OneToOneConnection {
+  """
+  Opaque reference to the nodes position in the connection. Value can be used with pagination args.
+  """
+  cursor: String
+
+  """The node of the connection, without the edges"""
+  node: Event!
+}
+
+"""Connection between the event type and the event type"""
+type EventToPreviewConnectionEdge implements Edge & EventConnectionEdge & OneToOneConnection {
+  """
+  Opaque reference to the nodes position in the connection. Value can be used with pagination args.
+  """
+  cursor: String
+
+  """The node of the connection, without the edges"""
+  node: Event!
+}
+
+"""Connection between the event type and the mediaItem type"""
+type Event_eventimage_connectionEdge implements Edge & MediaItemConnectionEdge & OneToOneConnection {
+  """
+  Opaque reference to the nodes position in the connection. Value can be used with pagination args.
+  """
+  cursor: String
+
+  """The node of the connection, without the edges"""
+  node: MediaItem!
 }
 
 """A external product object"""
@@ -9379,8 +9932,372 @@ type ForgetSessionPayload {
   session: [MetaData]
 }
 
+"""The gallery type"""
+type Gallery implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithContentEditor & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable {
+  """The ancestors of the content node."""
+  ancestors(
+    """
+    Cursor used along with the "first" argument to reference where in the dataset to get data
+    """
+    after: String
+
+    """
+    Cursor used along with the "last" argument to reference where in the dataset to get data
+    """
+    before: String
+
+    """The number of items to return after the referenced "after" cursor"""
+    first: Int
+
+    """The number of items to return before the referenced "before" cursor"""
+    last: Int
+  ): GalleryToGalleryConnection @deprecated(reason: "This content type is not hierarchical and typically will not have ancestors")
+
+  """The content of the post."""
+  content(
+    """Format of the field output"""
+    format: PostObjectFieldFormatEnum
+  ): String
+
+  """Connection between the ContentNode type and the ContentType type"""
+  contentType: ContentNodeToContentTypeConnectionEdge
+
+  """The name of the Content Type the node belongs to"""
+  contentTypeName: String!
+
+  """The unique identifier stored in the database"""
+  databaseId: Int!
+
+  """Post publishing date."""
+  date: String
+
+  """The publishing date set in GMT."""
+  dateGmt: String
+
+  """The desired slug of the post"""
+  desiredSlug: String
+
+  """
+  If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds
+  """
+  editingLockedBy: ContentNodeToEditLockConnectionEdge
+
+  """The RSS enclosure for the object"""
+  enclosure: String
+
+  """Connection between the ContentNode type and the EnqueuedScript type"""
+  enqueuedScripts(
+    """
+    Cursor used along with the "first" argument to reference where in the dataset to get data
+    """
+    after: String
+
+    """
+    Cursor used along with the "last" argument to reference where in the dataset to get data
+    """
+    before: String
+
+    """The number of items to return after the referenced "after" cursor"""
+    first: Int
+
+    """The number of items to return before the referenced "before" cursor"""
+    last: Int
+  ): ContentNodeToEnqueuedScriptConnection
+
+  """
+  Connection between the ContentNode type and the EnqueuedStylesheet type
+  """
+  enqueuedStylesheets(
+    """
+    Cursor used along with the "first" argument to reference where in the dataset to get data
+    """
+    after: String
+
+    """
+    Cursor used along with the "last" argument to reference where in the dataset to get data
+    """
+    before: String
+
+    """The number of items to return after the referenced "after" cursor"""
+    first: Int
+
+    """The number of items to return before the referenced "before" cursor"""
+    last: Int
+  ): ContentNodeToEnqueuedStylesheetConnection
+
+  """The id field matches the WP_Post-&gt;ID field."""
+  galleryId: Int! @deprecated(reason: "Deprecated in favor of the databaseId field")
+
+  """
+  The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
+  """
+  guid: String
+
+  """Whether the gallery object is password protected."""
+  hasPassword: Boolean
+
+  """The globally unique identifier of the gallery object."""
+  id: ID!
+
+  """Connection between the gallery type and the mediaItem type"""
+  image(
+    """
+    Cursor used along with the "first" argument to reference where in the dataset to get data
+    """
+    after: String
+
+    """
+    Cursor used along with the "last" argument to reference where in the dataset to get data
+    """
+    before: String
+
+    """The number of items to return after the referenced "after" cursor"""
+    first: Int
+
+    """The number of items to return before the referenced "before" cursor"""
+    last: Int
+  ): Gallery_image_connection
+
+  """Whether the node is a Comment"""
+  isComment: Boolean!
+
+  """Whether the node is a Content Node"""
+  isContentNode: Boolean!
+
+  """Whether the node represents the front page."""
+  isFrontPage: Boolean!
+
+  """Whether  the node represents the blog page."""
+  isPostsPage: Boolean!
+
+  """Whether the object is a node in the preview state"""
+  isPreview: Boolean
+
+  """Whether the object is restricted from the current viewer"""
+  isRestricted: Boolean
+
+  """Whether the node is a Term"""
+  isTermNode: Boolean!
+
+  """The user that most recently edited the node"""
+  lastEditedBy: ContentNodeToEditLastConnectionEdge
+
+  """The permalink of the post"""
+  link: String
+
+  """
+  The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time.
+  """
+  modified: String
+
+  """
+  The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT.
+  """
+  modifiedGmt: String
+
+  """The parent of the content node."""
+  parent: GalleryToParentConnectionEdge @deprecated(reason: "This content type is not hierarchical and typically will not have a parent")
+
+  """The password for the gallery object."""
+  password: String
+
+  """Connection between the gallery type and the gallery type"""
+  preview: GalleryToPreviewConnectionEdge
+
+  """The database id of the preview node"""
+  previewRevisionDatabaseId: Int
+
+  """Whether the object is a node in the preview state"""
+  previewRevisionId: ID
+
+  """
+  The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table.
+  """
+  slug: String
+
+  """The current status of the object"""
+  status: String
+
+  """The template assigned to the node"""
+  template: ContentTemplate
+
+  """
+  The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
+  """
+  title(
+    """Format of the field output"""
+    format: PostObjectFieldFormatEnum
+  ): String
+
+  """The unique resource identifier path"""
+  uri: String
+}
+
+"""
+A paginated collection of gallery Nodes, Supports cursor-based pagination and filtering to efficiently retrieve sets of gallery Nodes
+"""
+interface GalleryConnection implements Connection {
+  """
+  A list of edges (relational context) between RootQuery and connected gallery Nodes
+  """
+  edges: [GalleryConnectionEdge!]!
+
+  """A list of connected gallery Nodes"""
+  nodes: [Gallery!]!
+
+  """Information about pagination in a connection."""
+  pageInfo: GalleryConnectionPageInfo!
+}
+
+"""
+Represents a connection to a gallery. Contains both the gallery Node and metadata about the relationship.
+"""
+interface GalleryConnectionEdge implements Edge {
+  """
+  Opaque reference to the nodes position in the connection. Value can be used with pagination args.
+  """
+  cursor: String
+
+  """The connected gallery Node"""
+  node: Gallery!
+}
+
+"""
+Pagination metadata specific to &quot;GalleryConnectionEdge&quot; collections. Provides cursors and flags for navigating through sets of &quot;GalleryConnectionEdge&quot; Nodes.
+"""
+interface GalleryConnectionPageInfo implements PageInfo & WPPageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+"""
+Identifier types for retrieving a specific Gallery. Specifies which unique attribute is used to find an exact Gallery.
+"""
+enum GalleryIdType {
+  """Identify a resource by the Database ID."""
+  DATABASE_ID
+
+  """Identify a resource by the (hashed) Global ID."""
+  ID
+
+  """
+  Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier.
+  """
+  SLUG
+
+  """Identify a resource by the URI."""
+  URI
+}
+
+"""Connection between the gallery type and the gallery type"""
+type GalleryToGalleryConnection implements Connection & GalleryConnection {
+  """Edges for the GalleryToGalleryConnection connection"""
+  edges: [GalleryToGalleryConnectionEdge!]!
+
+  """The nodes of the connection, without the edges"""
+  nodes: [Gallery!]!
+
+  """Information about pagination in a connection."""
+  pageInfo: GalleryToGalleryConnectionPageInfo!
+}
+
+"""An edge in a connection"""
+type GalleryToGalleryConnectionEdge implements Edge & GalleryConnectionEdge {
+  """A cursor for use in pagination"""
+  cursor: String
+
+  """The item at the end of the edge"""
+  node: Gallery!
+}
+
+"""
+Pagination metadata specific to &quot;GalleryToGalleryConnection&quot; collections. Provides cursors and flags for navigating through sets of GalleryToGalleryConnection Nodes.
+"""
+type GalleryToGalleryConnectionPageInfo implements GalleryConnectionPageInfo & PageInfo & WPPageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+"""Connection between the gallery type and the gallery type"""
+type GalleryToParentConnectionEdge implements Edge & GalleryConnectionEdge & OneToOneConnection {
+  """
+  Opaque reference to the nodes position in the connection. Value can be used with pagination args.
+  """
+  cursor: String
+
+  """The node of the connection, without the edges"""
+  node: Gallery!
+}
+
+"""Connection between the gallery type and the gallery type"""
+type GalleryToPreviewConnectionEdge implements Edge & GalleryConnectionEdge & OneToOneConnection {
+  """
+  Opaque reference to the nodes position in the connection. Value can be used with pagination args.
+  """
+  cursor: String
+
+  """The node of the connection, without the edges"""
+  node: Gallery!
+}
+
+"""Connection between the gallery type and the mediaItem type"""
+type Gallery_image_connection implements Connection & MediaItemConnection {
+  """Edges for the gallery_image_connection connection"""
+  edges: [Gallery_image_connectionEdge!]!
+
+  """The nodes of the connection, without the edges"""
+  nodes: [MediaItem!]!
+
+  """Information about pagination in a connection."""
+  pageInfo: Gallery_image_connectionPageInfo!
+}
+
+"""An edge in a connection"""
+type Gallery_image_connectionEdge implements Edge & MediaItemConnectionEdge {
+  """A cursor for use in pagination"""
+  cursor: String
+
+  """The item at the end of the edge"""
+  node: MediaItem!
+}
+
+"""
+Pagination metadata specific to &quot;gallery_image_connection&quot; collections. Provides cursors and flags for navigating through sets of gallery_image_connection Nodes.
+"""
+type Gallery_image_connectionPageInfo implements MediaItemConnectionPageInfo & PageInfo & WPPageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
 """The general setting type"""
-type GeneralSettings {
+type GeneralSettings implements Node {
   """A date format for all date strings."""
   dateFormat: String
 
@@ -9389,6 +10306,14 @@ type GeneralSettings {
 
   """This address is used for admin purposes, like new user notification."""
   email: String
+
+  """
+  The address at which visitors reach the site&#039;s front end. Can differ from the `url` field when the front end and the content management backend are served from different addresses, such as on headless or decoupled installs.
+  """
+  homeUrl: String
+
+  """The globally unique identifier of the settings group."""
+  id: ID!
 
   """WordPress locale code."""
   language: String
@@ -10825,6 +11750,11 @@ input HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -10862,6 +11792,9 @@ input HierarchicalContentNodeToContentNodeAncestorsConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -10930,6 +11863,11 @@ input HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -10967,6 +11905,9 @@ input HierarchicalContentNodeToContentNodeChildrenConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -12533,7 +13474,7 @@ enum MenuItemNodeIdTypeEnum {
 }
 
 """Deprecated in favor of MenuItemLinkable Interface"""
-union MenuItemObjectUnion = Category | Page | Post | ProductBrand | ProductCategory | ProductTag | Tag
+union MenuItemObjectUnion = Category | Event | Gallery | Page | Post | ProductBrand | ProductCategory | ProductTag | Tag
 
 """Connection between the MenuItem type and the Menu type"""
 type MenuItemToMenuConnectionEdge implements Edge & MenuConnectionEdge & OneToOneConnection {
@@ -14844,6 +15785,11 @@ input PageToRevisionConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -14881,6 +15827,9 @@ input PageToRevisionConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -15014,6 +15963,21 @@ interface PaymentTokenInterface implements Node {
 
   """Token type"""
   type: String!
+}
+
+"""The permalink setting type"""
+type PermalinkSettings implements Node {
+  """The prefix used in the URLs of category archive pages."""
+  categoryBase: String
+
+  """The globally unique identifier of the settings group."""
+  id: ID!
+
+  """The structure used to build the URLs for content on the site."""
+  structure: String
+
+  """The prefix used in the URLs of tag archive pages."""
+  tagBase: String
 }
 
 """An plugin object"""
@@ -15843,6 +16807,11 @@ input PostFormatToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -15880,6 +16849,9 @@ input PostFormatToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -15971,6 +16943,11 @@ input PostFormatToPostConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -16026,6 +17003,9 @@ input PostFormatToPostConnectionWhereArgs {
 
   """Array of tag slugs, used to include objects in ANY specified tags"""
   tagSlugIn: [String]
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -16184,17 +17164,11 @@ enum PostStatusEnum {
   """Content that is saved but not yet published or visible to the public"""
   DRAFT
 
-  """Objects with the failed status"""
-  FAILED
-
   """Objects with the future status"""
   FUTURE
 
   """Content that inherits its status from a parent object"""
   INHERIT
-
-  """Objects with the in-progress status"""
-  IN_PROGRESS
 
   """Content awaiting review before publication"""
   PENDING
@@ -16548,7 +17522,7 @@ type PostToParentConnectionEdge implements Edge & OneToOneConnection & PostConne
   cursor: String
 
   """The node of the connection, without the edges"""
-  node: Post! @deprecated(reason: "This content type is not hierarchical and typically will not have a parent")
+  node: Post!
 }
 
 """Connection between the post type and the post type"""
@@ -16566,10 +17540,10 @@ type PostToPostConnection implements Connection & PostConnection {
 """An edge in a connection"""
 type PostToPostConnectionEdge implements Edge & PostConnectionEdge {
   """A cursor for use in pagination"""
-  cursor: String @deprecated(reason: "This content type is not hierarchical and typically will not have ancestors")
+  cursor: String
 
   """The item at the end of the edge"""
-  node: Post! @deprecated(reason: "This content type is not hierarchical and typically will not have ancestors")
+  node: Post!
 }
 
 """
@@ -16809,6 +17783,11 @@ input PostToRevisionConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -16864,6 +17843,9 @@ input PostToRevisionConnectionWhereArgs {
 
   """Array of tag slugs, used to include objects in ANY specified tags"""
   tagSlugIn: [String]
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -18378,6 +19360,9 @@ type ProductBrand implements DatabaseIdentifier & HierarchicalNode & Hierarchica
   """The globally unique ID for the object"""
   id: ID!
 
+  """Product brand image"""
+  image: MediaItem
+
   """Whether the node is a Comment"""
   isComment: Boolean!
 
@@ -18618,6 +19603,11 @@ input ProductBrandToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -18655,6 +19645,9 @@ input ProductBrandToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -18888,6 +19881,11 @@ input ProductBrandToProductConnectionWhereArgs {
   """Limit result set to specific ids."""
   include: [Int]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Limit result set to products based on a maximum price."""
   maxPrice: Float
 
@@ -19009,6 +20007,9 @@ input ProductBrandToProductConnectionWhereArgs {
 
   """Limit result set with complex set of taxonomy filters."""
   taxonomyFilter: ProductTaxonomyInput
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -19449,6 +20450,11 @@ input ProductCategoryToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -19486,6 +20492,9 @@ input ProductCategoryToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -19767,6 +20776,11 @@ input ProductCategoryToProductConnectionWhereArgs {
   """Limit result set to specific ids."""
   include: [Int]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Limit result set to products based on a maximum price."""
   maxPrice: Float
 
@@ -19888,6 +20902,9 @@ input ProductCategoryToProductConnectionWhereArgs {
 
   """Limit result set with complex set of taxonomy filters."""
   taxonomyFilter: ProductTaxonomyInput
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -20314,6 +21331,11 @@ input ProductTagToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -20351,6 +21373,9 @@ input ProductTagToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -20447,6 +21472,11 @@ input ProductTagToProductConnectionWhereArgs {
 
   """Limit result set to specific ids."""
   include: [Int]
+
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
 
   """Limit result set to products based on a maximum price."""
   maxPrice: Float
@@ -20569,6 +21599,9 @@ input ProductTagToProductConnectionWhereArgs {
 
   """Limit result set with complex set of taxonomy filters."""
   taxonomyFilter: ProductTaxonomyInput
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -20998,6 +22031,11 @@ input ProductToMediaItemConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -21035,6 +22073,9 @@ input ProductToMediaItemConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -22759,6 +23800,11 @@ input ProductTypeToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -22796,6 +23842,9 @@ input ProductTypeToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -22892,6 +23941,11 @@ input ProductTypeToProductConnectionWhereArgs {
 
   """Limit result set to specific ids."""
   include: [Int]
+
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
 
   """Limit result set to products based on a maximum price."""
   maxPrice: Float
@@ -23014,6 +24068,9 @@ input ProductTypeToProductConnectionWhereArgs {
 
   """Limit result set with complex set of taxonomy filters."""
   taxonomyFilter: ProductTaxonomyInput
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -25009,7 +26066,10 @@ type RatingCount {
 }
 
 """The reading setting type"""
-type ReadingSettings {
+type ReadingSettings implements Node {
+  """The globally unique identifier of the settings group."""
+  id: ID!
+
   """The ID of the page that should display the latest posts"""
   pageForPosts: Int
 
@@ -25537,6 +26597,18 @@ type RootMutation {
     input: CreateCouponInput!
   ): CreateCouponPayload
 
+  """The createEvent mutation"""
+  createEvent(
+    """Input for the createEvent mutation"""
+    input: CreateEventInput!
+  ): CreateEventPayload
+
+  """The createGallery mutation"""
+  createGallery(
+    """Input for the createGallery mutation"""
+    input: CreateGalleryInput!
+  ): CreateGalleryPayload
+
   """The createMediaItem mutation"""
   createMediaItem(
     """Input for the createMediaItem mutation"""
@@ -25686,6 +26758,18 @@ type RootMutation {
     """Input for the deleteCoupon mutation"""
     input: DeleteCouponInput!
   ): DeleteCouponPayload
+
+  """The deleteEvent mutation"""
+  deleteEvent(
+    """Input for the deleteEvent mutation"""
+    input: DeleteEventInput!
+  ): DeleteEventPayload
+
+  """The deleteGallery mutation"""
+  deleteGallery(
+    """Input for the deleteGallery mutation"""
+    input: DeleteGalleryInput!
+  ): DeleteGalleryPayload
 
   """The deleteMediaItem mutation"""
   deleteMediaItem(
@@ -25950,6 +27034,18 @@ type RootMutation {
     """Input for the updateCustomer mutation"""
     input: UpdateCustomerInput!
   ): UpdateCustomerPayload
+
+  """The updateEvent mutation"""
+  updateEvent(
+    """Input for the updateEvent mutation"""
+    input: UpdateEventInput!
+  ): UpdateEventPayload
+
+  """The updateGallery mutation"""
+  updateGallery(
+    """Input for the updateGallery mutation"""
+    input: UpdateGalleryInput!
+  ): UpdateGalleryPayload
 
   """The updateItemQuantities mutation"""
   updateItemQuantities(
@@ -26373,6 +27469,57 @@ type RootQuery {
   """Fields of the &#039;DiscussionSettings&#039; settings group"""
   discussionSettings: DiscussionSettings
 
+  """An object of the event Type. Мероприятия"""
+  event(
+    """
+    Whether to return the Preview Node instead of the Published Node. When the ID of a Node is provided along with asPreview being set to true, the preview node with un-published changes will be returned instead of the published node. If no preview node exists or the requester doesn't have proper capabilities to preview, no node will be returned. If the ID provided is a URI and has a preview query arg, it will be used as a fallback if the "asPreview" argument is not explicitly provided as an argument.
+    """
+    asPreview: Boolean
+
+    """The globally unique identifier of the object."""
+    id: ID!
+
+    """Type of unique identifier to fetch by. Default is Global ID"""
+    idType: EventIdType
+  ): Event
+
+  """A event object"""
+  eventBy(
+    """Get the event by its database ID"""
+    eventId: Int
+
+    """Get the event object by its global ID"""
+    id: ID
+
+    """Get the event by its slug (only available for non-hierarchical types)"""
+    slug: String
+
+    """Get the event by its uri"""
+    uri: String
+  ): Event @deprecated(reason: "Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)")
+
+  """Connection between the RootQuery type and the event type"""
+  events(
+    """
+    Cursor used along with the "first" argument to reference where in the dataset to get data
+    """
+    after: String
+
+    """
+    Cursor used along with the "last" argument to reference where in the dataset to get data
+    """
+    before: String
+
+    """The number of items to return after the referenced "after" cursor"""
+    first: Int
+
+    """The number of items to return before the referenced "before" cursor"""
+    last: Int
+
+    """Arguments for filtering the connection"""
+    where: RootQueryToEventConnectionWhereArgs
+  ): RootQueryToEventConnection
+
   """A external product object"""
   externalProduct(
     """The ID for identifying the ExternalProduct product"""
@@ -26381,6 +27528,59 @@ type RootQuery {
     """Type of ID being used identify product"""
     idType: ProductIdTypeEnum
   ): ExternalProduct @deprecated(reason: "Use &quot;product&quot; instead.")
+
+  """Connection between the RootQuery type and the gallery type"""
+  galleries(
+    """
+    Cursor used along with the "first" argument to reference where in the dataset to get data
+    """
+    after: String
+
+    """
+    Cursor used along with the "last" argument to reference where in the dataset to get data
+    """
+    before: String
+
+    """The number of items to return after the referenced "after" cursor"""
+    first: Int
+
+    """The number of items to return before the referenced "before" cursor"""
+    last: Int
+
+    """Arguments for filtering the connection"""
+    where: RootQueryToGalleryConnectionWhereArgs
+  ): RootQueryToGalleryConnection
+
+  """An object of the gallery Type. """
+  gallery(
+    """
+    Whether to return the Preview Node instead of the Published Node. When the ID of a Node is provided along with asPreview being set to true, the preview node with un-published changes will be returned instead of the published node. If no preview node exists or the requester doesn't have proper capabilities to preview, no node will be returned. If the ID provided is a URI and has a preview query arg, it will be used as a fallback if the "asPreview" argument is not explicitly provided as an argument.
+    """
+    asPreview: Boolean
+
+    """The globally unique identifier of the object."""
+    id: ID!
+
+    """Type of unique identifier to fetch by. Default is Global ID"""
+    idType: GalleryIdType
+  ): Gallery
+
+  """A gallery object"""
+  galleryBy(
+    """Get the gallery by its database ID"""
+    galleryId: Int
+
+    """Get the gallery object by its global ID"""
+    id: ID
+
+    """
+    Get the gallery by its slug (only available for non-hierarchical types)
+    """
+    slug: String
+
+    """Get the gallery by its uri"""
+    uri: String
+  ): Gallery @deprecated(reason: "Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)")
 
   """Fields of the &#039;GeneralSettings&#039; settings group"""
   generalSettings: GeneralSettings
@@ -26625,6 +27825,9 @@ type RootQuery {
     """Arguments for filtering the connection"""
     where: RootQueryToPaymentGatewayConnectionWhereArgs
   ): RootQueryToPaymentGatewayConnection
+
+  """Fields of the &#039;PermalinkSettings&#039; settings group"""
+  permalinkSettings: PermalinkSettings
 
   """A WordPress plugin"""
   plugin(
@@ -27735,6 +28938,11 @@ input RootQueryToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -27772,6 +28980,9 @@ input RootQueryToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -28018,6 +29229,214 @@ type RootQueryToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStyleshe
   startCursor: String
 }
 
+"""Connection between the RootQuery type and the event type"""
+type RootQueryToEventConnection implements Connection & EventConnection {
+  """Edges for the RootQueryToEventConnection connection"""
+  edges: [RootQueryToEventConnectionEdge!]!
+
+  """The nodes of the connection, without the edges"""
+  nodes: [Event!]!
+
+  """Information about pagination in a connection."""
+  pageInfo: RootQueryToEventConnectionPageInfo!
+}
+
+"""An edge in a connection"""
+type RootQueryToEventConnectionEdge implements Edge & EventConnectionEdge {
+  """A cursor for use in pagination"""
+  cursor: String
+
+  """The item at the end of the edge"""
+  node: Event!
+}
+
+"""
+Pagination metadata specific to &quot;RootQueryToEventConnection&quot; collections. Provides cursors and flags for navigating through sets of RootQueryToEventConnection Nodes.
+"""
+type RootQueryToEventConnectionPageInfo implements EventConnectionPageInfo & PageInfo & WPPageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+"""Arguments for filtering the RootQueryToEventConnection connection"""
+input RootQueryToEventConnectionWhereArgs {
+  """Filter the connection based on dates"""
+  dateQuery: DateQueryInput
+
+  """
+  True for objects with passwords; False for objects without passwords; null for all objects with or without passwords
+  """
+  hasPassword: Boolean
+
+  """Specific database ID of the object"""
+  id: Int
+
+  """Array of IDs for the objects to retrieve"""
+  in: [ID]
+
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
+  """Get objects with a specific mimeType property"""
+  mimeType: MimeTypeEnum
+
+  """Slug / post_name of the object"""
+  name: String
+
+  """Specify objects to retrieve. Use slugs"""
+  nameIn: [String]
+
+  """
+  Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored
+  """
+  notIn: [ID]
+
+  """What parameter to use to order the objects by."""
+  orderby: [PostObjectsConnectionOrderbyInput]
+
+  """Use ID to return only children. Use 0 to return only top-level items"""
+  parent: ID
+
+  """Specify objects whose parent is in an array"""
+  parentIn: [ID]
+
+  """Specify posts whose parent is not in an array"""
+  parentNotIn: [ID]
+
+  """Show posts with a specific password."""
+  password: String
+
+  """Show Posts based on a keyword search"""
+  search: String
+
+  """Retrieve posts where post status is in an array."""
+  stati: [PostStatusEnum]
+
+  """Show posts with a specific status."""
+  status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
+
+  """Title of the object"""
+  title: String
+}
+
+"""Connection between the RootQuery type and the gallery type"""
+type RootQueryToGalleryConnection implements Connection & GalleryConnection {
+  """Edges for the RootQueryToGalleryConnection connection"""
+  edges: [RootQueryToGalleryConnectionEdge!]!
+
+  """The nodes of the connection, without the edges"""
+  nodes: [Gallery!]!
+
+  """Information about pagination in a connection."""
+  pageInfo: RootQueryToGalleryConnectionPageInfo!
+}
+
+"""An edge in a connection"""
+type RootQueryToGalleryConnectionEdge implements Edge & GalleryConnectionEdge {
+  """A cursor for use in pagination"""
+  cursor: String
+
+  """The item at the end of the edge"""
+  node: Gallery!
+}
+
+"""
+Pagination metadata specific to &quot;RootQueryToGalleryConnection&quot; collections. Provides cursors and flags for navigating through sets of RootQueryToGalleryConnection Nodes.
+"""
+type RootQueryToGalleryConnectionPageInfo implements GalleryConnectionPageInfo & PageInfo & WPPageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+"""Arguments for filtering the RootQueryToGalleryConnection connection"""
+input RootQueryToGalleryConnectionWhereArgs {
+  """Filter the connection based on dates"""
+  dateQuery: DateQueryInput
+
+  """
+  True for objects with passwords; False for objects without passwords; null for all objects with or without passwords
+  """
+  hasPassword: Boolean
+
+  """Specific database ID of the object"""
+  id: Int
+
+  """Array of IDs for the objects to retrieve"""
+  in: [ID]
+
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
+  """Get objects with a specific mimeType property"""
+  mimeType: MimeTypeEnum
+
+  """Slug / post_name of the object"""
+  name: String
+
+  """Specify objects to retrieve. Use slugs"""
+  nameIn: [String]
+
+  """
+  Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored
+  """
+  notIn: [ID]
+
+  """What parameter to use to order the objects by."""
+  orderby: [PostObjectsConnectionOrderbyInput]
+
+  """Use ID to return only children. Use 0 to return only top-level items"""
+  parent: ID
+
+  """Specify objects whose parent is in an array"""
+  parentIn: [ID]
+
+  """Specify posts whose parent is not in an array"""
+  parentNotIn: [ID]
+
+  """Show posts with a specific password."""
+  password: String
+
+  """Show Posts based on a keyword search"""
+  search: String
+
+  """Retrieve posts where post status is in an array."""
+  stati: [PostStatusEnum]
+
+  """Show posts with a specific status."""
+  status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
+
+  """Title of the object"""
+  title: String
+}
+
 """
 Connection between the RootQuery type and the GlobalProductAttribute type
 """
@@ -28128,6 +29547,11 @@ input RootQueryToMediaItemConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -28165,6 +29589,9 @@ input RootQueryToMediaItemConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -28423,6 +29850,11 @@ input RootQueryToPageConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -28460,6 +29892,9 @@ input RootQueryToPageConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -28647,6 +30082,11 @@ input RootQueryToPostConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -28702,6 +30142,9 @@ input RootQueryToPostConnectionWhereArgs {
 
   """Array of tag slugs, used to include objects in ANY specified tags"""
   tagSlugIn: [String]
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -29863,6 +31306,11 @@ input RootQueryToRevisionsConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -29900,6 +31348,9 @@ input RootQueryToRevisionsConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -30875,58 +32326,70 @@ type SetDefaultPaymentMethodPayload {
 
 """All of the registered settings"""
 type Settings {
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   discussionSettingsDefaultCommentStatus: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   discussionSettingsDefaultPingStatus: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsDateFormat: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsDescription: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsEmail: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
+  generalSettingsHomeUrl: String
+
+  """Settings of the string Settings Group"""
   generalSettingsLanguage: String
 
-  """Settings of the the integer Settings Group"""
+  """Settings of the integer Settings Group"""
   generalSettingsStartOfWeek: Int
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsTimeFormat: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsTimezone: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsTitle: String
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   generalSettingsUrl: String
 
-  """Settings of the the integer Settings Group"""
+  """Settings of the string Settings Group"""
+  permalinkSettingsCategoryBase: String
+
+  """Settings of the string Settings Group"""
+  permalinkSettingsStructure: String
+
+  """Settings of the string Settings Group"""
+  permalinkSettingsTagBase: String
+
+  """Settings of the integer Settings Group"""
   readingSettingsPageForPosts: Int
 
-  """Settings of the the integer Settings Group"""
+  """Settings of the integer Settings Group"""
   readingSettingsPageOnFront: Int
 
-  """Settings of the the integer Settings Group"""
+  """Settings of the integer Settings Group"""
   readingSettingsPostsPerPage: Int
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   readingSettingsShowOnFront: String
 
-  """Settings of the the integer Settings Group"""
+  """Settings of the integer Settings Group"""
   writingSettingsDefaultCategory: Int
 
-  """Settings of the the string Settings Group"""
+  """Settings of the string Settings Group"""
   writingSettingsDefaultPostFormat: String
 
-  """Settings of the the boolean Settings Group"""
+  """Settings of the boolean Settings Group"""
   writingSettingsUseSmilies: Boolean
 }
 
@@ -31221,6 +32684,11 @@ input ShippingClassToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -31258,6 +32726,9 @@ input ShippingClassToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -31356,6 +32827,11 @@ input ShippingClassToProductConnectionWhereArgs {
 
   """Limit result set to specific ids."""
   include: [Int]
+
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
 
   """Limit result set to products based on a maximum price."""
   maxPrice: Float
@@ -31479,6 +32955,9 @@ input ShippingClassToProductConnectionWhereArgs {
   """Limit result set with complex set of taxonomy filters."""
   taxonomyFilter: ProductTaxonomyInput
 
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
+
   """Title of the object"""
   title: String
 
@@ -31555,6 +33034,11 @@ input ShippingClassToProductVariationConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -31592,6 +33076,9 @@ input ShippingClassToProductVariationConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -33724,6 +35211,11 @@ input TagToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -33761,6 +35253,9 @@ input TagToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -33852,6 +35347,11 @@ input TagToPostConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -33907,6 +35407,9 @@ input TagToPostConnectionWhereArgs {
 
   """Array of tag slugs, used to include objects in ANY specified tags"""
   tagSlugIn: [String]
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -33986,14 +35489,8 @@ enum TaxClassEnum {
   """Inherits Tax class from cart"""
   INHERIT_CART
 
-  """"""
-  REDUCED_RATE
-
   """Standard Tax rate"""
   STANDARD
-
-  """"""
-  ZERO_RATE
 }
 
 """a tax line object"""
@@ -35185,6 +36682,106 @@ type UpdateCustomerPayload {
   customer: Customer
 }
 
+"""Input for the updateEvent mutation."""
+input UpdateEventInput {
+  """
+  This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """The content of the object"""
+  content: String
+
+  """
+  The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17 
+  """
+  date: String
+
+  """The ID of the event object"""
+  id: ID!
+
+  """Override the edit lock when another user is editing the post"""
+  ignoreEditLock: Boolean
+
+  """
+  A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types.
+  """
+  menuOrder: Int
+
+  """The password used to protect the content of the object"""
+  password: String
+
+  """The slug of the object"""
+  slug: String
+
+  """The status of the object"""
+  status: PostStatusEnum
+
+  """The title of the object"""
+  title: String
+}
+
+"""The payload for the updateEvent mutation."""
+type UpdateEventPayload {
+  """
+  If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """The Post object mutation type."""
+  event: Event
+}
+
+"""Input for the updateGallery mutation."""
+input UpdateGalleryInput {
+  """
+  This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """The content of the object"""
+  content: String
+
+  """
+  The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17 
+  """
+  date: String
+
+  """The ID of the gallery object"""
+  id: ID!
+
+  """Override the edit lock when another user is editing the post"""
+  ignoreEditLock: Boolean
+
+  """
+  A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types.
+  """
+  menuOrder: Int
+
+  """The password used to protect the content of the object"""
+  password: String
+
+  """The slug of the object"""
+  slug: String
+
+  """The status of the object"""
+  status: PostStatusEnum
+
+  """The title of the object"""
+  title: String
+}
+
+"""The payload for the updateGallery mutation."""
+type UpdateGalleryPayload {
+  """
+  If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions.
+  """
+  clientMutationId: String
+
+  """The Post object mutation type."""
+  gallery: Gallery
+}
+
 """Input for the updateItemQuantities mutation."""
 input UpdateItemQuantitiesInput {
   """
@@ -35329,6 +36926,11 @@ input UpdateOrderInput {
 
   """Coupons codes to be applied to order"""
   coupons: [String]
+
+  """
+  Source of the order. Useful when WooCommerce is driven from multiple sources. Defaults to "graphql-api".
+  """
+  createdVia: String
 
   """Currency the order was created with, in ISO format."""
   currency: CurrencyEnum
@@ -36177,9 +37779,6 @@ input UpdateSettingsInput {
   """Site title."""
   generalSettingsTitle: String
 
-  """Site URL."""
-  generalSettingsUrl: String
-
   """The ID of the page that should display the latest posts"""
   readingSettingsPageForPosts: Int
 
@@ -36217,6 +37816,9 @@ type UpdateSettingsPayload {
 
   """Update the GeneralSettings setting."""
   generalSettings: GeneralSettings
+
+  """Update the PermalinkSettings setting."""
+  permalinkSettings: PermalinkSettings
 
   """Update the ReadingSettings setting."""
   readingSettings: ReadingSettings
@@ -37047,25 +38649,31 @@ interface UserRoleConnectionPageInfo implements PageInfo & WPPageInfo {
 Permission levels for user accounts. Defines the standard access levels that control what actions users can perform within the system.
 """
 enum UserRoleEnum {
-  """User role with specific capabilities"""
+  """Full system access with ability to manage all aspects of the site."""
   ADMINISTRATOR
 
-  """User role with specific capabilities"""
+  """Can publish and manage their own content."""
   AUTHOR
 
-  """User role with specific capabilities"""
+  """Can write and manage their own content but cannot publish."""
   CONTRIBUTOR
 
   """User role with specific capabilities"""
   CUSTOMER
 
-  """User role with specific capabilities"""
+  """Content management access without administrative capabilities."""
   EDITOR
+
+  """User role with specific capabilities"""
+  SEO_EDITOR
+
+  """User role with specific capabilities"""
+  SEO_MANAGER
 
   """User role with specific capabilities"""
   SHOP_MANAGER
 
-  """User role with specific capabilities"""
+  """Can only manage their profile and read content."""
   SUBSCRIBER
 }
 
@@ -37351,6 +38959,11 @@ input UserToMediaItemConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -37388,6 +39001,9 @@ input UserToMediaItemConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -37463,6 +39079,11 @@ input UserToPageConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -37500,6 +39121,9 @@ input UserToPageConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -37591,6 +39215,11 @@ input UserToPostConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -37646,6 +39275,9 @@ input UserToPostConnectionWhereArgs {
 
   """Array of tag slugs, used to include objects in ANY specified tags"""
   tagSlugIn: [String]
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -37708,6 +39340,11 @@ input UserToRevisionsConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -37745,6 +39382,9 @@ input UserToRevisionsConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -39145,6 +40785,11 @@ input VisibleProductToContentNodeConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -39182,6 +40827,9 @@ input VisibleProductToContentNodeConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -39280,6 +40928,11 @@ input VisibleProductToProductConnectionWhereArgs {
 
   """Limit result set to specific ids."""
   include: [Int]
+
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
 
   """Limit result set to products based on a maximum price."""
   maxPrice: Float
@@ -39403,6 +41056,9 @@ input VisibleProductToProductConnectionWhereArgs {
   """Limit result set with complex set of taxonomy filters."""
   taxonomyFilter: ProductTaxonomyInput
 
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
+
   """Title of the object"""
   title: String
 
@@ -39479,6 +41135,11 @@ input VisibleProductToProductVariationConnectionWhereArgs {
   """Array of IDs for the objects to retrieve"""
   in: [ID]
 
+  """
+  True to limit the results to sticky posts; false to exclude sticky posts. Note: this filters the result set, it does not float sticky posts to the top of the results.
+  """
+  isSticky: Boolean
+
   """Get objects with a specific mimeType property"""
   mimeType: MimeTypeEnum
 
@@ -39516,6 +41177,9 @@ input VisibleProductToProductVariationConnectionWhereArgs {
 
   """Show posts with a specific status."""
   status: PostStatusEnum
+
+  """Filter the connection to content assigned a specific template."""
+  template: ContentTemplateEnum
 
   """Title of the object"""
   title: String
@@ -39883,12 +41547,15 @@ type WriteReviewPayload {
 }
 
 """The writing setting type"""
-type WritingSettings {
+type WritingSettings implements Node {
   """Default post category."""
   defaultCategory: Int
 
   """Default post format."""
   defaultPostFormat: String
+
+  """The globally unique identifier of the settings group."""
+  id: ID!
 
   """Convert emoticons like :-) and :-P to graphics on display."""
   useSmilies: Boolean

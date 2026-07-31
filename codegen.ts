@@ -14,8 +14,8 @@ const config: CodegenConfig = {
 		},
 	},
 	generates: {
-		'src/api/gql/': {
-			preset: 'client',
+		'src/api/gql/graphql.ts': {
+			plugins: ['typescript'],
 		},
 		'src/api/gql/schema.gql': {
 			plugins: ['schema-ast'],
