@@ -2,7 +2,7 @@ import { getEvents } from '@/api/products.api';
 import { CustomButton } from '@/components/CustomButton';
 import { ForwardLink } from '@/components/ForwardLink';
 import { LinkButton } from '@/components/LinkButton';
-import styles from './afisha-page.module.css';
+import styles from './AfishaPage.module.css';
 
 export default async function AfishaPage() {
 	const events = await getEvents();

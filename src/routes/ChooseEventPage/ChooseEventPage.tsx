@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { CustomButton } from '@/components/CustomButton';
 import { ForwardLink } from '@/components/ForwardLink';
-import styles from './choose-event.module.css';
+import styles from './ChooseEventPage.module.css';
 
 type EventKeys = 'all' | 'fireplace' | 'podium';
 

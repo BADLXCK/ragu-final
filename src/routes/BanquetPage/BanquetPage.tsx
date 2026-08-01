@@ -8,7 +8,7 @@ import { CustomButton } from '@/components/CustomButton';
 import { FormInput } from '@/components/FormInput';
 import { FormTextArea } from '@/components/FormTextArea';
 import { usePhoneMask } from '@/hooks/usePhoneMask';
-import styles from './banquet-page.module.css';
+import styles from './BanquetPage.module.css';
 
 export default function BanquetPage() {
 	const formRef = useRef<HTMLFormElement>(null);

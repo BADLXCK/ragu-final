@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { getSeoByUri } from '@/api/queries/getSeoByUri';
-import { CategoryPage } from '@/routes/category';
+import { CategoryPage } from '@/routes/CategoryPage';
 
 const BASE_URI = '/product-category/';
 export const revalidate = 60;

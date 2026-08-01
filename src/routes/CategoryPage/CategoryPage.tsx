@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { getCategory } from '@/api/queries/getCategory';
 import { getProductsByCategory } from '@/api/queries/getProductsByCategory';
 import { ProductListItem } from '@/components/ProductListItem';
-import styles from './category-page.module.css';
+import styles from './CategoryPage.module.css';
 
 interface CategoryPageProps {
 	params: Promise<{ category: string }>;

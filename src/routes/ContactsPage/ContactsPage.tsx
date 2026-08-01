@@ -2,7 +2,7 @@ import { ContactsFormInput } from '@/components/ContactsFormInput';
 import { CustomButton } from '@/components/CustomButton';
 import { LinkButton } from '@/components/LinkButton';
 import { YandexMap } from '@/components/YandexMap';
-import styles from './contacts-page.module.css';
+import styles from './ContactsPage.module.css';
 
 export default function ContactsPage() {
 	const currentDate = new Date();

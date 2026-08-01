@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import styles from './conditions.module.css';
+import styles from './ConditionsPage.module.css';
 
 export default function ConditionsPage() {
 	return (
