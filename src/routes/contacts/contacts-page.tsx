@@ -1,7 +1,7 @@
-import { ContactsFormInput } from '@/components/contacts-form-input';
-import { CustomButton } from '@/components/custom-button';
+import { ContactsFormInput } from '@/components/ContactsFormInput';
+import { CustomButton } from '@/components/CustomButton';
 import { LinkButton } from '@/components/LinkButton';
-import { YandexMap } from '@/components/yandex-map';
+import { YandexMap } from '@/components/YandexMap';
 import styles from './contacts-page.module.css';
 
 export default function ContactsPage() {

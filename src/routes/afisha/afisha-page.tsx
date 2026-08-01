@@ -1,6 +1,6 @@
 import { getEvents } from '@/api/products.api';
-import { CustomButton } from '@/components/custom-button';
-import { ForwardLink } from '@/components/forward-link';
+import { CustomButton } from '@/components/CustomButton';
+import { ForwardLink } from '@/components/ForwardLink';
 import { LinkButton } from '@/components/LinkButton';
 import styles from './afisha-page.module.css';
 

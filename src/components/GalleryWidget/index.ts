@@ -1,0 +1,1 @@
+export { GalleryWidget } from './GalleryWidget';

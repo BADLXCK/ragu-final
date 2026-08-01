@@ -4,9 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { sendMessageToBot } from '@/api/bot';
-import { CustomButton } from '@/components/custom-button';
-import { FormInput } from '@/components/form-input';
-import { FormTextArea } from '@/components/form-textarea';
+import { CustomButton } from '@/components/CustomButton';
+import { FormInput } from '@/components/FormInput';
+import { FormTextArea } from '@/components/FormTextArea';
 import { usePhoneMask } from '@/hooks/usePhoneMask';
 import styles from './banquet-page.module.css';
 

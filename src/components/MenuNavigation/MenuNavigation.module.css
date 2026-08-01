@@ -1,0 +1,40 @@
+.navigation {
+    color: white;
+    font-family: var(--font-montserrat);
+    font-size: 0.8rem;
+    padding: 0 10px 0 10px;
+}
+
+.navigationList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.navigationItem {
+    display: flex;
+    justify-content: center;
+    border: 1px solid var(--foreground);
+    border-radius: 3px;
+
+    &:hover,
+    &.active {
+        background-color: #432812;
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            background-color: #432812;
+        }
+    }
+}
+
+.navigationLink {
+    padding: 10px 20px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+}

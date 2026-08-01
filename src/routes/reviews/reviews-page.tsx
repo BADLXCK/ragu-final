@@ -1,5 +1,5 @@
-import { Marquee } from '@/components/marquee';
-import { IReview, Review } from '@/components/review';
+import { Marquee } from '@/components/Marquee';
+import { IReview, Review } from '@/components/Review';
 import { fiveStarReviews } from './five-star-reviews';
 import styles from './reviews-page.module.css';
 

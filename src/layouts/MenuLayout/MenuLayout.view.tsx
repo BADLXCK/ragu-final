@@ -1,7 +1,7 @@
 import { headers } from 'next/headers';
 import { PropsWithChildren } from 'react';
 import { getCategories } from '@/api/queries/getCategories';
-import { CategoriesNavigation } from '@/components/categories-navigation';
+import { MenuNavigation } from '@/components/MenuNavigation';
 import { Scrollbar } from '@/components/Scrollbar';
 import { Title } from '@/components/Title';
 import styles from './MenuLayout.module.css';
@@ -17,7 +17,7 @@ export const MenuLayout = async ({ children }: PropsWithChildren) => {
 				<Title />
 				<label className={styles.slogan}>{'выбери своё'}</label>
 				<div className={styles.navigationWrapper}>
-					<CategoriesNavigation
+					<MenuNavigation
 						categories={categories}
 						currentPath={pathname}
 					/>

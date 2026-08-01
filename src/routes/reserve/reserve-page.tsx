@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ForwardLink } from '@/components/forward-link';
-import { GalleryWidget } from '@/components/gallery-widget';
-import { ReservationForm } from '@/components/reservation-form';
+import { ForwardLink } from '@/components/ForwardLink';
+import { GalleryWidget } from '@/components/GalleryWidget';
+import { ReservationForm } from '@/components/ReservationForm';
 import styles from './reserve-page.module.css';
 
 export default function ReservePage() {

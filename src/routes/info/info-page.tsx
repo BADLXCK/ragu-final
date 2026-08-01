@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Logo } from '@/components/logo';
+import { Logo } from '@/components/Logo';
 import styles from './info-page.module.css';
 
 export default function InfoPage() {

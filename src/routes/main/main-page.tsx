@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Logo } from '@/components/logo';
+import { Logo } from '@/components/Logo';
 import styles from './main-page.module.css';
 
 export const MainPage = () => {

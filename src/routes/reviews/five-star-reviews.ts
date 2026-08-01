@@ -1,4 +1,4 @@
-import { IReview } from '@/components/review';
+import { IReview } from '@/components/Review';
 
 // Отзывы на 5 баллов из Яндекс.Карт, преобразованные в формат IReview
 export const fiveStarReviews: IReview[] = [
