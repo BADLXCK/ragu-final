@@ -30,6 +30,9 @@ const nextConfig: NextConfig = {
 		dangerouslyAllowLocalIP: true,
 		qualities: [75, 100],
 	},
+	experimental: {
+		viewTransition: true,
+	},
 };
 
 export default nextConfig;

@@ -11,7 +11,6 @@ export async function generateMetadata({
 	return await getSeoByUri(`${BASE_URI}${product}/`);
 }
 
-export const dynamicParams = true;
 export const revalidate = 60;
 
 export default ProductPage;

@@ -9,6 +9,7 @@ interface IForwardLink {
 	style?: CSSProperties;
 	className?: string;
 	src?: string;
+	transitionTypes?: string[];
 }
 
 export const ForwardLink: FC<IForwardLink> = ({
@@ -18,9 +19,10 @@ export const ForwardLink: FC<IForwardLink> = ({
 	style,
 	className,
 	src = '/forward.svg',
+	transitionTypes,
 }) => {
 	return (
-		<Link href={href}>
+		<Link href={href} transitionTypes={transitionTypes}>
 			<Image
 				src={src}
 				alt={alt}
