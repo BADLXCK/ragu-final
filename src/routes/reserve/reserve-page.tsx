@@ -9,37 +9,35 @@ export default function ReservePage() {
 	return (
 		<div className={styles.wrapper}>
 			<div className={styles.reserveTable}>
-				<h2>{'Забронировать стол'}</h2>
+				<h2>Забронировать стол</h2>
 				<span>
-					{
-						'Выберите удобную для вас время и дату. Эта информация необходима, чтобы не переживать за наличие места.'
-					}
+					Выберите удобную для вас время и дату. Эта информация
+					необходима, чтобы не переживать за наличие места.
 				</span>
 				<ReservationForm />
 			</div>
 			<div className={styles.reserveBanquet}>
 				<div className={styles.reserveBanquetText}>
-					<h2>{'Забронировать банкет'}</h2>
+					<h2>Забронировать банкет</h2>
 					<span>
-						{
-							'Организация банкетного обслуживания мероприятий любого формата.'
-						}
+						Организация банкетного обслуживания мероприятий любого
+						формата.
 					</span>
 				</div>
 				<ForwardLink
 					src="/forwardUp.svg"
-					href={'/banquet'}
-					alt={'Забронировать банкет'}
+					href="/banquet"
+					alt="Забронировать банкет"
 				/>
 			</div>
 			<div className={styles.gallery}>
-				<Link className={styles.galleryText} href={'/gallery'}>
-					<h2>{'Галерея ресторана'}</h2>
+				<Link className={styles.galleryText} href="/gallery">
+					<h2>Галерея ресторана</h2>
 					<Image
-						src={'/forwardUp.svg'}
+						src="/forwardUp.svg"
 						width={40}
 						height={40}
-						alt={'Галерея ресторана'}
+						alt="Галерея ресторана"
 					/>
 				</Link>
 				<GalleryWidget className={styles.galleryWidget} />
@@ -48,14 +46,14 @@ export default function ReservePage() {
 				<span>Локация</span>
 				<span>Кадетская линия В.О., 9 | 199004</span>
 				<span>+7 (812) 244-32-40</span>
-				<Link className={styles.contactsLink} href={'/contacts'}>
+				<Link className={styles.contactsLink} href="/contacts">
 					Как добраться
 				</Link>
 			</div>
 			<div className={styles.workingTime}>
-				<span>{'Часы работы'}</span>
-				<span>{'11:00 - 23:00 | Вс-Чт'}</span>
-				<span>{'11:00 - 01:00 | Пт-Сб'}</span>
+				<span>Часы работы</span>
+				<span>11:00 - 23:00 | Вс-Чт</span>
+				<span>11:00 - 01:00 | Пт-Сб</span>
 			</div>
 		</div>
 	);

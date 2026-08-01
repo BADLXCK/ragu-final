@@ -28,7 +28,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 					<ForwardLink
 						backward
 						href={`/menu/${category}/${previousProduct?.slug}`}
-						alt={'Назад'}
+						alt="Назад"
 					/>
 				)}
 			</div>
@@ -62,15 +62,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
 					>{`${productInfo.customWeight} гр.`}</div>
 				</div>
 				<div className={styles.nutrients}>
-					<span>{'БЖУ:'}</span>
+					<span>БЖУ:</span>
 					<span>{`белки: ${productInfo.customProtein}`}</span>
 					<span>{`жиры: ${productInfo.customFat}`}</span>
 					<span>{`углеводы: ${productInfo.customCarbohydrate}`}</span>
 				</div>
 				<Image
-					src={'/organic.svg'}
+					src="/organic.svg"
 					className={styles.organic}
-					alt={'Органический'}
+					alt="Органический"
 					width={57}
 					height={57}
 				/>
@@ -79,7 +79,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 				{nextProduct && (
 					<ForwardLink
 						href={`/menu/${category}/${nextProduct?.slug}`}
-						alt={'Вперед'}
+						alt="Вперед"
 					/>
 				)}
 			</div>

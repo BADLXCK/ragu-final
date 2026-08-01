@@ -76,7 +76,7 @@ export default function ChooseEventPage() {
 				</div>
 				<div className={styles.map}>
 					<Image
-						src={'/map.png'}
+						src="/map.png"
 						alt="Схема ресторана"
 						fill
 						style={{ objectFit: 'contain' }}
@@ -91,19 +91,19 @@ export default function ChooseEventPage() {
 						))}
 				</div>
 				<Link
-					href={'/banquet/choose-event/conditions'}
+					href="/banquet/choose-event/conditions"
 					className={styles.conditionsLink}
 				>
 					<span>Условия аренды</span>
 					<Image
-						src={'/forwardUp.svg'}
+						src="/forwardUp.svg"
 						width={56}
 						height={56}
-						alt={'Забронировать'}
+						alt="Забронировать"
 					/>
 				</Link>
 				<CustomButton
-					label={'Забронировать'}
+					label="Забронировать"
 					style={{ width: '70%', alignSelf: 'center' }}
 				/>
 			</div>

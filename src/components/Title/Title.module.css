@@ -1,20 +1,20 @@
 .title {
-    width: 175px;
-    height: 83px;
-    font-family: var(--font-kudry);
-    font-size: 3rem;
-    align-content: center;
-    text-align: center;
-    margin-top: 30px;
+	width: 175px;
+	height: 83px;
+	font-family: var(--font-kudry);
+	font-size: 3rem;
+	align-content: center;
+	text-align: center;
+	margin-top: 30px;
 }
 
 @media (width <= 1024px) {
-    .title {
-        position: absolute;
-        top: 0;
-        right: 0;
-        background-color: var(--background);
-        border-bottom-left-radius: 90%;
-        margin-top: 0px;
-    }
+	.title {
+		position: absolute;
+		top: 0;
+		right: 0;
+		background-color: var(--background);
+		border-bottom-left-radius: 90%;
+		margin-top: 0px;
+	}
 }

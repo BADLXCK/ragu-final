@@ -1,7 +1,6 @@
 import localFont from 'next/font/local';
 import { getNavigationItems } from '@/api/queries/getNavigationItems';
 import { Logo } from '@/components/Logo';
-import { Motto } from '@/components/Motto';
 import { MainNavigation } from '../../components/MainNavigation';
 import { Background } from './Background';
 import { Burger } from './Burger';
@@ -59,7 +58,9 @@ export async function RootLayout({
 				<Burger />
 				<div className={styles.sidebarArea}>
 					<Logo className={styles.logo} />
-					<Motto />
+					<p className={styles.motto}>
+						Место с уютной атмосферой и&nbsp;вкусной едой
+					</p>
 					<MainNavigation items={navigationItems} />
 					<Contacts />
 				</div>

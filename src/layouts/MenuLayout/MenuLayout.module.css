@@ -1,41 +1,41 @@
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
 
 .slogan {
-    font-family: var(--font-montserrat-alternates);
-    font-size: 2rem;
-    font-weight: 700;
-    margin-top: 8px;
-    text-transform: uppercase;
+	font-family: var(--font-montserrat-alternates);
+	font-size: 2rem;
+	font-weight: 700;
+	margin-top: 8px;
+	text-transform: uppercase;
 }
 
 .navigationArea {
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	align-items: center;
 }
 
 .navigationWrapper {
-    margin-top: 21px;
+	margin-top: 21px;
 }
 
 .pageArea {
-    flex: 1;
-    overflow: hidden;
-    padding-top: 20px;
+	flex: 1;
+	overflow: hidden;
+	padding-top: 20px;
 }
 
 /* Скрываем скроллбар, если внутри контента есть карточка товара */
 .wrapper:has(#product-card-context) {
-    .scrollbar {
-        display: none !important;
-    }
+	.scrollbar {
+		display: none !important;
+	}
 }
 
 .scrollbar {
-    /* Базовые стили для скроллбара, если они нужны в этом слое */
+	/* Базовые стили для скроллбара, если они нужны в этом слое */
 }

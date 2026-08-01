@@ -9,17 +9,17 @@ export default function ContactsPage() {
 	return (
 		<div className={styles.container}>
 			<div className={styles.location}>
-				<h2>{'Локация'}</h2>
+				<h2>Локация</h2>
 				<p className={styles.locationText}>
-					{'Кадетская линия В.О., 9 | 199004'}
+					Кадетская линия В.О., 9 | 199004
 				</p>
 				<p className={styles.phone}>
-					<a href="tel:+78122443240">{'+7 (812) 244-32-40'}</a>
+					<a href="tel:+78122443240">+7 (812) 244-32-40</a>
 				</p>
 			</div>
 			<div className={styles.workingTime}>
-				<h2>{'Часы работы'}</h2>
-				<p>{'11:00 - 23:00 | Пн-Вс | До последнего гостя'}</p>
+				<h2>Часы работы</h2>
+				<p>11:00 - 23:00 | Пн-Вс | До последнего гостя</p>
 			</div>
 			<div className={styles.buttons}>
 				<LinkButton
@@ -29,7 +29,7 @@ export default function ContactsPage() {
 				/>
 			</div>
 			<div className={styles.phoneSecondary}>
-				<a href="tel:+78122443240">{'+7 (812) 244-32-40'}</a>
+				<a href="tel:+78122443240">+7 (812) 244-32-40</a>
 			</div>
 			<YandexMap className={styles.map} />
 			<div className={styles.socialMedia}>
@@ -59,18 +59,18 @@ export default function ContactsPage() {
 				/>
 			</div>
 			<div className={styles.subscribe}>
-				<p>{'Подпишитесь'}</p>
-				<p>{'чтобы быть в курсе скидок и событий'}</p>
+				<p>Подпишитесь</p>
+				<p>чтобы быть в курсе скидок и событий</p>
 			</div>
 			<div className={styles.emailFormTitle}>
-				<p>{'Введите свои данные'}</p>
-				<p>{'Мы гарантируем конфиденциальность ваших данных'}</p>
+				<p>Введите свои данные</p>
+				<p>Мы гарантируем конфиденциальность ваших данных</p>
 			</div>
 			<div className={styles.emailForm}>
 				<ContactsFormInput name="name" placeholder="Имя" />
 				<ContactsFormInput name="secondName" placeholder="Фамилия" />
 				<ContactsFormInput name="email" placeholder="Email" />
-				<CustomButton label={'Подписаться'} style={{ padding: 20 }} />
+				<CustomButton label="Подписаться" style={{ padding: 20 }} />
 			</div>
 			<div className={styles.credits}>
 				{`RAGU GROUP © 2017 - ${currentDate.getFullYear()} Санкт-Петербург | ragu@mail.ru`}

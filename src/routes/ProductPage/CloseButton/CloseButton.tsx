@@ -19,7 +19,7 @@ export const CloseButton: React.FC<CloseButtonProps> = ({
 				padding: 20,
 				background: 'url(/close.svg) no-repeat center center',
 			}}
-			aria-label={'Закрыть'}
+			aria-label="Закрыть"
 		/>
 	);
 };

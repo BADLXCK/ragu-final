@@ -34,9 +34,9 @@ export default function BanquetPage() {
 	return (
 		<div className={styles.wrapper}>
 			<div className={styles.titleWrapper}>
-				<p className={styles.first}>{'Забронировать банкет'}</p>
+				<p className={styles.first}>Забронировать банкет</p>
 				<p className={styles.second}>
-					{'Мы перезвоним Вам в течение 15 минут для подтверждения'}
+					Мы перезвоним Вам в течение 15 минут для подтверждения
 				</p>
 			</div>
 			<form
@@ -45,21 +45,21 @@ export default function BanquetPage() {
 				onSubmit={handleSubmit}
 			>
 				<CustomButton
-					label={'Отправить'}
+					label="Отправить"
 					style={{ width: '100%' }}
 					className={styles.submit}
 				/>
 				<FormInput
-					label={'Имя'}
-					placeholder={'Введите имя'}
-					name={'name'}
+					label="Имя"
+					placeholder="Введите имя"
+					name="name"
 					className={styles.name}
 					required
 				/>
 				<FormInput
-					label={'Телефон'}
-					placeholder={'Введите номер телефона'}
-					name={'phone'}
+					label="Телефон"
+					placeholder="Введите номер телефона"
+					name="phone"
 					onInput={onInput}
 					required
 					onKeyDown={onKeyDown}
@@ -67,21 +67,21 @@ export default function BanquetPage() {
 					className={styles.phone}
 				/>
 				<FormTextArea
-					label={'Комментарий'}
-					placeholder={'Введите комментарий'}
-					name={'comment'}
+					label="Комментарий"
+					placeholder="Введите комментарий"
+					name="comment"
 					rows={7}
 					className={styles.comment}
 				/>
 			</form>
-			<p className={styles.choose}>{'Выбрать мероприятие'}</p>
+			<p className={styles.choose}>Выбрать мероприятие</p>
 			<Link
-				href={'/banquet/choose-event'}
+				href="/banquet/choose-event"
 				className={`${styles.event} ${styles.imageWrapper}`}
 			>
 				<Image
-					src={'/gallery/event.png'}
-					alt={'Торжественное мероприятие'}
+					src="/gallery/event.png"
+					alt="Торжественное мероприятие"
 					style={{
 						objectFit: 'cover',
 						borderRadius: '0px 0px 0px 30px',
@@ -91,61 +91,60 @@ export default function BanquetPage() {
 				/>
 				<div className={styles.imageText}>
 					<span className={styles.upper}>
-						{'Торжественное мероприятие'}
+						Торжественное мероприятие
 					</span>
 					<span className={styles.middle}>
-						{
-							'Свадьба, знаковая дата, свидание,\n все это вы можете отметить у нас'
-						}
+						Свадьба, знаковая дата, свидание,\n все это вы можете
+						отметить у нас
 					</span>
-					<span className={styles.bottom}>{'от 50 тыс. руб.'}</span>
+					<span className={styles.bottom}>от 50 тыс. руб.</span>
 				</div>
 			</Link>
 			<Link
-				href={'/banquet/choose-event'}
+				href="/banquet/choose-event"
 				className={`${styles.birthday} ${styles.imageWrapper}`}
 			>
 				<Image
-					src={'/gallery/birthday.png'}
-					alt={'День рождения'}
+					src="/gallery/birthday.png"
+					alt="День рождения"
 					style={{ objectFit: 'cover' }}
 					sizes="100vw"
 					fill
 				/>
 				<div className={styles.imageText}>
-					<span className={styles.upper}>{'День рождения'}</span>
+					<span className={styles.upper}>День рождения</span>
 					<span className={styles.middle}>
-						{'доверьте ВАШ день в НАШИ руки'}
+						доверьте ВАШ день в НАШИ руки
 					</span>
-					<span className={styles.bottom}>{'от 50 тыс. руб.'}</span>
+					<span className={styles.bottom}>от 50 тыс. руб.</span>
 				</div>
 			</Link>
 			<Link
-				href={'/banquet/choose-event'}
+				href="/banquet/choose-event"
 				className={`${styles.corporate} ${styles.imageWrapper}`}
 			>
 				<Image
-					src={'/gallery/gallery.png'}
-					alt={'Галерея'}
+					src="/gallery/gallery.png"
+					alt="Галерея"
 					style={{ objectFit: 'cover' }}
 					sizes="100vw"
 					fill
 				/>
 				<div className={styles.imageText}>
-					<span className={styles.upper}>{'Корпоратив'}</span>
+					<span className={styles.upper}>Корпоратив</span>
 					<span className={styles.middle}>
-						{'доверьте ВАШ день в НАШИ руки'}
+						доверьте ВАШ день в НАШИ руки
 					</span>
-					<span className={styles.bottom}>{'от 200 тыс. руб.'}</span>
+					<span className={styles.bottom}>от 200 тыс. руб.</span>
 				</div>
 			</Link>
 			<Link
-				href={'/banquet/choose-event'}
+				href="/banquet/choose-event"
 				className={`${styles.other} ${styles.imageWrapper}`}
 			>
 				<Image
-					src={'/gallery/other.png'}
-					alt={'Другое'}
+					src="/gallery/other.png"
+					alt="Другое"
 					style={{
 						objectFit: 'cover',
 						borderRadius: '0px 0px 30px 0px',
@@ -154,11 +153,9 @@ export default function BanquetPage() {
 					fill
 				/>
 				<div className={styles.imageText}>
-					<span className={styles.upper}>{'Другое'}</span>
-					<span className={styles.middle}>
-						{'Напишу в комментариях'}
-					</span>
-					<span className={styles.bottom}>{'от 10 тыс. руб.'}</span>
+					<span className={styles.upper}>Другое</span>
+					<span className={styles.middle}>Напишу в комментариях</span>
+					<span className={styles.bottom}>от 10 тыс. руб.</span>
 				</div>
 			</Link>
 		</div>

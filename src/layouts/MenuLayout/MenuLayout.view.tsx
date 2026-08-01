@@ -15,7 +15,7 @@ export const MenuLayout = async ({ children }: PropsWithChildren) => {
 		<div className={styles.wrapper}>
 			<div className={styles.navigationArea}>
 				<Title />
-				<label className={styles.slogan}>{'выбери своё'}</label>
+				<label className={styles.slogan}>выбери своё</label>
 				<div className={styles.navigationWrapper}>
 					<MenuNavigation
 						categories={categories}

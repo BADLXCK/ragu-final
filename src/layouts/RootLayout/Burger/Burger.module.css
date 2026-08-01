@@ -1,23 +1,23 @@
 .burger {
-    display: none;
-    background-color: transparent;
-    border: none;
-    width: 2rem;
-    height: 1.4rem;
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    z-index: 100;
-    cursor: pointer;
+	display: none;
+	background-color: transparent;
+	border: none;
+	width: 2rem;
+	height: 1.4rem;
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	z-index: 100;
+	cursor: pointer;
 
-    img {
-        width: 2rem;
-        height: 1rem;
-    }
+	img {
+		width: 2rem;
+		height: 1rem;
+	}
 }
 
 @media (width <= 1024px) {
-    .burger {
-        display: block;
-    }
+	.burger {
+		display: block;
+	}
 }

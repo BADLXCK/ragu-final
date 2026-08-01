@@ -1,9 +1,9 @@
 .wrapper {
-    font-family: var(--font-denistina);
-    font-size: 2.25rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 113px;
+	font-family: var(--font-denistina);
+	font-size: 2.25rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 113px;
 }

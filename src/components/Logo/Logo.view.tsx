@@ -8,9 +8,9 @@ interface LogoProps {
 
 export const Logo: FC<LogoProps> = ({ className }) => {
 	return (
-		<Link className={className} href={'/'}>
+		<Link className={className} href="/">
 			<Image
-				src={'/logo.svg'}
+				src="/logo.svg"
 				alt="Логотип ресторана Рагу"
 				width={0}
 				height={0}

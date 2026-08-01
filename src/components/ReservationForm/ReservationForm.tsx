@@ -33,17 +33,17 @@ export const ReservationForm: FC = () => {
 		<form ref={formRef} className={styles.form} onSubmit={handleSubmit}>
 			<div style={{ display: 'flex', gap: '1rem' }}>
 				<FormInput
-					name={'name'}
-					label={'Имя'}
-					placeholder={'Введите имя'}
+					name="name"
+					label="Имя"
+					placeholder="Введите имя"
 					required
 					className={styles.item}
 				/>
 				<FormInput
-					name={'phone'}
-					label={'Телефон'}
-					type={'tel'}
-					placeholder={'Введите номер'}
+					name="phone"
+					label="Телефон"
+					type="tel"
+					placeholder="Введите номер"
 					required
 					onInput={onInput}
 					onKeyDown={onKeyDown}
@@ -55,29 +55,29 @@ export const ReservationForm: FC = () => {
 			<div style={{ display: 'flex', gap: '1rem' }}>
 				<FormInput
 					type="date"
-					name={'date'}
-					label={'Дата/время'}
-					placeholder={'дд.мм.гггг'}
+					name="date"
+					label="Дата/время"
+					placeholder="дд.мм.гггг"
 					required
 					className={styles.item}
 				/>
 				<FormInput
-					type={'number'}
-					name={'guests'}
-					label={'Количество гостей'}
-					placeholder={'Гостей'}
+					type="number"
+					name="guests"
+					label="Количество гостей"
+					placeholder="Гостей"
 					required
 					className={styles.item}
 				/>
 			</div>
 
 			<FormTextArea
-				name={'comment'}
-				label={'Комментарий'}
-				placeholder={'Введите комментарий'}
+				name="comment"
+				label="Комментарий"
+				placeholder="Введите комментарий"
 				className={styles.item}
 			/>
-			<CustomButton label={'Отправить'} />
+			<CustomButton label="Отправить" />
 		</form>
 	);
 };

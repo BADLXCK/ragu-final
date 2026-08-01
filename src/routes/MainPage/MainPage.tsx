@@ -1,21 +1,20 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { Logo } from '@/components/Logo';
-import styles from './main-page.module.css';
+import styles from './MainPage.module.css';
 
 export const MainPage = () => {
 	return (
 		<div data-mainpage={true} className={styles.pageWrapper}>
 			<p className={styles.catchPhrase}>
-				{
-					'Ресторан - это как театр.\n Наша задача - ослепить, поразить,\n развлечь Вас...\n ничем не выдав, какая за кулисами\n творится Хиросима.'
-				}
+				Ресторан - это как театр.\n Наша задача - ослепить, поразить,\n
+				развлечь Вас...\n ничем не выдав, какая за кулисами\n творится
+				Хиросима.
 			</p>
 			<Logo className={styles.logo} />
 			<p className={styles.text}>
 				Место с уютной атмосферой и&nbsp;вкусной едой
 			</p>
-			<Link href={'/menu'} className={styles.menuButton}>
+			<Link href="/menu" className={styles.menuButton}>
 				Меню
 			</Link>
 		</div>

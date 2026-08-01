@@ -66,8 +66,8 @@ export default function ConditionsPage() {
 			</div>
 			<div className={styles.gallery}>
 				<Image
-					src={'/gallery/gallery.png'}
-					alt={'Фото'}
+					src="/gallery/gallery.png"
+					alt="Фото"
 					fill
 					style={{ objectFit: 'cover', borderRadius: '30px' }}
 					sizes="200px"

@@ -20,7 +20,7 @@ export const Review: FC<IReview> = props => {
 				<div className={styles.avatar}>
 					<Image
 						src={gender === 'male' ? '/man.svg' : '/woman.svg'}
-						alt={'Аватар'}
+						alt="Аватар"
 						width={34}
 						height={34}
 					/>
@@ -33,8 +33,8 @@ export const Review: FC<IReview> = props => {
 					{Array.from(new Array(rate)).map((_, index) => (
 						<Image
 							key={index}
-							src={'/star.svg'}
-							alt={'Оценка'}
+							src="/star.svg"
+							alt="Оценка"
 							width={24}
 							height={23}
 						/>
@@ -43,15 +43,15 @@ export const Review: FC<IReview> = props => {
 				<div className={styles.source}>
 					{source === '2gis' ? (
 						<Image
-							src={'/2gis.svg'}
-							alt={'2ГИС'}
+							src="/2gis.svg"
+							alt="2ГИС"
 							width={47}
 							height={20}
 						/>
 					) : (
 						<Image
-							src={'/yandex.svg'}
-							alt={'Яндекс'}
+							src="/yandex.svg"
+							alt="Яндекс"
 							width={20}
 							height={20}
 						/>

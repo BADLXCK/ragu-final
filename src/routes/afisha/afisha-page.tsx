@@ -11,11 +11,9 @@ export default async function AfishaPage() {
 		<div className={styles.wrapper}>
 			<div className={styles.reserve}>
 				<div className={styles.contactUsText}>
-					<p className={styles.first}>{'Свяжитесь с нами'}</p>
+					<p className={styles.first}>Свяжитесь с нами</p>
 					<p className={styles.second}>
-						{
-							'Мы перезвоним Вам в течение 15 минут для подтверждения'
-						}
+						Мы перезвоним Вам в течение 15 минут для подтверждения
 					</p>
 				</div>
 				<div className={styles.sendButton}>
@@ -23,8 +21,8 @@ export default async function AfishaPage() {
 				</div>
 			</div>
 			<div className={styles.description}>
-				<h1>{'Афиша'}</h1>
-				<h2>{'Мероприятия'}</h2>
+				<h1>Афиша</h1>
+				<h2>Мероприятия</h2>
 				<p>
 					{
 						'Сама идея работы генератора заимствована у псевдосоветского "универсального кода речей", из которого мы выдернули используемые в нём словосочетания, запилили приличное количество собственных, в несколько раз усложнили алгоритм, добавив новые схемы сборки'
@@ -33,13 +31,13 @@ export default async function AfishaPage() {
 			</div>
 			<div className={styles.gallery}>
 				<div className={styles.galleryText}>
-					<h2>{'Галерея'}</h2>
-					<span>{'Фото прошедших мероприятий'}</span>
+					<h2>Галерея</h2>
+					<span>Фото прошедших мероприятий</span>
 				</div>
 				<ForwardLink
 					src="/forwardUp.svg"
-					href={'/gallery'}
-					alt={'Перейти в галерею'}
+					href="/gallery"
+					alt="Перейти в галерею"
 				/>
 			</div>
 			<div className={styles.events}>

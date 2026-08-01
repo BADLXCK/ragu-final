@@ -31,7 +31,8 @@
 		"rules": {
 			"recommended": false,
 			"style": {
-				"noCommonJs": "off"
+				"noCommonJs": "off",
+				"useConsistentCurlyBraces": "warn"
 			},
 			"suspicious": {
 				"noExplicitAny": "off"

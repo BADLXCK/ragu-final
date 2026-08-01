@@ -12,7 +12,7 @@ export const Burger: FC = () => {
 	return (
 		<button type="button" className={styles.burger} onClick={handleClick}>
 			<Image
-				src={'/burger.svg'}
+				src="/burger.svg"
 				alt="Открыть меню"
 				width={24}
 				height={24}
