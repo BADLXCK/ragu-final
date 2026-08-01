@@ -1,4 +1,4 @@
-import styles from './product-card-layout.module.scss';
+import styles from './product-card-layout.module.css';
 
 export default async function ProductCardLayout({
 	children,

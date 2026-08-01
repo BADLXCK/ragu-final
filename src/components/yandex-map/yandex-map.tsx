@@ -2,7 +2,7 @@
 
 import { Map, Placemark, YMaps } from '@iminside/react-yandex-maps';
 import React from 'react';
-import styles from './yandex-map.module.scss';
+import styles from './yandex-map.module.css';
 
 export const YandexMap = ({ className }: { className?: string }) => {
 	const defaultState = {

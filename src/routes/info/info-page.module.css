@@ -1,5 +1,3 @@
-@use "../../app/styles/mixins" as *;
-
 .wrapper {
     height: 100%;
     width: 100%;
@@ -32,7 +30,7 @@
     display: none;
 }
 
-@mixin smallSizes {
+@media (width <= 1024px) {
     .wrapper {
         flex-direction: column-reverse;
         padding: 20px 20px;
@@ -57,12 +55,4 @@
             font-weight: 700;
         }
     }
-}
-
-@include sm {
-    @include smallSizes;
-}
-
-@include md {
-    @include smallSizes;
 }

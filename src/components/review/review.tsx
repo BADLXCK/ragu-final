@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import Image from 'next/image';
 import { FC } from 'react';
-import styles from './review.module.scss';
+import styles from './review.module.css';
 
 export interface IReview {
 	name: string;

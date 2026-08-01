@@ -6,7 +6,7 @@ import { usePhoneMask } from '@/hooks/usePhoneMask';
 import { CustomButton } from '../custom-button/custom-button';
 import { FormInput } from '../form-input/form-input';
 import { FormTextArea } from '../form-textarea/form-textarea';
-import styles from './reservation-form.module.scss';
+import styles from './reservation-form.module.css';
 
 export const ReservationForm: FC = () => {
 	const formRef = useRef<HTMLFormElement>(null);

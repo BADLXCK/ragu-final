@@ -1,5 +1,5 @@
 import { FC, HTMLInputTypeAttribute, InputHTMLAttributes } from 'react';
-import styles from './form-input.module.scss';
+import styles from './form-input.module.css';
 
 interface IFormInput extends InputHTMLAttributes<HTMLInputElement> {
 	name: string;

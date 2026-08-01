@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import styles from './form-textarea.module.scss';
+import styles from './form-textarea.module.css';
 
 interface IFormTextArea {
 	name: string;

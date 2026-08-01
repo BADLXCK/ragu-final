@@ -1,7 +1,7 @@
 import { Marquee } from '@/components/marquee';
 import { IReview, Review } from '@/components/review';
 import { fiveStarReviews } from './five-star-reviews';
-import styles from './reviews-page.module.scss';
+import styles from './reviews-page.module.css';
 
 export default function ReviewsPage() {
 	return (

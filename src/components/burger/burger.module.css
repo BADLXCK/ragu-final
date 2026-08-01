@@ -1,5 +1,3 @@
-@use "../../app/styles/mixins" as *;
-
 .burger {
     display: none;
     background-color: transparent;
@@ -18,16 +16,8 @@
     }
 }
 
-@mixin visible {
+@media (width <= 1024px) {
     .burger {
         display: block;
     }
-}
-
-@include md {
-    @include visible;
-}
-
-@include sm {
-    @include visible;
 }

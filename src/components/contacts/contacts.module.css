@@ -1,5 +1,3 @@
-@use "../../app/styles/mixins" as *;
-
 .wrapper {
     font-family: var(--font-denistina);
     font-size: 2.25rem;

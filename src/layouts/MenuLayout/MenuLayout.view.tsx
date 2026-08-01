@@ -4,7 +4,7 @@ import { getCategories } from '@/api/queries/getCategories';
 import { CategoriesNavigation } from '@/components/categories-navigation';
 import { Scrollbar } from '@/components/Scrollbar';
 import { Title } from '@/components/Title';
-import styles from './MenuLayout.module.scss';
+import styles from './MenuLayout.module.css';
 
 export const MenuLayout = async ({ children }: PropsWithChildren) => {
 	const categories = await getCategories();

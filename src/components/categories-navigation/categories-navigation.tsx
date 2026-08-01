@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { FC } from 'react';
-import styles from './categories-navigation.module.scss';
+import styles from './categories-navigation.module.css';
 
 interface CategoryItem {
 	id: string;

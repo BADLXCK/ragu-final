@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { FC } from 'react';
-import styles from './burger.module.scss';
+import styles from './burger.module.css';
 
 export const Burger: FC = () => {
 	const handleClick = () => {

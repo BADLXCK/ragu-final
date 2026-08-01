@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, FC } from 'react';
-import styles from './custom-button.module.scss';
+import styles from './custom-button.module.css';
 
 type TCustomButton = Partial<ButtonHTMLAttributes<HTMLButtonElement>> & {
 	label: string;

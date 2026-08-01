@@ -1,5 +1,3 @@
-@use "../../app/styles/mixins" as *;
-
 .title {
     width: 175px;
     height: 83px;
@@ -10,7 +8,7 @@
     margin-top: 30px;
 }
 
-@include mobile {
+@media (width <= 1024px) {
     .title {
         position: absolute;
         top: 0;

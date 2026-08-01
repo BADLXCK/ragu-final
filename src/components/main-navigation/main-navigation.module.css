@@ -1,5 +1,3 @@
-@use "../../app/styles/mixins" as *;
-
 .navigation {
     font-family: var(--font-kudry);
     font-size: 3rem;
@@ -46,7 +44,7 @@
     text-transform: lowercase;
 }
 
-@include mobile {
+@media (width <= 1024px) {
     .navigation {
         font-size: 2rem;
     }

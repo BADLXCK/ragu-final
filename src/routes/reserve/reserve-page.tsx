@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ForwardLink } from '@/components/forward-link';
 import { GalleryWidget } from '@/components/gallery-widget';
 import { ReservationForm } from '@/components/reservation-form';
-import styles from './reserve-page.module.scss';
+import styles from './reserve-page.module.css';
 
 export default function ReservePage() {
 	return (

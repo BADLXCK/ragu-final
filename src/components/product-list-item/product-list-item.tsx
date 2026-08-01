@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { ExtendedProduct } from '@/api/gql/extended-types';
 import { getWordPressUrl } from '@/lib/wordpress-url';
-import styles from './product-list-item.module.scss';
+import styles from './product-list-item.module.css';
 
 export const ProductListItem: FC<ExtendedProduct> = ({
 	name,
@@ -44,6 +44,7 @@ export const ProductListItem: FC<ExtendedProduct> = ({
 						style={{
 							objectFit: 'cover',
 						}}
+						sizes="(max-width: 1024px) 150px, 260px"
 						fill
 					/>
 				)}

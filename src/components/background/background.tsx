@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { PropsWithChildren } from 'react';
-import styles from './background.module.scss';
+import styles from './background.module.css';
 
 export const Background = ({ children }: PropsWithChildren) => {
 	return (

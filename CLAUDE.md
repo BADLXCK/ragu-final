@@ -119,10 +119,8 @@ After any WordPress schema changes (new fields, post types, etc.):
 Next.js Image component configured to allow images from `wordpress` hostname (Docker internal networking). See `next.config.ts` remotePatterns.
 
 ### Styling
-- SCSS Modules with `.module.scss` extension
-- Global variables in `src/app/styles/_variables.scss`
-- Mixins in `src/app/styles/_mixins.scss`
-- Global reset in `src/app/styles/reset.css`
+- CSS Modules with `.module.css` extension
+- Global CSS variables (`--background`, `--foreground`, fonts) and reset in `src/app/styles/globals.css`
 
 ## Common Tasks
 

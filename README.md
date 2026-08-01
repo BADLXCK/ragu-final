@@ -245,9 +245,8 @@ docker push ghcr.io/<owner>/ragu-wordpress:latest
 
 ### Стилизация
 
-- CSS Modules (`.module.scss`)
-- SCSS переменные в `src/app/styles/_variables.scss`
-- Миксины в `src/app/styles/_mixins.scss`
+- CSS Modules (`.module.css`)
+- Глобальные CSS-переменные и reset в `src/app/styles/globals.css`
 
 ---
 

@@ -1,5 +1,5 @@
 import { LinkHTMLAttributes } from 'react';
-import styles from './LinkButton.module.scss';
+import styles from './LinkButton.module.css';
 
 interface LinkButtonProps extends LinkHTMLAttributes<HTMLAnchorElement> {
 	href: string;

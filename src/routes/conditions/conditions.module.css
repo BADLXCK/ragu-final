@@ -1,5 +1,3 @@
-@use "../../app/styles/mixins" as *;
-
 .wrapper {
     display: grid;
     height: 100%;
@@ -97,7 +95,7 @@
     }
 }
 
-@mixin smallSizes {
+@media (width <= 1024px) {
     .wrapper {
         padding: 70px 20px;
         overflow: auto;
@@ -119,12 +117,4 @@
         text-align: center;
         text-wrap: pretty;
     }
-}
-
-@include md {
-    @include smallSizes;
-}
-
-@include sm {
-    @include smallSizes;
 }

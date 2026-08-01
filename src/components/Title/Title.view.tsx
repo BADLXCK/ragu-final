@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { headers } from 'next/headers';
 import { HTMLAttributes } from 'react';
 import { getPageTitle } from '@/api/queries/getPageTitle';
-import styles from './Title.module.scss';
+import styles from './Title.module.css';
 
 interface TitleProps extends HTMLAttributes<HTMLHeadingElement> {}
 

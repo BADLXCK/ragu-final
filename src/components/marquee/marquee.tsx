@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import { CSSProperties, FC } from 'react';
 import { chunkArray } from '@/utils/chunkArray';
-import styles from './marquee.module.scss';
+import styles from './marquee.module.css';
 
 interface IMarquee<T> {
 	data: T[];

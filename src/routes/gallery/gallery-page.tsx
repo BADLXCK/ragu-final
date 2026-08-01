@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from './gallery-page.module.scss';
+import styles from './gallery-page.module.css';
 
 export default function GalleryPage() {
 	return (

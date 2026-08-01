@@ -6,7 +6,7 @@ import { Contacts } from '@/components/contacts';
 import { Logo } from '@/components/logo';
 import { Motto } from '@/components/Motto';
 import { MainNavigation } from '../../components/main-navigation';
-import styles from './RootLayout.module.scss';
+import styles from './RootLayout.module.css';
 
 const denistina = localFont({
 	src: '../../app/fonts/DeniStina.woff2',

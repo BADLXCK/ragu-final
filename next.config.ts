@@ -1,5 +1,17 @@
 import type { NextConfig } from 'next';
 
+const remotePatterns: NonNullable<NextConfig['images']>['remotePatterns'] = [
+	{ protocol: 'http', hostname: 'wordpress' },
+	{ protocol: 'http', hostname: 'localhost', port: '8080' },
+];
+
+if (process.env.DOMAIN) {
+	remotePatterns?.push({
+		protocol: 'https',
+		hostname: `wordpress.${process.env.DOMAIN}`,
+	});
+}
+
 const nextConfig: NextConfig = {
 	output: 'standalone',
 	async redirects() {
@@ -12,19 +24,12 @@ const nextConfig: NextConfig = {
 		];
 	},
 	images: {
-		unoptimized: true,
+		remotePatterns,
+		// WordPress работает в приватной Docker-сети (IP 172.x.x.x),
+		// поэтому Next 16 блокирует загрузку оригиналов без этого флага
+		dangerouslyAllowLocalIP: true,
+		qualities: [75, 100],
 	},
-	sassOptions: {
-		silenceDeprecations: ['legacy-js-api'],
-	},
-	// turbopack: {},
-	// webpack: (config) => {
-	// 	config.watchOptions = {
-	// 		poll: 1000,
-	// 		aggregateTimeout: 300,
-	// 	};
-	// 	return config;
-	// },
 };
 
 export default nextConfig;

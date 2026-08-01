@@ -5,7 +5,7 @@ import { getProductsByCategory } from '@/api/queries/getProductsByCategory';
 import { CloseButton } from '@/components/close-button';
 import { ForwardLink } from '@/components/forward-link';
 import { getWordPressUrl } from '@/lib/wordpress-url';
-import styles from './product-page.module.scss';
+import styles from './product-page.module.css';
 
 export default async function ProductPage({
 	params,

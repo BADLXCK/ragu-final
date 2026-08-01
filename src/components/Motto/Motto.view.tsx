@@ -1,4 +1,4 @@
-import styles from './Motto.module.scss';
+import styles from './Motto.module.css';
 
 export const Motto = () => {
 	return (

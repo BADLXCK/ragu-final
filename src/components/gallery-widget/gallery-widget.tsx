@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
-import styles from './gallery-widget.module.scss';
+import styles from './gallery-widget.module.css';
 
 interface GalleryWidgetProps {
 	className?: string;

@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
-import styles from './Scrollbar.module.scss';
+import styles from './Scrollbar.module.css';
 
 interface ScrollbarProps {
 	/** ID of the scrollable element to track */

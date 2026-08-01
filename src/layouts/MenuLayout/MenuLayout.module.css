@@ -1,5 +1,3 @@
-@use "../../app/styles/mixins" as *;
-
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -31,26 +29,7 @@
     padding-top: 20px;
 }
 
-@mixin smallSizes {
-    .title,
-    .slogan {
-        display: none;
-    }
-
-    .navigationArea {
-        margin-top: 100px;
-    }
-
-    .pageArea {
-        overflow: unset;
-    }
-
-    .wrapper {
-        overflow: auto;
-    }
-}
-
-// Скрываем скроллбар, если внутри контента есть карточка товара
+/* Скрываем скроллбар, если внутри контента есть карточка товара */
 .wrapper:has(#product-card-context) {
     .scrollbar {
         display: none !important;
@@ -58,6 +37,5 @@
 }
 
 .scrollbar {
-    // Базовые стили для скроллбара, если они нужны в этом слое
+    /* Базовые стили для скроллбара, если они нужны в этом слое */
 }
-
