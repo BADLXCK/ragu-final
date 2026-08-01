@@ -3,7 +3,7 @@ pre-commit:
   commands:
     biome:
       glob: "{src/api/queries,src/api/utils,src/components,src/hooks,src/pages,src/styles,wordpress}/**/*.{js,ts,jsx,tsx,json}"
-      run: npx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown {staged_files}
+      run: npx @biomejs/biome check --write --no-errors-on-unmatched {staged_files}
       stage_fixed: true
     type-check:
       run: npx tsc --noEmit

@@ -1,9 +1,8 @@
-import { gql } from 'graphql-request';
 import { client } from '../client';
-import { ProductCategory, ProductCategoryConnection } from '../gql/graphql';
+import { graphql } from '../gql/gql';
 
-export const getCategories = async (): Promise<ProductCategory[]> => {
-	const query = gql`
+export const getCategories = async () => {
+	const query = graphql(`
 		query getCategories {
 			productCategories(first: 1000, where: { hideEmpty: false }) {
 				nodes {
@@ -13,10 +12,9 @@ export const getCategories = async (): Promise<ProductCategory[]> => {
 				}
 			}
 		}
-	`;
+	`);
 
-	const response: { productCategories: ProductCategoryConnection } =
-		await client.request(query);
+	const response = await client.request(query);
 
-	return response.productCategories.nodes;
+	return response.productCategories?.nodes ?? [];
 };

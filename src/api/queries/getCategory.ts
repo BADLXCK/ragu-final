@@ -1,11 +1,8 @@
-import { gql } from 'graphql-request';
 import { client } from '../client';
-import { ProductCategory } from '../gql/graphql';
+import { graphql } from '../gql/gql';
 
-export const getCategory = async (
-	slug: string,
-): Promise<ProductCategory | null> => {
-	const query = gql`
+export const getCategory = async (slug: string) => {
+	const query = graphql(`
 		query getCategory($slug: [String]) {
 			productCategories(where: { slug: $slug }) {
 				nodes {
@@ -15,11 +12,9 @@ export const getCategory = async (
 				}
 			}
 		}
-	`;
+	`);
 
-	const response: {
-		productCategories: { nodes: ProductCategory[] };
-	} = await client.request(query, { slug: [slug] });
+	const response = await client.request(query, { slug: [slug] });
 
-	return response.productCategories.nodes[0] || null;
+	return response.productCategories?.nodes[0] ?? null;
 };

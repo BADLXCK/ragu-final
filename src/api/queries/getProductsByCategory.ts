@@ -1,11 +1,11 @@
-import { gql } from 'graphql-request';
 import { client } from '../client';
 import { ExtendedProduct } from '../gql/extended-types';
+import { graphql } from '../gql/gql';
 
 export const getProductsByCategory = async (
 	categorySlug: string,
 ): Promise<ExtendedProduct[]> => {
-	const query = gql`
+	const query = graphql(`
 		query getProductsByCategory($categorySlug: String!) {
 			products(first: 1000, where: { category: $categorySlug }) {
 				edges {
@@ -34,14 +34,12 @@ export const getProductsByCategory = async (
 				}
 			}
 		}
-	`;
+	`);
 
-	const response: {
-		products: { edges: { node: ExtendedProduct }[] };
-	} = await client.request(query, { categorySlug });
+	const response = await client.request(query, { categorySlug });
 
-	return response.products.edges.map(({ node }) => ({
+	return (response.products?.edges ?? []).map(({ node }) => ({
 		...node,
-		category: node.productCategories?.nodes[0].slug,
+		category: node.productCategories?.nodes[0]?.slug,
 	}));
 };

@@ -1,9 +1,8 @@
-import { gql } from 'graphql-request';
 import { client } from '../client';
-import { MenuItem, MenuItemConnection } from '../gql/graphql';
+import { graphql } from '../gql/gql';
 
-export const getNavigationItems = async (): Promise<MenuItem[]> => {
-	const query = gql`
+export const getNavigationItems = async () => {
+	const query = graphql(`
 		query getNavigationItems {
 			menuItems(where: { location: PRIMARY }) {
 				edges {
@@ -17,10 +16,9 @@ export const getNavigationItems = async (): Promise<MenuItem[]> => {
 				}
 			}
 		}
-	`;
+	`);
 
-	const response: { menuItems: MenuItemConnection } =
-		await client.request(query);
+	const response = await client.request(query);
 
-	return response.menuItems.edges.map(edge => edge.node);
+	return response.menuItems?.edges.map(edge => edge.node) ?? [];
 };

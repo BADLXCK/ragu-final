@@ -1,9 +1,11 @@
-import { gql } from 'graphql-request';
 import { client } from '../client';
 import { ExtendedProduct } from '../gql/extended-types';
+import { graphql } from '../gql/gql';
 
-export const getProduct = async (slug: string): Promise<ExtendedProduct> => {
-	const query = gql`
+export const getProduct = async (
+	slug: string,
+): Promise<ExtendedProduct | undefined> => {
+	const query = graphql(`
 		query getProduct($slug: String!) {
 			products(where: { slugIn: [$slug] }) {
 				edges {
@@ -20,6 +22,11 @@ export const getProduct = async (slug: string): Promise<ExtendedProduct> => {
 							filePath
 							altText
 						}
+						productCategories {
+							nodes {
+								slug
+							}
+						}
 						... on SimpleProduct {
 							price(format: RAW)
 						}
@@ -27,12 +34,9 @@ export const getProduct = async (slug: string): Promise<ExtendedProduct> => {
 				}
 			}
 		}
-	`;
+	`);
 
-	const response: { products: { edges: { node: ExtendedProduct }[] } } =
-		await client.request(query, {
-			slug,
-		});
+	const response = await client.request(query, { slug });
 
-	return response.products.edges[0]?.node;
+	return response.products?.edges[0]?.node;
 };

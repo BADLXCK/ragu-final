@@ -13,9 +13,10 @@ const config: CodegenConfig = {
 			},
 		},
 	},
+	documents: ['src/**/*.{ts,tsx}', '!src/api/gql/**'],
 	generates: {
-		'src/api/gql/graphql.ts': {
-			plugins: ['typescript'],
+		'src/api/gql/': {
+			preset: 'client',
 		},
 		'src/api/gql/schema.gql': {
 			plugins: ['schema-ast'],

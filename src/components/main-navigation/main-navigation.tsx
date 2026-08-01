@@ -4,10 +4,16 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC, useEffect } from 'react';
-import { MenuItem } from '@/api/gql/graphql';
 import styles from './main-navigation.module.scss';
 
-export const MainNavigation: FC<{ items: MenuItem[] }> = ({ items }) => {
+interface NavigationItem {
+	id: string;
+	uri?: string | null;
+	path?: string | null;
+	label?: string | null;
+}
+
+export const MainNavigation: FC<{ items: NavigationItem[] }> = ({ items }) => {
 	const pathname = usePathname();
 
 	useEffect(() => {

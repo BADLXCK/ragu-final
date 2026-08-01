@@ -1,9 +1,11 @@
-import { Product } from './graphql';
-
 /**
- * Расширенный тип Product с кастомными полями
+ * Расширенный тип продукта с кастомными полями
  */
-export interface ExtendedProduct extends Product {
+export interface ExtendedProduct {
+	id: string;
+	name: string | null;
+	description: string | null;
+	slug: string | null;
 	/** Кастомное поле: вес продукта в граммах */
 	customWeight?: string | null;
 	/** Кастомное поле: содержание белков в граммах */
@@ -12,6 +14,13 @@ export interface ExtendedProduct extends Product {
 	customFat?: string | null;
 	/** Кастомное поле: содержание углеводов в граммах */
 	customCarbohydrate?: string | null;
+	image?: {
+		filePath?: string | null;
+		altText?: string | null;
+	} | null;
+	productCategories?: {
+		nodes: Array<{ slug: string | null }>;
+	} | null;
 	/** Цена продукта */
 	price?: string | null;
 	/** Slug категории продукта */

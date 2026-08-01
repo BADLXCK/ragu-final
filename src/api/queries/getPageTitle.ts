@@ -1,25 +1,20 @@
-import { gql } from 'graphql-request';
 import { client } from '../client';
+import { graphql } from '../gql/gql';
 
-export const getPageTitle = async (slug?: string): Promise<string> => {
+export const getPageTitle = async (slug?: string) => {
 	if (!slug) {
 		return '';
 	}
 
-	const query = gql`
+	const query = graphql(`
 		query getPageTitle($slug: String!) {
 			pageBy(uri: $slug) {
 				title
 			}
 		}
-	`;
+	`);
 
-	const response: { pageBy: { title: string } } = await client.request(
-		query,
-		{
-			slug,
-		},
-	);
+	const response = await client.request(query, { slug });
 
-	return response.pageBy.title;
+	return response.pageBy?.title ?? '';
 };

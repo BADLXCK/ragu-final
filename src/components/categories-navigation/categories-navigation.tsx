@@ -1,11 +1,16 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { FC } from 'react';
-import { ProductCategory } from '@/api/gql/graphql';
 import styles from './categories-navigation.module.scss';
 
+interface CategoryItem {
+	id: string;
+	name: string | null;
+	slug: string | null;
+}
+
 interface CategoriesNavigationProps {
-	categories: ProductCategory[];
+	categories: CategoryItem[];
 	currentPath: string;
 }
 
