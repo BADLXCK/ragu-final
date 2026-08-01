@@ -1,11 +1,11 @@
 import localFont from 'next/font/local';
 import { getNavigationItems } from '@/api/queries/getNavigationItems';
-import { Background } from '@/components/Background';
-import { Burger } from '@/components/Burger';
-import { Contacts } from '@/components/Contacts';
 import { Logo } from '@/components/Logo';
 import { Motto } from '@/components/Motto';
 import { MainNavigation } from '../../components/MainNavigation';
+import { Background } from './Background';
+import { Burger } from './Burger';
+import { Contacts } from './Contacts';
 import styles from './RootLayout.module.css';
 
 const denistina = localFont({
