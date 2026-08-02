@@ -26,7 +26,6 @@
 .pageArea {
 	flex: 1;
 	overflow: hidden;
-	padding-top: 20px;
 }
 
 /* Скрываем скроллбар, если внутри контента есть карточка товара */

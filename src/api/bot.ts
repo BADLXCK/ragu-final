@@ -15,5 +15,13 @@ export const sendMessageToBot = async (text: string) => {
 		},
 	);
 
+	if (!response.ok) {
+		const body = await response.text();
+		console.error(
+			`Telegram sendMessage failed (${response.status}): ${body}`,
+		);
+		throw new Error(`Telegram sendMessage failed: ${body}`);
+	}
+
 	return response.status;
 };

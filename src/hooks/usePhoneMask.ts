@@ -58,5 +58,7 @@ export const usePhoneMask = () => {
 		}
 	};
 
-	return { mask, onInput, onKeyDown };
+	const clear = () => setMask('');
+
+	return { mask, onInput, onKeyDown, clear };
 };

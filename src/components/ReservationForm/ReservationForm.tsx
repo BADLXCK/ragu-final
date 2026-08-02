@@ -1,6 +1,7 @@
 'use client';
 
-import { FC, useRef } from 'react';
+import { FC, useRef, useState } from 'react';
+import { toast } from 'sonner';
 import { sendMessageToBot } from '@/api/bot';
 import { usePhoneMask } from '@/hooks/usePhoneMask';
 import { CustomButton } from '../CustomButton/CustomButton';
@@ -10,11 +11,12 @@ import styles from './ReservationForm.module.css';
 
 export const ReservationForm: FC = () => {
 	const formRef = useRef<HTMLFormElement>(null);
-	const { mask, onInput, onKeyDown } = usePhoneMask();
+	const [submitting, setSubmitting] = useState(false);
+	const { mask, onInput, onKeyDown, clear } = usePhoneMask();
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		if (!formRef.current) return;
+		if (!formRef.current || submitting) return;
 
 		// Проверяем валидность формы
 		if (!formRef.current.checkValidity()) {
@@ -26,7 +28,20 @@ export const ReservationForm: FC = () => {
 		const data = Object.fromEntries(formData);
 		const phone = data.phone.toString().replace(/\D/g, '');
 		const text = `Бронирование стола:\nИмя: ${data.name}\nТелефон: +${phone}\nДата: ${data.date}\nКоличество гостей: ${data.guests}\nКомментарий: ${data.comment}`;
-		sendMessageToBot(text);
+
+		setSubmitting(true);
+		try {
+			await sendMessageToBot(text);
+			formRef.current.reset();
+			clear();
+			toast.success(
+				'Бронирование отправлено! Мы свяжемся с вами в ближайшее время.',
+			);
+		} catch {
+			toast.error('Не удалось отправить заявку. Попробуйте ещё раз.');
+		} finally {
+			setSubmitting(false);
+		}
 	};
 
 	return (
@@ -77,7 +92,7 @@ export const ReservationForm: FC = () => {
 				placeholder="Введите комментарий"
 				className={styles.item}
 			/>
-			<CustomButton label="Отправить" />
+			<CustomButton label="Отправить" disabled={submitting} />
 		</form>
 	);
 };

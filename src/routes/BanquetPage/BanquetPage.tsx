@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { toast } from 'sonner';
 import { sendMessageToBot } from '@/api/bot';
 import { CustomButton } from '@/components/CustomButton';
 import { FormInput } from '@/components/FormInput';
@@ -12,11 +13,12 @@ import styles from './BanquetPage.module.css';
 
 export default function BanquetPage() {
 	const formRef = useRef<HTMLFormElement>(null);
-	const { mask, onInput, onKeyDown } = usePhoneMask();
+	const [submitting, setSubmitting] = useState(false);
+	const { mask, onInput, onKeyDown, clear } = usePhoneMask();
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		if (!formRef.current) return;
+		if (!formRef.current || submitting) return;
 
 		// Проверяем валидность формы
 		if (!formRef.current.checkValidity()) {
@@ -28,7 +30,20 @@ export default function BanquetPage() {
 		const data = Object.fromEntries(formData);
 		const phone = data.phone.toString().replace(/\D/g, '');
 		const text = `Бронирование банкета:\nИмя: ${data.name}\nТелефон: +${phone}\nКомментарий: ${data.comment}`;
-		sendMessageToBot(text);
+
+		setSubmitting(true);
+		try {
+			await sendMessageToBot(text);
+			formRef.current.reset();
+			clear();
+			toast.success(
+				'Заявка отправлена! Мы перезвоним вам в течение 15 минут.',
+			);
+		} catch {
+			toast.error('Не удалось отправить заявку. Попробуйте ещё раз.');
+		} finally {
+			setSubmitting(false);
+		}
 	};
 
 	return (
@@ -46,6 +61,7 @@ export default function BanquetPage() {
 			>
 				<CustomButton
 					label="Отправить"
+					disabled={submitting}
 					style={{ width: '100%' }}
 					className={styles.submit}
 				/>

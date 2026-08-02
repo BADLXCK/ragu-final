@@ -1,5 +1,6 @@
 import localFont from 'next/font/local';
 import { ViewTransition } from 'react';
+import { Toaster } from 'sonner';
 import { getNavigationItems } from '@/api/queries/getNavigationItems';
 import { Logo } from '@/components/Logo';
 import { MainNavigation } from '../../components/MainNavigation';
@@ -56,6 +57,16 @@ export async function RootLayout({
 	return (
 		<html lang="ru">
 			<body className={layoutClassName}>
+				<Toaster
+					position="top-center"
+					toastOptions={{
+						style: {
+							background: 'var(--foreground)',
+							color: 'var(--background)',
+							border: 'none',
+						},
+					}}
+				/>
 				<Burger />
 				<div className={styles.sidebarArea}>
 					<Logo className={styles.logo} />
