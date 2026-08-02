@@ -1,4 +1,5 @@
 import localFont from 'next/font/local';
+import { ViewTransition } from 'react';
 import { getNavigationItems } from '@/api/queries/getNavigationItems';
 import { Logo } from '@/components/Logo';
 import { MainNavigation } from '../../components/MainNavigation';
@@ -65,9 +66,11 @@ export async function RootLayout({
 					<Contacts />
 				</div>
 				<div className={styles.pageAreaWrapper}>
-					<main className={styles.pageArea}>
-						<Background>{children}</Background>
-					</main>
+					<ViewTransition name="page">
+						<main className={styles.pageArea}>
+							<Background>{children}</Background>
+						</main>
+					</ViewTransition>
 				</div>
 			</body>
 		</html>
