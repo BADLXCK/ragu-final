@@ -187,64 +187,10 @@ table {
 	border-spacing: 0;
 }
 
-/* View Transitions: переключение карточек вперёд (карточка сдвигается влево) */
-@keyframes ragu-slide-out-left {
-	to {
-		transform: translateX(-100%);
-		opacity: 0;
-	}
-}
-
-@keyframes ragu-slide-in-from-right {
-	from {
-		transform: translateX(100%);
-		opacity: 0;
-	}
-	to {
-		transform: translateX(0);
-		opacity: 1;
-	}
-}
-
-@keyframes ragu-slide-out-right {
-	to {
-		transform: translateX(100%);
-		opacity: 0;
-	}
-}
-
-@keyframes ragu-slide-in-from-left {
-	from {
-		transform: translateX(-100%);
-		opacity: 0;
-	}
-	to {
-		transform: translateX(0);
-		opacity: 1;
-	}
-}
-
-::view-transition-old(.slide-left) {
-	animation: ragu-slide-out-left 300ms ease-in-out both;
-}
-
-::view-transition-new(.slide-left) {
-	animation: ragu-slide-in-from-right 300ms ease-in-out both;
-}
-
-::view-transition-old(.slide-right) {
-	animation: ragu-slide-out-right 300ms ease-in-out both;
-}
-
-::view-transition-new(.slide-right) {
-	animation: ragu-slide-in-from-left 300ms ease-in-out both;
-}
-
 @media (prefers-reduced-motion: reduce) {
-	::view-transition-old(.slide-left),
-	::view-transition-new(.slide-left),
-	::view-transition-old(.slide-right),
-	::view-transition-new(.slide-right) {
+
+	::view-transition-old(*),
+	::view-transition-new(*) {
 		animation: none;
 	}
 }

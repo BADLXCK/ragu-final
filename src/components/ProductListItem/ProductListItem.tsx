@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, ViewTransition } from 'react';
 import { ExtendedProduct } from '@/api/gql/extended-types';
 import { getWordPressUrl } from '@/lib/wordpress-url';
 import styles from './ProductListItem.module.css';
@@ -13,42 +13,48 @@ export const ProductListItem: FC<ExtendedProduct> = ({
 	image,
 	slug,
 	category,
+	id,
 }) => {
 	return (
-		<Link
-			href={`/menu/${category}/${slug || ''}`}
-			className={styles.wrapper}
-		>
-			<div className={styles.productInfo}>
-				<h2 className={styles.name}>{name}</h2>
-				{description && (
-					<div className={styles.description}>{description}</div>
-				)}
-				<div className={styles.productPrice}>
-					{price && (
-						<pre className={styles.price}>{`₽ ${price}`}</pre>
+		<ViewTransition name={`product-card-${id}`}>
+			<Link
+				href={`/menu/${category}/${slug || ''}`}
+				className={styles.wrapper}
+			>
+				<div className={styles.productInfo}>
+					<h2 className={styles.name}>{name}</h2>
+					{description && (
+						<div className={styles.description}>{description}</div>
 					)}
-					{customWeight && (
-						<span
-							className={styles.weight}
-						>{`${customWeight} гр.`}</span>
+					<div className={styles.productPrice}>
+						{price && (
+							<pre className={styles.price}>{`₽ ${price}`}</pre>
+						)}
+						{customWeight && (
+							<span
+								className={styles.weight}
+							>{`${customWeight} гр.`}</span>
+						)}
+					</div>
+				</div>
+
+				<div className={styles.productImage}>
+					{image && image.filePath && (
+						<Image
+							className={styles.image}
+							src={`${getWordPressUrl()}${image.filePath}`}
+							alt={
+								image.altText || name || 'Изображение продукта'
+							}
+							style={{
+								objectFit: 'cover',
+							}}
+							sizes="(max-width: 1024px) 150px, 260px"
+							fill
+						/>
 					)}
 				</div>
-			</div>
-			<div className={styles.productImage}>
-				{image && image.filePath && (
-					<Image
-						className={styles.image}
-						src={`${getWordPressUrl()}${image.filePath}`}
-						alt={image.altText || name || 'Изображение продукта'}
-						style={{
-							objectFit: 'cover',
-						}}
-						sizes="(max-width: 1024px) 150px, 260px"
-						fill
-					/>
-				)}
-			</div>
-		</Link>
+			</Link>
+		</ViewTransition>
 	);
 };

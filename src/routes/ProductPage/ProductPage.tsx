@@ -34,61 +34,56 @@ export default async function ProductPage({ params }: ProductPageProps) {
 					/>
 				)}
 			</div>
-			<ViewTransition
-				key={productInfo.slug}
-				name="collection-content"
-				share={{
-					forward: 'slide-left',
-					backward: 'slide-right',
-					default: 'auto',
-				}}
-			>
-				<div className={styles.productCard}>
-					<CloseButton
-						categorySlug={category}
-						className={styles.close}
-					/>
-					<div className={styles.name}>{productInfo.name}</div>
-					<div className={styles.description}>
-						{productInfo.description}
+			<ViewTransition name="product-card">
+				<ViewTransition name={`product-card-${productInfo.id}`}>
+					<div className={styles.productCard}>
+						<CloseButton
+							categorySlug={category}
+							className={styles.close}
+						/>
+						<div className={styles.name}>{productInfo.name}</div>
+						<div className={styles.description}>
+							{productInfo.description}
+						</div>
+						<div className={styles.imageContainer}>
+							{productInfo.image &&
+								productInfo.image.filePath && (
+									<Image
+										src={`${getWordPressUrl()}${productInfo.image.filePath}`}
+										className={styles.image}
+										alt={
+											productInfo.image.altText ||
+											productInfo.name ||
+											'Изображение продукта'
+										}
+										sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+										fill
+									/>
+								)}
+						</div>
+						<div className={styles.info}>
+							<div
+								className={styles.price}
+							>{`₽ ${productInfo.price}`}</div>
+							<div
+								className={styles.weight}
+							>{`${productInfo.customWeight} гр.`}</div>
+						</div>
+						<div className={styles.nutrients}>
+							<span>БЖУ:</span>
+							<span>{`белки: ${productInfo.customProtein}`}</span>
+							<span>{`жиры: ${productInfo.customFat}`}</span>
+							<span>{`углеводы: ${productInfo.customCarbohydrate}`}</span>
+						</div>
+						<Image
+							src="/organic.svg"
+							className={styles.organic}
+							alt="Органический"
+							width={57}
+							height={57}
+						/>
 					</div>
-					<div className={styles.imageContainer}>
-						{productInfo.image && productInfo.image.filePath && (
-							<Image
-								src={`${getWordPressUrl()}${productInfo.image.filePath}`}
-								className={styles.image}
-								alt={
-									productInfo.image.altText ||
-									productInfo.name ||
-									'Изображение продукта'
-								}
-								sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-								fill
-							/>
-						)}
-					</div>
-					<div className={styles.info}>
-						<div
-							className={styles.price}
-						>{`₽ ${productInfo.price}`}</div>
-						<div
-							className={styles.weight}
-						>{`${productInfo.customWeight} гр.`}</div>
-					</div>
-					<div className={styles.nutrients}>
-						<span>БЖУ:</span>
-						<span>{`белки: ${productInfo.customProtein}`}</span>
-						<span>{`жиры: ${productInfo.customFat}`}</span>
-						<span>{`углеводы: ${productInfo.customCarbohydrate}`}</span>
-					</div>
-					<Image
-						src="/organic.svg"
-						className={styles.organic}
-						alt="Органический"
-						width={57}
-						height={57}
-					/>
-				</div>
+				</ViewTransition>
 			</ViewTransition>
 			<div className={styles.productSwitcher}>
 				{nextProduct && (
