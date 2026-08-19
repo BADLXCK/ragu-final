@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { getSeoByUri } from '@/api/queries/getSeoByUri';
-import { MainPage } from '@/routes/MainPage';
+import { MainPage } from './_page';
 
 const PAGE_URI = '/';
 

@@ -20,6 +20,7 @@
 		"postinstall": "lefthook install"
 	},
 	"dependencies": {
+		"@graphql-typed-document-node/core": "^3.2.0",
 		"@iminside/react-yandex-maps": "^1.2.7",
 		"clsx": "^2.1.1",
 		"graphql": "^16.14.0",

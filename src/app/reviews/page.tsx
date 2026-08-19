@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { getSeoByUri } from '@/api/queries/getSeoByUri';
-import { ReviewsPage } from '@/routes/ReviewsPage';
+import { ReviewsPage } from './_page';
 
 const PAGE_URI = '/reviews/';
 export const revalidate = 60;

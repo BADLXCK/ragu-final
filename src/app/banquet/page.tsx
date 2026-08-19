@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { getSeoByUri } from '@/api/queries/getSeoByUri';
-import { BanquetPage } from '@/routes/BanquetPage';
+import { BanquetPage } from './_page';
 
 const PAGE_URI = '/banquet/';
 export const revalidate = 60;

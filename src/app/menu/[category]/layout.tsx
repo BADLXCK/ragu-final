@@ -1,3 +1,3 @@
-import { MenuLayout } from '@/layouts/MenuLayout';
+import { MenuLayout } from './_layout';
 
 export default MenuLayout;

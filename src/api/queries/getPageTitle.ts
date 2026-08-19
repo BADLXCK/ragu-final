@@ -1,5 +1,5 @@
 import { client } from '../client';
-import { graphql } from '../gql/gql';
+import { graphql } from '../gql';
 
 export const getPageTitle = async (slug?: string) => {
 	if (!slug) {

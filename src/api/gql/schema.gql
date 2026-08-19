@@ -2074,16 +2074,16 @@ enum CommentNodeIdTypeEnum {
 Moderation state for user comments. Determines whether comments are publicly visible, pending approval, or marked as spam.
 """
 enum CommentStatusEnum {
-  """Comments with the Approved status"""
+  """Comments with the Одобрен status"""
   APPROVE
 
-  """Comments with the Unapproved status"""
+  """Comments with the Не одобрен status"""
   HOLD
 
-  """Comments with the Spam status"""
+  """Comments with the Спам status"""
   SPAM
 
-  """Comments with the Trash status"""
+  """Comments with the Удалён status"""
   TRASH
 }
 
@@ -6480,493 +6480,493 @@ type CreateVisibleProductPayload {
 
 """Currencies enumeration"""
 enum CurrencyEnum {
-  """United Arab Emirates dirham"""
+  """Дирхам ОАЭ"""
   AED
 
-  """Afghan afghani"""
+  """Афганский афгани"""
   AFN
 
-  """Albanian lek"""
+  """Албанский лек"""
   ALL
 
-  """Armenian dram"""
+  """Армянский драм"""
   AMD
 
-  """Netherlands Antillean guilder"""
+  """Нидерландский антильский гульден"""
   ANG
 
-  """Angolan kwanza"""
+  """Ангольская кванза"""
   AOA
 
-  """Argentine peso"""
+  """Аргентинский песо"""
   ARS
 
-  """Australian dollar"""
+  """Австралийский доллар"""
   AUD
 
-  """Aruban florin"""
+  """Арубанский флорин"""
   AWG
 
-  """Azerbaijani manat"""
+  """Азербайджанский манат"""
   AZN
 
-  """Bosnia and Herzegovina convertible mark"""
+  """Конвертируемая марка Боснии и Герцеговины"""
   BAM
 
-  """Barbadian dollar"""
+  """Барбадосский доллар"""
   BBD
 
-  """Bangladeshi taka"""
+  """Бангладешская така"""
   BDT
 
-  """Bulgarian lev"""
+  """Болгарский лев"""
   BGN
 
-  """Bahraini dinar"""
+  """Бахрейнский динар"""
   BHD
 
-  """Burundian franc"""
+  """Бурундийский франк"""
   BIF
 
-  """Bermudian dollar"""
+  """Бермудский доллар"""
   BMD
 
-  """Brunei dollar"""
+  """Брунейский доллар"""
   BND
 
-  """Bolivian boliviano"""
+  """Боливийский боливиано"""
   BOB
 
-  """Brazilian real"""
+  """Бразильский реал"""
   BRL
 
-  """Bahamian dollar"""
+  """Багамский доллар"""
   BSD
 
-  """Bitcoin"""
+  """Биткойн"""
   BTC
 
-  """Bhutanese ngultrum"""
+  """Бутанский нгултрум"""
   BTN
 
-  """Botswana pula"""
+  """Ботсванская пула"""
   BWP
 
-  """Belarusian ruble"""
+  """Белорусский рубль"""
   BYN
 
-  """Belarusian ruble (old)"""
+  """Белорусский рубль (старый)"""
   BYR
 
-  """Belize dollar"""
+  """Белизский доллар"""
   BZD
 
-  """Canadian dollar"""
+  """Канадский доллар"""
   CAD
 
-  """Congolese franc"""
+  """Конголезский франк"""
   CDF
 
-  """Swiss franc"""
+  """Швейцарский франк"""
   CHF
 
-  """Chilean peso"""
+  """Чилийский песо"""
   CLP
 
-  """Chinese yuan"""
+  """Китайский юань"""
   CNY
 
-  """Colombian peso"""
+  """Колумбийский песо"""
   COP
 
-  """Costa Rican col&oacute;n"""
+  """Коста-риканский колон"""
   CRC
 
-  """Cuban convertible peso"""
+  """Кубинское конвертируемое песо"""
   CUC
 
-  """Cuban peso"""
+  """Кубинское песо"""
   CUP
 
-  """Cape Verdean escudo"""
+  """Эскудо Кабо-Верде"""
   CVE
 
-  """Czech koruna"""
+  """Чешская крона"""
   CZK
 
-  """Djiboutian franc"""
+  """Франк Джибути"""
   DJF
 
-  """Danish krone"""
+  """Датская крона"""
   DKK
 
-  """Dominican peso"""
+  """Доминиканский песо"""
   DOP
 
-  """Algerian dinar"""
+  """Алжирский динар"""
   DZD
 
-  """Egyptian pound"""
+  """Египетский фунт"""
   EGP
 
-  """Eritrean nakfa"""
+  """Эритрейская накфа"""
   ERN
 
-  """Ethiopian birr"""
+  """Эфиопский быр"""
   ETB
 
-  """Euro"""
+  """Евро"""
   EUR
 
-  """Fijian dollar"""
+  """Доллар Фиджи"""
   FJD
 
-  """Falkland Islands pound"""
+  """Фунт Фолклендских островов"""
   FKP
 
-  """Pound sterling"""
+  """Фунт стерлингов"""
   GBP
 
-  """Georgian lari"""
+  """Грузинский лари"""
   GEL
 
-  """Guernsey pound"""
+  """Гернсийский фунт"""
   GGP
 
-  """Ghana cedi"""
+  """Ганский седи"""
   GHS
 
-  """Gibraltar pound"""
+  """Гибралтарский фунт"""
   GIP
 
-  """Gambian dalasi"""
+  """Гамбийский даласи"""
   GMD
 
-  """Guinean franc"""
+  """Гвинейский франк"""
   GNF
 
-  """Guatemalan quetzal"""
+  """Гватемальский кетсаль"""
   GTQ
 
-  """Guyanese dollar"""
+  """Гайанский доллар"""
   GYD
 
-  """Hong Kong dollar"""
+  """Гонконгский доллар"""
   HKD
 
-  """Honduran lempira"""
+  """Гондурасская лемпира"""
   HNL
 
-  """Croatian kuna"""
+  """Хорватская куна"""
   HRK
 
-  """Haitian gourde"""
+  """Гаитянский гурд"""
   HTG
 
-  """Hungarian forint"""
+  """Венгерский форинт"""
   HUF
 
-  """Indonesian rupiah"""
+  """Индонезийская рупия"""
   IDR
 
-  """Israeli new shekel"""
+  """Новый израильский шекель"""
   ILS
 
-  """Manx pound"""
+  """Фунт Острова Мэн"""
   IMP
 
-  """Indian rupee"""
+  """Индийская рупия"""
   INR
 
-  """Iraqi dinar"""
+  """Иракский динар"""
   IQD
 
-  """Iranian rial"""
+  """Иранский риал"""
   IRR
 
-  """Iranian toman"""
+  """Иранский томан"""
   IRT
 
-  """Icelandic kr&oacute;na"""
+  """Исландская крона"""
   ISK
 
-  """Jersey pound"""
+  """Джерсийский фунт"""
   JEP
 
-  """Jamaican dollar"""
+  """Ямайский доллар"""
   JMD
 
-  """Jordanian dinar"""
+  """Иорданский динар"""
   JOD
 
-  """Japanese yen"""
+  """Японская йена"""
   JPY
 
-  """Kenyan shilling"""
+  """Кенийский шиллинг"""
   KES
 
-  """Kyrgyzstani som"""
+  """Киргизский сом"""
   KGS
 
-  """Cambodian riel"""
+  """Камбоджийский риель"""
   KHR
 
-  """Comorian franc"""
+  """Комoрский франк"""
   KMF
 
-  """North Korean won"""
+  """Северокорейская вона"""
   KPW
 
-  """South Korean won"""
+  """Южнокорейская вона"""
   KRW
 
-  """Kuwaiti dinar"""
+  """Кувейтский динар"""
   KWD
 
-  """Cayman Islands dollar"""
+  """Доллар Каймановых островов"""
   KYD
 
-  """Kazakhstani tenge"""
+  """Казахстанский тенге"""
   KZT
 
-  """Lao kip"""
+  """Лаосский кип"""
   LAK
 
-  """Lebanese pound"""
+  """Ливанский фунт"""
   LBP
 
-  """Sri Lankan rupee"""
+  """Шри-ланкийская рупия"""
   LKR
 
-  """Liberian dollar"""
+  """Либерийский доллар"""
   LRD
 
-  """Lesotho loti"""
+  """Лоти Лесото"""
   LSL
 
-  """Libyan dinar"""
+  """Ливийский динар"""
   LYD
 
-  """Moroccan dirham"""
+  """Марокканский дирхам"""
   MAD
 
-  """Moldovan leu"""
+  """Молдавский лей"""
   MDL
 
-  """Malagasy ariary"""
+  """Малагасийский ариари"""
   MGA
 
-  """Macedonian denar"""
+  """Македонский динар"""
   MKD
 
-  """Burmese kyat"""
+  """Бирманский кьят"""
   MMK
 
-  """Mongolian t&ouml;gr&ouml;g"""
+  """Монгольский тугрик"""
   MNT
 
-  """Macanese pataca"""
+  """Патака Макао"""
   MOP
 
-  """Mauritanian ouguiya"""
+  """Мавританская угия"""
   MRU
 
-  """Mauritian rupee"""
+  """Маврикийская рупия"""
   MUR
 
-  """Maldivian rufiyaa"""
+  """Мальдивская руфия"""
   MVR
 
-  """Malawian kwacha"""
+  """Малавийская квача"""
   MWK
 
-  """Mexican peso"""
+  """Мексиканский песо"""
   MXN
 
-  """Malaysian ringgit"""
+  """Малайзийский ринггит"""
   MYR
 
-  """Mozambican metical"""
+  """Мозамбикский метикал"""
   MZN
 
-  """Namibian dollar"""
+  """Намибийский доллар"""
   NAD
 
-  """Nigerian naira"""
+  """Нигерийская найра"""
   NGN
 
-  """Nicaraguan c&oacute;rdoba"""
+  """Никарагуанская кордоба"""
   NIO
 
-  """Norwegian krone"""
+  """Норвежская крона"""
   NOK
 
-  """Nepalese rupee"""
+  """Непальская рупия"""
   NPR
 
-  """New Zealand dollar"""
+  """Новозеландский доллар"""
   NZD
 
-  """Omani rial"""
+  """Оманский риал"""
   OMR
 
-  """Panamanian balboa"""
+  """Панамский бальбоа"""
   PAB
 
-  """Sol"""
+  """Соль"""
   PEN
 
-  """Papua New Guinean kina"""
+  """Папуа-Новогвинейская кина"""
   PGK
 
-  """Philippine peso"""
+  """Филиппинское песо"""
   PHP
 
-  """Pakistani rupee"""
+  """Пакистанская рупия"""
   PKR
 
-  """Polish z&#x142;oty"""
+  """Польский злотый"""
   PLN
 
-  """Transnistrian ruble"""
+  """Приднестровский рубль"""
   PRB
 
-  """Paraguayan guaran&iacute;"""
+  """Парагвайский гуарани&iacute;"""
   PYG
 
-  """Qatari riyal"""
+  """Катарский риал"""
   QAR
 
-  """Romanian leu"""
+  """Румынский лей"""
   RON
 
-  """Serbian dinar"""
+  """Сербский динар"""
   RSD
 
-  """Russian ruble"""
+  """Российский рубль"""
   RUB
 
-  """Rwandan franc"""
+  """Франк Руанды"""
   RWF
 
-  """Saudi riyal"""
+  """Саудовский риял"""
   SAR
 
-  """Solomon Islands dollar"""
+  """Доллар Соломоновых Островов"""
   SBD
 
-  """Seychellois rupee"""
+  """Сейшельская рупия"""
   SCR
 
-  """Sudanese pound"""
+  """Суданский фунт"""
   SDG
 
-  """Swedish krona"""
+  """Шведская крона"""
   SEK
 
-  """Singapore dollar"""
+  """Сингапурский доллар"""
   SGD
 
-  """Saint Helena pound"""
+  """Фунт Святой Елены"""
   SHP
 
-  """Sierra Leonean leone"""
+  """Сьерра-Леонский леоне"""
   SLL
 
-  """Somali shilling"""
+  """Сомалийский шиллинг"""
   SOS
 
-  """Surinamese dollar"""
+  """Суринамский доллар"""
   SRD
 
-  """South Sudanese pound"""
+  """Южносуданский фунт"""
   SSP
 
-  """S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra"""
+  """Добра Сан-Томе и Принсипи"""
   STN
 
-  """Syrian pound"""
+  """Сирийский фунт"""
   SYP
 
-  """Swazi lilangeni"""
+  """Свазилендский лилангени"""
   SZL
 
-  """Thai baht"""
+  """Таиландский бат"""
   THB
 
-  """Tajikistani somoni"""
+  """Таджикский сомони"""
   TJS
 
-  """Turkmenistan manat"""
+  """Туркменский манат"""
   TMT
 
-  """Tunisian dinar"""
+  """Тунисский динар"""
   TND
 
-  """Tongan pa&#x2bb;anga"""
+  """Тонганская паанга"""
   TOP
 
-  """Turkish lira"""
+  """Турецкая лира"""
   TRY
 
-  """Trinidad and Tobago dollar"""
+  """Доллар Тринидада и Тобаго"""
   TTD
 
-  """New Taiwan dollar"""
+  """Новый тайваньский доллар"""
   TWD
 
-  """Tanzanian shilling"""
+  """Танзанийский шиллинг"""
   TZS
 
-  """Ukrainian hryvnia"""
+  """Украинская гривна"""
   UAH
 
-  """Ugandan shilling"""
+  """Угандийский шиллинг"""
   UGX
 
-  """United States (US) dollar"""
+  """Доллар США"""
   USD
 
-  """Uruguayan peso"""
+  """Уругвайское песо"""
   UYU
 
-  """Uzbekistani som"""
+  """Узбекский сум"""
   UZS
 
-  """Venezuelan bol&iacute;var (2008–2018)"""
+  """Венесуэльский боливар (2008–2018)"""
   VEF
 
-  """Venezuelan bol&iacute;var"""
+  """Венесуэльский боливар"""
   VES
 
-  """Vietnamese &#x111;&#x1ed3;ng"""
+  """Вьетнамский донг"""
   VND
 
-  """Vanuatu vatu"""
+  """Вануатский вату"""
   VUV
 
-  """Samoan t&#x101;l&#x101;"""
+  """Самоанская тала"""
   WST
 
-  """Central African CFA franc"""
+  """Центральноафриканский франк КФА"""
   XAF
 
-  """East Caribbean dollar"""
+  """Восточнокарибский доллар"""
   XCD
 
-  """West African CFA franc"""
+  """Западноафриканский франк КФА"""
   XOF
 
-  """CFP franc"""
+  """Тихоокеанский франк КФП"""
   XPF
 
-  """Yemeni rial"""
+  """Йеменский риал"""
   YER
 
-  """South African rand"""
+  """Южноафриканский рэнд"""
   ZAR
 
-  """Zambian kwacha"""
+  """Замбийская квача"""
   ZMW
 }
 
@@ -8349,23 +8349,23 @@ type DeleteVisibleProductPayload {
 
 """Coupon discount type enumeration"""
 enum DiscountTypeEnum {
-  """Fixed cart discount"""
+  """Фиксированная скидка на покупку"""
   FIXED_CART
 
-  """Fixed product discount"""
+  """Фиксированная скидка на товар"""
   FIXED_PRODUCT
 
-  """Percentage discount"""
+  """Процент скидки"""
   PERCENT
 }
 
 """The discussion setting type"""
 type DiscussionSettings implements Node {
-  """Allow people to submit comments on new posts."""
+  """Разрешить оставлять комментарии к новым записям."""
   defaultCommentStatus: String
 
   """
-  Allow link notifications from other blogs (pingbacks and trackbacks) on new articles.
+  Разрешить ссылки оповещения с других блогов (уведомления и обратные ссылки) на новые статьи.
   """
   defaultPingStatus: String
 
@@ -9873,6 +9873,18 @@ input FeeLineInput {
   total: String
 }
 
+"""Папка FileBird"""
+type FileBirdFolder {
+  """"""
+  id: Int
+
+  """"""
+  name: String
+
+  """"""
+  parent: Int
+}
+
 """Input for the fillCart mutation."""
 input FillCartInput {
   """
@@ -10298,13 +10310,15 @@ type Gallery_image_connectionPageInfo implements MediaItemConnectionPageInfo & P
 
 """The general setting type"""
 type GeneralSettings implements Node {
-  """A date format for all date strings."""
+  """Общий формат даты."""
   dateFormat: String
 
-  """Site tagline."""
+  """Слоган сайта."""
   description: String
 
-  """This address is used for admin purposes, like new user notification."""
+  """
+  Этот адрес используется в целях администрирования. Например, для уведомления о новых пользователях.
+  """
   email: String
 
   """
@@ -10315,7 +10329,7 @@ type GeneralSettings implements Node {
   """The globally unique identifier of the settings group."""
   id: ID!
 
-  """WordPress locale code."""
+  """Код локали WordPress."""
   language: String
 
   """
@@ -10331,19 +10345,19 @@ type GeneralSettings implements Node {
     size: Int
   ): String
 
-  """A day number of the week that the week should start on."""
+  """Первый день недели."""
   startOfWeek: Int
 
-  """A time format for all time strings."""
+  """Общий формат времени."""
   timeFormat: String
 
-  """A city in the same timezone as you."""
+  """Город в той же временной зоне что и у вас."""
   timezone: String
 
-  """Site title."""
+  """Название сайта."""
   title: String
 
-  """Site URL."""
+  """Адрес сайта (URL)"""
   url: String
 }
 
@@ -12739,6 +12753,9 @@ type MediaItem implements ContentNode & DatabaseIdentifier & HierarchicalContent
     size: MediaItemSizeEnum
   ): Int
 
+  """Папки FileBird, в которых находится файл"""
+  filebirdFolders: [FileBirdFolder]
+
   """
   The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table.
   """
@@ -14654,28 +14671,28 @@ interface OrderNoteConnectionPageInfo implements PageInfo & WPPageInfo {
 
 """Order status enumeration"""
 enum OrderStatusEnum {
-  """Cancelled"""
+  """Отменён"""
   CANCELLED
 
-  """Draft"""
+  """Черновик"""
   CHECKOUT_DRAFT
 
-  """Completed"""
+  """Выполнен"""
   COMPLETED
 
-  """Failed"""
+  """Не удался"""
   FAILED
 
-  """On hold"""
+  """На удержании"""
   ON_HOLD
 
-  """Pending payment"""
+  """Ожидается оплата"""
   PENDING
 
-  """Processing"""
+  """Обработка"""
   PROCESSING
 
-  """Refunded"""
+  """Возвращён"""
   REFUNDED
 }
 
@@ -18249,7 +18266,7 @@ enum PricingFieldFormatEnum {
   RAW
 }
 
-"""This is where you can browse products in this store."""
+"""Здесь вы можете просматривать товары данного магазина."""
 interface Product implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithComments & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithTemplate & NodeWithTitle & Previewable & ProductUnion & UniformResourceIdentifiable {
   """Product average count"""
   averageRating: Float
@@ -26070,16 +26087,16 @@ type ReadingSettings implements Node {
   """The globally unique identifier of the settings group."""
   id: ID!
 
-  """The ID of the page that should display the latest posts"""
+  """ID страницы, на которой должны отображаться последние записи"""
   pageForPosts: Int
 
-  """The ID of the page that should be displayed on the front page"""
+  """ID страницы, которая должна отображаться на главной странице"""
   pageOnFront: Int
 
-  """Blog pages show at most."""
+  """Максимум страниц блога для показа."""
   postsPerPage: Int
 
-  """What to show on the front page"""
+  """Что показать на главной странице"""
   showOnFront: String
 }
 
@@ -27593,6 +27610,31 @@ type RootQuery {
     """Type of ID being used identify product"""
     idType: ProductIdTypeEnum
   ): GroupProduct @deprecated(reason: "Use &quot;product&quot; instead.")
+
+  """Медиафайлы из папки FileBird (включая вложенные папки)"""
+  mediaByFolder(
+    """
+    Cursor used along with the "first" argument to reference where in the dataset to get data
+    """
+    after: String
+
+    """
+    Cursor used along with the "last" argument to reference where in the dataset to get data
+    """
+    before: String
+
+    """The number of items to return after the referenced "after" cursor"""
+    first: Int
+
+    """The number of items to return before the referenced "before" cursor"""
+    last: Int
+
+    """Arguments for filtering the connection"""
+    where: RootQueryToMediaByFolderConnectionWhereArgs
+  ): RootQueryToMediaByFolderConnection
+
+  """Список папок FileBird"""
+  mediaFolders: [FileBirdFolder]
 
   """An object of the mediaItem Type. """
   mediaItem(
@@ -29475,6 +29517,55 @@ type RootQueryToGlobalProductAttributeConnectionPageInfo implements GlobalProduc
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
+}
+
+"""Connection between the RootQuery type and the MediaItem type"""
+type RootQueryToMediaByFolderConnection implements Connection & MediaItemConnection {
+  """Edges for the RootQueryToMediaByFolderConnection connection"""
+  edges: [RootQueryToMediaByFolderConnectionEdge!]!
+
+  """The nodes of the connection, without the edges"""
+  nodes: [MediaItem!]!
+
+  """Information about pagination in a connection."""
+  pageInfo: RootQueryToMediaByFolderConnectionPageInfo!
+}
+
+"""An edge in a connection"""
+type RootQueryToMediaByFolderConnectionEdge implements Edge & MediaItemConnectionEdge {
+  """A cursor for use in pagination"""
+  cursor: String
+
+  """The item at the end of the edge"""
+  node: MediaItem!
+}
+
+"""
+Pagination metadata specific to &quot;RootQueryToMediaByFolderConnection&quot; collections. Provides cursors and flags for navigating through sets of RootQueryToMediaByFolderConnection Nodes.
+"""
+type RootQueryToMediaByFolderConnectionPageInfo implements MediaItemConnectionPageInfo & PageInfo & WPPageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+"""
+Arguments for filtering the RootQueryToMediaByFolderConnection connection
+"""
+input RootQueryToMediaByFolderConnectionWhereArgs {
+  """ID папки FileBird"""
+  folderId: Int
+
+  """Название папки FileBird"""
+  folderName: String
 }
 
 """Connection between the RootQuery type and the mediaItem type"""
@@ -37747,57 +37838,59 @@ input UpdateSettingsInput {
   """
   clientMutationId: String
 
-  """Allow people to submit comments on new posts."""
+  """Разрешить оставлять комментарии к новым записям."""
   discussionSettingsDefaultCommentStatus: String
 
   """
-  Allow link notifications from other blogs (pingbacks and trackbacks) on new articles.
+  Разрешить ссылки оповещения с других блогов (уведомления и обратные ссылки) на новые статьи.
   """
   discussionSettingsDefaultPingStatus: String
 
-  """A date format for all date strings."""
+  """Общий формат даты."""
   generalSettingsDateFormat: String
 
-  """Site tagline."""
+  """Слоган сайта."""
   generalSettingsDescription: String
 
-  """This address is used for admin purposes, like new user notification."""
+  """
+  Этот адрес используется в целях администрирования. Например, для уведомления о новых пользователях.
+  """
   generalSettingsEmail: String
 
-  """WordPress locale code."""
+  """Код локали WordPress."""
   generalSettingsLanguage: String
 
-  """A day number of the week that the week should start on."""
+  """Первый день недели."""
   generalSettingsStartOfWeek: Int
 
-  """A time format for all time strings."""
+  """Общий формат времени."""
   generalSettingsTimeFormat: String
 
-  """A city in the same timezone as you."""
+  """Город в той же временной зоне что и у вас."""
   generalSettingsTimezone: String
 
-  """Site title."""
+  """Название сайта."""
   generalSettingsTitle: String
 
-  """The ID of the page that should display the latest posts"""
+  """ID страницы, на которой должны отображаться последние записи"""
   readingSettingsPageForPosts: Int
 
-  """The ID of the page that should be displayed on the front page"""
+  """ID страницы, которая должна отображаться на главной странице"""
   readingSettingsPageOnFront: Int
 
-  """Blog pages show at most."""
+  """Максимум страниц блога для показа."""
   readingSettingsPostsPerPage: Int
 
-  """What to show on the front page"""
+  """Что показать на главной странице"""
   readingSettingsShowOnFront: String
 
-  """Default post category."""
+  """Рубрика для записей по умолчанию."""
   writingSettingsDefaultCategory: Int
 
-  """Default post format."""
+  """Формат записей по умолчанию."""
   writingSettingsDefaultPostFormat: String
 
-  """Convert emoticons like :-) and :-P to graphics on display."""
+  """Преобразовывать смайлики наподобие :-) и :-P в картинки при показе."""
   writingSettingsUseSmilies: Boolean
 }
 
@@ -41548,15 +41641,15 @@ type WriteReviewPayload {
 
 """The writing setting type"""
 type WritingSettings implements Node {
-  """Default post category."""
+  """Рубрика для записей по умолчанию."""
   defaultCategory: Int
 
-  """Default post format."""
+  """Формат записей по умолчанию."""
   defaultPostFormat: String
 
   """The globally unique identifier of the settings group."""
   id: ID!
 
-  """Convert emoticons like :-) and :-P to graphics on display."""
+  """Преобразовывать смайлики наподобие :-) и :-P в картинки при показе."""
   useSmilies: Boolean
 }

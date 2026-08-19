@@ -1,3 +1,3 @@
-import { ProductCardLayout } from '@/layouts/product-card-layout';
+import { ProductCardLayout } from './_layout';
 
 export default ProductCardLayout;

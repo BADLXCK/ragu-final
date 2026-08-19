@@ -5,4 +5,3 @@ tsconfig.tsbuildinfo
 
 .claude/
 .vscode/
-src/api/gql/

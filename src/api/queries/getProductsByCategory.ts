@@ -1,6 +1,6 @@
 import { client } from '../client';
+import { graphql } from '../gql';
 import { ExtendedProduct } from '../gql/extended-types';
-import { graphql } from '../gql/gql';
 
 export const getProductsByCategory = async (
 	categorySlug: string,

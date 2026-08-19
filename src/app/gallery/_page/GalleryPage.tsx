@@ -18,7 +18,7 @@ export default function GalleryPage() {
 				люстры соседствуют с авангардными светильниками.
 			</div>
 			<Link
-				href="/banquet/choose-event"
+				href="/gallery/event"
 				className={`${styles.event} ${styles.imageWrapper}`}
 			>
 				<Image
@@ -43,7 +43,7 @@ export default function GalleryPage() {
 				</div>
 			</Link>
 			<Link
-				href="/banquet/choose-event"
+				href="/gallery/birthday"
 				className={`${styles.birthday} ${styles.imageWrapper}`}
 			>
 				<Image
@@ -62,7 +62,7 @@ export default function GalleryPage() {
 				</div>
 			</Link>
 			<Link
-				href="/banquet/choose-event"
+				href="/gallery/corporate"
 				className={`${styles.corporate} ${styles.imageWrapper}`}
 			>
 				<Image
@@ -81,7 +81,7 @@ export default function GalleryPage() {
 				</div>
 			</Link>
 			<Link
-				href="/banquet/choose-event"
+				href="/gallery/other"
 				className={`${styles.other} ${styles.imageWrapper}`}
 			>
 				<Image

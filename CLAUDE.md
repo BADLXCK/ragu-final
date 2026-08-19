@@ -58,7 +58,7 @@ npm run knip           # Check for unused dependencies
 ### GraphQL Data Flow
 1. WordPress exposes GraphQL API via WPGraphQL plugin at `/graphql`
 2. `codegen.ts` fetches schema from `SCHEMA_URL` and generates types in `src/api/gql/`
-3. `add-ts-nocheck.js` adds `// @ts-nocheck` to `src/api/gql/gql.ts` (post-codegen)
+3. `add-ts-nocheck.js` adds `// @ts-nocheck` to `src/api/gql.ts` (post-codegen)
 4. Queries in `src/api/queries/` use generated types for type-safe data fetching
 5. GraphQL client (`src/api/client.ts`) uses `graphql-request` library
 

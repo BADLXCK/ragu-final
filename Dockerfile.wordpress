@@ -23,6 +23,7 @@ RUN mkdir -p /usr/src/wordpress/wp-content/plugins \
     && rm -f /tmp/wpgql-woo.zip
 
 # Copy application files
+COPY wordpress/php.ini /usr/local/etc/php/conf.d/zz-uploads.ini
 COPY wordpress/themes /usr/src/wordpress/wp-content/themes/
 COPY wordpress/mu-plugins /usr/src/wordpress/wp-content/mu-plugins/
 COPY wordpress/setup.sh /usr/local/bin/setup-wordpress.sh

@@ -1,0 +1,167 @@
+.masonry {
+	columns: 3;
+	column-gap: 20px;
+}
+
+.item {
+	display: block;
+	width: 100%;
+	margin-bottom: 20px;
+	padding: 0;
+	border: none;
+	background: none;
+	cursor: pointer;
+	break-inside: avoid;
+}
+
+.image {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.sentinel {
+	height: 1px;
+}
+
+.dots {
+	position: fixed;
+	top: 50%;
+	right: 12px;
+	transform: translateY(-50%);
+	z-index: 90;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+}
+
+.dot {
+	width: 25px;
+	height: 25px;
+	padding: 0;
+	border: 1px solid transparent;
+	border-radius: 50%;
+	background: radial-gradient(
+		circle,
+		rgba(255, 255, 255, 0.3) 3.5px,
+		transparent 3.5px
+	);
+	cursor: pointer;
+}
+
+.dot:hover {
+	background: radial-gradient(
+		circle,
+		rgba(255, 255, 255, 0.5) 3.5px,
+		transparent 3.5px
+	);
+}
+
+.active {
+	border-color: var(--foreground);
+	background: radial-gradient(
+		circle,
+		var(--foreground) 3.5px,
+		transparent 3.5px
+	);
+}
+
+.overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.6);
+}
+
+.viewer {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 90vw;
+	max-height: 90vh;
+}
+
+.full {
+	display: block;
+	max-width: 90vw;
+	max-height: 90vh;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+}
+
+.close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 50px;
+	height: 50px;
+	border: none;
+	border-radius: 0 30px 0 0;
+	background: #432711;
+	color: var(--foreground);
+	font-size: 1.1rem;
+	cursor: pointer;
+}
+
+.arrow {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	border: none;
+	border-radius: 50%;
+	background: rgba(67, 39, 17, 0.8);
+	color: var(--foreground);
+	font-size: 2.2rem;
+	cursor: pointer;
+}
+
+.prev {
+	left: 20px;
+}
+
+.next {
+	right: 20px;
+}
+
+@media (width <= 1024px) {
+	.masonry {
+		columns: 2;
+		column-gap: 12px;
+	}
+
+	.item {
+		margin-bottom: 12px;
+	}
+
+	.dots {
+		right: 8px;
+	}
+
+	.prev {
+		left: 10px;
+	}
+
+	.next {
+		right: 10px;
+	}
+}
+
+@media (width <= 600px) {
+	.masonry {
+		columns: 1;
+	}
+}

@@ -10,25 +10,25 @@ import { Contacts } from './Contacts';
 import styles from './RootLayout.module.css';
 
 const denistina = localFont({
-	src: '../../app/fonts/DeniStina.woff2',
+	src: '../../fonts/DeniStina.woff2',
 	variable: '--font-denistina',
 	weight: '400',
 });
 
 const kudry = localFont({
-	src: '../../app/fonts/Kudry Weird Headline.woff2',
+	src: '../../fonts/Kudry Weird Headline.woff2',
 	variable: '--font-kudry',
 	weight: '300',
 });
 
 const montserratRegular = localFont({
-	src: '../../app/fonts/MontserratAlternates-Regular.ttf',
+	src: '../../fonts/MontserratAlternates-Regular.ttf',
 	variable: '--font-montserrat',
 	weight: '700',
 });
 
 const montserratAlternates = localFont({
-	src: '../../app/fonts/MontserratAlternates-Bold.ttf',
+	src: '../../fonts/MontserratAlternates-Bold.ttf',
 	variable: '--font-montserrat-alternates',
 	weight: '700',
 });

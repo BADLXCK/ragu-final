@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { getSeoByUri } from '@/api/queries/getSeoByUri';
-import { ProductPage } from '@/routes/ProductPage';
+import { ProductPage } from './_page';
 
 const BASE_URI = '/product/';
 

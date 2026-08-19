@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { getSeoByUri } from '@/api/queries/getSeoByUri';
-import { ConditionsPage } from '@/routes/ConditionsPage';
+import { ConditionsPage } from './_page';
 
 const PAGE_URI = '/banquet/choose-event/conditions/';
 export const revalidate = 60;
