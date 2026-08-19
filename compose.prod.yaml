@@ -1,0 +1,116 @@
+services:
+    traefik:
+        image: traefik:v2.11
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - traefik-letsencrypt:/letsencrypt
+        networks:
+            - prod-network
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN}`)"
+            - "traefik.http.routers.traefik.entrypoints=websecure"
+            - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+            - "traefik.http.routers.traefik.service=api@internal"
+            - "traefik.http.routers.traefik.middlewares=auth"
+            - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_ADMIN_USER}:${TRAEFIK_ADMIN_PASSWORD_HASH}"
+        command:
+            - --providers.docker=true
+            - --providers.docker.exposedbydefault=false
+            - --entrypoints.web.address=:80
+            - --entrypoints.websecure.address=:443
+            - --entrypoints.web.http.redirections.entryPoint.to=websecure
+            - --entrypoints.web.http.redirections.entryPoint.scheme=https
+            - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
+            - --certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}
+            - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+            - --log.level=INFO
+            - --api.dashboard=true
+            - --api.insecure=false
+        deploy:
+            resources:
+                limits:
+                    memory: 256M
+                    cpus: "0.5"
+
+    database:
+        image: mysql:8.0
+        restart: unless-stopped
+        volumes:
+            - db-data:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: ${DATABASE_NAME}
+            MYSQL_USER: ${DATABASE_USER}
+            MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+            MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+        networks:
+            - prod-network
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+            interval: 5s
+            timeout: 3s
+            retries: 20
+            start_period: 10s
+        deploy:
+            resources:
+                limits:
+                    memory: 512M
+                    cpus: "1.0"
+
+    wordpress:
+        # Деплой ТОЛЬКО из предварительно собранного образа (см. .github/workflows/build-wordpress.yml)
+        image: ghcr.io/badlxcx/ragu-final/wordpress:latest
+        restart: unless-stopped
+        depends_on:
+            database:
+                condition: service_healthy
+        volumes:
+            - wp-data:/var/www/html
+        environment:
+            WORDPRESS_DB_HOST: database
+            WORDPRESS_DB_USER: ${DATABASE_USER}
+            WORDPRESS_DB_PASSWORD: ${DATABASE_PASSWORD}
+            WORDPRESS_DB_NAME: ${DATABASE_NAME}
+            WORDPRESS_URL: https://wordpress.${DOMAIN}
+            WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
+            WORDPRESS_CONFIG_EXTRA: |
+                define('WP_SITEURL', 'https://wordpress.${DOMAIN}');
+                define('WP_HOME', 'https://wordpress.${DOMAIN}');
+        networks:
+            - prod-network
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.wordpress.rule=Host(`wordpress.${DOMAIN}`)"
+            - "traefik.http.routers.wordpress.entrypoints=websecure"
+            - "traefik.http.routers.wordpress.tls.certresolver=letsencrypt"
+            - "traefik.http.services.wordpress.loadbalancer.server.port=80"
+            - "traefik.http.middlewares.wordpress-headers.headers.customrequestheaders.X-Forwarded-Proto=https"
+            - "traefik.http.middlewares.wordpress-headers.headers.customrequestheaders.X-Forwarded-Port=443"
+            - "traefik.http.routers.wordpress.middlewares=wordpress-headers@docker"
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost/" ]
+            interval: 10s
+            timeout: 5s
+            retries: 15
+            start_period: 30s
+        deploy:
+            resources:
+                limits:
+                    memory: 512M
+                    cpus: "1.0"
+
+volumes:
+    db-data:
+        name: prod-db-data
+    wp-data:
+        name: prod-wp-data
+    traefik-letsencrypt:
+        name: prod-traefik-letsencrypt
+
+networks:
+    prod-network:
+        driver: bridge
