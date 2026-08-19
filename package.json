@@ -13,6 +13,7 @@
 		"docker:build": "next build",
 		"start": "next start",
 		"lint": "next lint",
+		"typegen": "next typegen",
 		"codegen": "graphql-codegen --config codegen.ts",
 		"knip": "knip",
 		"format": "biome check --write .",
