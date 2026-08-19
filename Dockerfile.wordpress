@@ -5,7 +5,7 @@
 # -----------------------------------------------------------------------------
 # Stage 1: plugins — downloads WP-CLI + all plugins at build time
 # -----------------------------------------------------------------------------
-FROM wordpress:6.9.4-php8.4-apache AS plugins
+FROM wordpress:latest AS plugins
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     default-mysql-client \
@@ -21,14 +21,14 @@ RUN curl -fsSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/bui
 # These are copied to the live site on first container start.
 RUN mkdir -p /usr/src/wordpress/wp-content/plugins \
     && for p in woocommerce advanced-custom-fields autodescription filebird updraftplus organize-media-folder pods wp-graphql; do \
-        curl -fsSL --retry 5 --retry-delay 5 --retry-all-errors --connect-timeout 15 \
-            -o "/tmp/${p}.zip" "https://downloads.wordpress.org/plugin/${p}.zip" \
-        && unzip -q "/tmp/${p}.zip" -d /usr/src/wordpress/wp-content/plugins/ \
-        && rm -f "/tmp/${p}.zip"; \
+    curl -fsSL --retry 5 --retry-delay 5 --retry-all-errors --connect-timeout 15 \
+    -o "/tmp/${p}.zip" "https://downloads.wordpress.org/plugin/${p}.zip" \
+    && unzip -q "/tmp/${p}.zip" -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm -f "/tmp/${p}.zip"; \
     done \
     && curl -fsSL --retry 5 --retry-delay 5 --retry-all-errors --connect-timeout 15 \
-        -o /tmp/wpgql-woo.zip \
-        "https://github.com/wp-graphql/wp-graphql-woocommerce/releases/download/v1.0.3/wp-graphql-woocommerce.zip" \
+    -o /tmp/wpgql-woo.zip \
+    "https://github.com/wp-graphql/wp-graphql-woocommerce/releases/download/v1.0.3/wp-graphql-woocommerce.zip" \
     && unzip -q /tmp/wpgql-woo.zip -d /usr/src/wordpress/wp-content/plugins/ \
     && rm -f /tmp/wpgql-woo.zip
 
