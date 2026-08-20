@@ -11,6 +11,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,15 +35,15 @@ jobs:
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd ~/ragu
             > .env
-            echo 'DATABASE_NAME=${{ secrets.DATABASE_NAME }}' >> .env
-            echo 'DATABASE_USER=${{ secrets.DATABASE_USER }}' >> .env
-            echo 'DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}' >> .env
-            echo 'DATABASE_ROOT_PASSWORD=${{ secrets.DATABASE_ROOT_PASSWORD }}' >> .env
-            echo 'DOMAIN=${{ secrets.DOMAIN }}' >> .env
-            echo 'ACME_EMAIL=${{ secrets.ACME_EMAIL }}' >> .env
-            echo 'TRAEFIK_ADMIN_USER=${{ secrets.TRAEFIK_ADMIN_USER }}' >> .env
+            echo 'DATABASE_NAME=${{ variables.DATABASE_NAME }}' >> .env
+            echo 'DATABASE_USER=${{ variables.DATABASE_USER }}' >> .env
+            echo 'DATABASE_PASSWORD=${{ variables.DATABASE_PASSWORD }}' >> .env
+            echo 'DATABASE_ROOT_PASSWORD=${{ variables.DATABASE_ROOT_PASSWORD }}' >> .env
+            echo 'DOMAIN=${{ variables.DOMAIN }}' >> .env
+            echo 'ACME_EMAIL=${{ variables.ACME_EMAIL }}' >> .env
+            echo 'TRAEFIK_ADMIN_USER=${{ variables.TRAEFIK_ADMIN_USER }}' >> .env
             echo 'TRAEFIK_ADMIN_PASSWORD_HASH=${{ secrets.TRAEFIK_ADMIN_PASSWORD_HASH }}' >> .env
-            echo 'WORDPRESS_ADMIN_EMAIL=${{ secrets.WORDPRESS_ADMIN_EMAIL }}' >> .env
+            echo 'WORDPRESS_ADMIN_EMAIL=${{ variables.WORDPRESS_ADMIN_EMAIL }}' >> .env
             chmod 600 .env
           "
 
