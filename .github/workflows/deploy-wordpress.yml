@@ -31,8 +31,6 @@ jobs:
 
       - name: Generate .env on server
         run: |
-          ENCODED_GDRIVE=$(echo -n '${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}' | base64 -w 0)
-
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd ~/ragu
             > .env
@@ -45,12 +43,6 @@ jobs:
             echo 'TRAEFIK_ADMIN_USER=${{ secrets.TRAEFIK_ADMIN_USER }}' >> .env
             echo 'TRAEFIK_ADMIN_PASSWORD_HASH=${{ secrets.TRAEFIK_ADMIN_PASSWORD_HASH }}' >> .env
             echo 'WORDPRESS_ADMIN_EMAIL=${{ secrets.WORDPRESS_ADMIN_EMAIL }}' >> .env
-            echo 'NEXT_PUBLIC_YANDEX_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_YANDEX_MAPS_API_KEY }}' >> .env
-            echo 'GITHUB_REPOSITORY_OWNER=badlxck' >> .env
-            echo 'GDRIVE_BACKUP_FOLDER=${{ secrets.GDRIVE_BACKUP_FOLDER }}' >> .env
-            echo \"GDRIVE_SERVICE_ACCOUNT_JSON=\$(echo '$ENCODED_GDRIVE' | base64 -d)\" >> .env
-            echo 'NEXT_PUBLIC_WORDPRESS_API_URL=http://wordpress' >> .env
-            echo 'SCHEMA_URL=http://wordpress/graphql' >> .env
             chmod 600 .env
           "
 
