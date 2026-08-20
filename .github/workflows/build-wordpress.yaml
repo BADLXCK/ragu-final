@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: badlxcx/ragu-final/wordpress-test
+  IMAGE_NAME: badlxck/ragu-final/wordpress-test
 
 jobs:
   build-and-push:
