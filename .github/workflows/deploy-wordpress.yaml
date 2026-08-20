@@ -35,15 +35,15 @@ jobs:
           ssh -i ~/.ssh/id_ragu ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd ~/ragu
             > .env
-            echo 'DATABASE_NAME=${{ variables.DATABASE_NAME }}' >> .env
-            echo 'DATABASE_USER=${{ variables.DATABASE_USER }}' >> .env
-            echo 'DATABASE_PASSWORD=${{ variables.DATABASE_PASSWORD }}' >> .env
-            echo 'DATABASE_ROOT_PASSWORD=${{ variables.DATABASE_ROOT_PASSWORD }}' >> .env
-            echo 'DOMAIN=${{ variables.DOMAIN }}' >> .env
-            echo 'ACME_EMAIL=${{ variables.ACME_EMAIL }}' >> .env
-            echo 'TRAEFIK_ADMIN_USER=${{ variables.TRAEFIK_ADMIN_USER }}' >> .env
+            echo 'DATABASE_NAME=${{ vars.DATABASE_NAME }}' >> .env
+            echo 'DATABASE_USER=${{ vars.DATABASE_USER }}' >> .env
+            echo 'DATABASE_PASSWORD=${{ vars.DATABASE_PASSWORD }}' >> .env
+            echo 'DATABASE_ROOT_PASSWORD=${{ vars.DATABASE_ROOT_PASSWORD }}' >> .env
+            echo 'DOMAIN=${{ vars.DOMAIN }}' >> .env
+            echo 'ACME_EMAIL=${{ vars.ACME_EMAIL }}' >> .env
+            echo 'TRAEFIK_ADMIN_USER=${{ vars.TRAEFIK_ADMIN_USER }}' >> .env
             echo 'TRAEFIK_ADMIN_PASSWORD_HASH=${{ secrets.TRAEFIK_ADMIN_PASSWORD_HASH }}' >> .env
-            echo 'WORDPRESS_ADMIN_EMAIL=${{ variables.WORDPRESS_ADMIN_EMAIL }}' >> .env
+            echo 'WORDPRESS_ADMIN_EMAIL=${{ vars.WORDPRESS_ADMIN_EMAIL }}' >> .env
             chmod 600 .env
           "
 
