@@ -1,6 +1,12 @@
 name: Build WordPress Image
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to build from"
+        required: true
+        default: "feature-complete"
 
 env:
   REGISTRY: ghcr.io
