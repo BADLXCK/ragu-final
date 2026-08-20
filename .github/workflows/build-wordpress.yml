@@ -1,17 +1,10 @@
 name: Build WordPress Image
 
-on:
-  workflow_dispatch:
-  push:
-    paths:
-      - 'Dockerfile.wordpress'
-      - 'wordpress/**'
-    branches:
-      - main
+on: workflow_dispatch
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: badlxcx/ragu-final/wordpress
+  IMAGE_NAME: badlxck/ragu-final/wordpress-test
 
 jobs:
   build-and-push:
