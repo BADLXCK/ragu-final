@@ -17,7 +17,7 @@ services:
             - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
             - "traefik.http.routers.traefik.service=api@internal"
             - "traefik.http.routers.traefik.middlewares=auth"
-            - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_ADMIN_USER}:${TRAEFIK_ADMIN_PASSWORD_HASH}"
+            - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_ADMIN_PASSWORD_HASH}"
         command:
             - --providers.docker=true
             - --providers.docker.exposedbydefault=false
