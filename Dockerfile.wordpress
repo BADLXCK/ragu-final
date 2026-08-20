@@ -1,37 +1,56 @@
-FROM wordpress:latest
+# =============================================================================
+# Multi-stage WordPress image: plugins → development → production
+# =============================================================================
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
+# -----------------------------------------------------------------------------
+# Stage 1: plugins — downloads WP-CLI + all plugins at build time
+# -----------------------------------------------------------------------------
+FROM wordpress:latest AS plugins
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
     default-mysql-client \
     unzip \
     curl \
-    && rm -rf /var/lib/apt/lists/* \
-    # Install WP-CLI
-    && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-    && chmod +x wp-cli.phar \
-    && mv wp-cli.phar /usr/local/bin/wp
+    && rm -rf /var/lib/apt/lists/*
 
-# Pre-download and extract plugins at build time (baked into the image)
+# WP-CLI — needed for setup.sh (core install, rewrite)
+RUN curl -fsSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x /usr/local/bin/wp
+
+# Download plugins to /usr/src/wordpress/wp-content/plugins/
+# These are copied to the live site on first container start.
 RUN mkdir -p /usr/src/wordpress/wp-content/plugins \
     && for p in woocommerce advanced-custom-fields autodescription filebird updraftplus organize-media-folder pods wp-graphql; do \
-        curl -fsSL -o "/tmp/${p}.zip" "https://downloads.wordpress.org/plugin/${p}.zip" \
-        && unzip -q "/tmp/${p}.zip" -d /usr/src/wordpress/wp-content/plugins/ \
-        && rm -f "/tmp/${p}.zip"; \
+    curl -fsSL --retry 5 --retry-delay 5 --retry-all-errors --connect-timeout 15 \
+    -o "/tmp/${p}.zip" "https://downloads.wordpress.org/plugin/${p}.zip" \
+    && unzip -q "/tmp/${p}.zip" -d /usr/src/wordpress/wp-content/plugins/ \
+    && rm -f "/tmp/${p}.zip"; \
     done \
-    && curl -fsSL -o /tmp/wpgql-woo.zip "https://github.com/wp-graphql/wp-graphql-woocommerce/releases/download/v1.0.3/wp-graphql-woocommerce.zip" \
+    && curl -fsSL --retry 5 --retry-delay 5 --retry-all-errors --connect-timeout 15 \
+    -o /tmp/wpgql-woo.zip \
+    "https://github.com/wp-graphql/wp-graphql-woocommerce/releases/download/v1.0.3/wp-graphql-woocommerce.zip" \
     && unzip -q /tmp/wpgql-woo.zip -d /usr/src/wordpress/wp-content/plugins/ \
     && rm -f /tmp/wpgql-woo.zip
 
-# Copy application files
+# -----------------------------------------------------------------------------
+# Stage 2: development — plugins baked-in, theme/mu-plugins via host volumes
+# -----------------------------------------------------------------------------
+FROM plugins AS development
+
 COPY wordpress/php.ini /usr/local/etc/php/conf.d/zz-uploads.ini
-COPY wordpress/themes /usr/src/wordpress/wp-content/themes/
-COPY wordpress/mu-plugins /usr/src/wordpress/wp-content/mu-plugins/
 COPY wordpress/setup.sh /usr/local/bin/setup-wordpress.sh
 COPY wordpress/entrypoint.sh /usr/local/bin/custom-entrypoint.sh
 
-# Normalize line endings and set executable
 RUN sed -i 's/\r$//' /usr/local/bin/custom-entrypoint.sh /usr/local/bin/setup-wordpress.sh \
     && chmod +x /usr/local/bin/custom-entrypoint.sh /usr/local/bin/setup-wordpress.sh
 
 ENTRYPOINT ["/usr/local/bin/custom-entrypoint.sh"]
 CMD ["apache2-foreground"]
+
+# -----------------------------------------------------------------------------
+# Stage 3: production — everything baked-in (plugins + themes + mu-plugins)
+# -----------------------------------------------------------------------------
+FROM development AS production
+
+COPY wordpress/themes /usr/src/wordpress/wp-content/themes/
+COPY wordpress/mu-plugins /usr/src/wordpress/wp-content/mu-plugins/
