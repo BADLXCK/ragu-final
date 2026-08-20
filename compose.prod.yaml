@@ -63,7 +63,7 @@ services:
 
     wordpress:
         # Деплой ТОЛЬКО из предварительно собранного образа (см. .github/workflows/build-wordpress.yml)
-        image: ghcr.io/badlxcx/ragu-final/wordpress-test:latest
+        image: ghcr.io/badlxck/ragu-final/wordpress-test:latest
         restart: unless-stopped
         depends_on:
             database:
