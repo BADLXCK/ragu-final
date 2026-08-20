@@ -50,16 +50,7 @@ CMD ["apache2-foreground"]
 # -----------------------------------------------------------------------------
 # Stage 3: production — everything baked-in (plugins + themes + mu-plugins)
 # -----------------------------------------------------------------------------
-FROM plugins AS production
+FROM development AS production
 
-COPY wordpress/php.ini /usr/local/etc/php/conf.d/zz-uploads.ini
 COPY wordpress/themes /usr/src/wordpress/wp-content/themes/
 COPY wordpress/mu-plugins /usr/src/wordpress/wp-content/mu-plugins/
-COPY wordpress/setup.sh /usr/local/bin/setup-wordpress.sh
-COPY wordpress/entrypoint.sh /usr/local/bin/custom-entrypoint.sh
-
-RUN sed -i 's/\r$//' /usr/local/bin/custom-entrypoint.sh /usr/local/bin/setup-wordpress.sh \
-    && chmod +x /usr/local/bin/custom-entrypoint.sh /usr/local/bin/setup-wordpress.sh
-
-ENTRYPOINT ["/usr/local/bin/custom-entrypoint.sh"]
-CMD ["apache2-foreground"]
