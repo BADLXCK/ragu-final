@@ -62,6 +62,31 @@ services:
                     memory: 512M
                     cpus: "1.0"
 
+    frontend:
+        depends_on:
+            wordpress:
+                condition: service_healthy
+        build:
+            context: .
+            dockerfile: Dockerfile.frontend
+            target: development
+        restart: unless-stopped
+        ports:
+            - "3000:3000"
+        environment:
+            # Server-side: GraphQL и SEO API ходят по внутренней docker-сети
+            SCHEMA_URL: http://wordpress/graphql
+            # Next.js (SSR) грузит оригиналы картинок с WP по внутренней сети;
+            # браузеру они отдаются уже через оптимизатор Next
+            NEXT_PUBLIC_WORDPRESS_API_URL: http://wordpress
+        volumes:
+            # Hot-reload: изменения на хосте сразу видны в контейнере
+            - ./src:/usr/app/src
+            - ./public:/usr/app/public
+            - ./next.config.ts:/usr/app/next.config.ts
+        networks:
+            - dev-network
+
 volumes:
     db_data:
         name: ragu-db-data

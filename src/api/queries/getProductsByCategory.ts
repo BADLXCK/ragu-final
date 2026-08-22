@@ -36,9 +36,14 @@ export const getProductsByCategory = async (
 		}
 	`);
 
-	const response = await client.request(query, { categorySlug });
+	const response = await client
+		.request(query, { categorySlug })
+		.catch((error: unknown) => {
+			console.error('[getProductsByCategory] request failed:', error);
+			return undefined;
+		});
 
-	return (response.products?.edges ?? []).map(({ node }) => ({
+	return (response?.products?.edges ?? []).map(({ node }) => ({
 		...node,
 		category: node.productCategories?.nodes[0]?.slug,
 	}));

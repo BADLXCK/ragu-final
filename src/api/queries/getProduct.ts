@@ -36,7 +36,12 @@ export const getProduct = async (
 		}
 	`);
 
-	const response = await client.request(query, { slug });
+	const response = await client
+		.request(query, { slug })
+		.catch((error: unknown) => {
+			console.error('[getProduct] request failed:', error);
+			return undefined;
+		});
 
-	return response.products?.edges[0]?.node;
+	return response?.products?.edges[0]?.node;
 };

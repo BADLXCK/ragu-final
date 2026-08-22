@@ -14,7 +14,10 @@ export const getCategories = async () => {
 		}
 	`);
 
-	const response = await client.request(query);
+	const response = await client.request(query).catch((error: unknown) => {
+		console.error('[getCategories] request failed:', error);
+		return undefined;
+	});
 
-	return response.productCategories?.nodes ?? [];
+	return response?.productCategories?.nodes ?? [];
 };

@@ -18,7 +18,10 @@ export const getNavigationItems = async () => {
 		}
 	`);
 
-	const response = await client.request(query);
+	const response = await client.request(query).catch((error: unknown) => {
+		console.error('[getNavigationItems] request failed:', error);
+		return undefined;
+	});
 
-	return response.menuItems?.edges.map(edge => edge.node) ?? [];
+	return response?.menuItems?.edges.map(edge => edge.node) ?? [];
 };

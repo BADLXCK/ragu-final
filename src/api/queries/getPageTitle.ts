@@ -14,7 +14,12 @@ export const getPageTitle = async (slug?: string) => {
 		}
 	`);
 
-	const response = await client.request(query, { slug });
+	const response = await client
+		.request(query, { slug })
+		.catch((error: unknown) => {
+			console.error('[getPageTitle] request failed:', error);
+			return undefined;
+		});
 
-	return response.pageBy?.title ?? '';
+	return response?.pageBy?.title ?? '';
 };

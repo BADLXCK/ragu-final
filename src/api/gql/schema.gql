@@ -1022,6 +1022,9 @@ type Category implements DatabaseIdentifier & HierarchicalNode & HierarchicalTer
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -1041,6 +1044,9 @@ type Category implements DatabaseIdentifier & HierarchicalNode & HierarchicalTer
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -2531,6 +2537,9 @@ interface ContentNode implements Node & UniformResourceIdentifiable {
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -2552,6 +2561,9 @@ interface ContentNode implements Node & UniformResourceIdentifiable {
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """
@@ -2755,6 +2767,16 @@ type ContentNodeToEnqueuedScriptConnectionPageInfo implements EnqueuedScriptConn
 }
 
 """
+Arguments for filtering the ContentNodeToEnqueuedScriptConnection connection
+"""
+input ContentNodeToEnqueuedScriptConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
+}
+
+"""
 Connection between the ContentNode type and the EnqueuedStylesheet type
 """
 type ContentNodeToEnqueuedStylesheetConnection implements Connection & EnqueuedStylesheetConnection {
@@ -2792,6 +2814,16 @@ type ContentNodeToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStyles
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
+}
+
+"""
+Arguments for filtering the ContentNodeToEnqueuedStylesheetConnection connection
+"""
+input ContentNodeToEnqueuedStylesheetConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
 }
 
 """
@@ -6813,7 +6845,7 @@ enum CurrencyEnum {
   """Панамский бальбоа"""
   PAB
 
-  """Соль"""
+  """Перуанский новый соль"""
   PEN
 
   """Папуа-Новогвинейская кина"""
@@ -8821,6 +8853,9 @@ type Event implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -8842,6 +8877,9 @@ type Event implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """The id field matches the WP_Post-&gt;ID field."""
@@ -9249,6 +9287,9 @@ type ExternalProduct implements ContentNode & DatabaseIdentifier & MenuItemLinka
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -9270,6 +9311,9 @@ type ExternalProduct implements ContentNode & DatabaseIdentifier & MenuItemLinka
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """The excerpt of the post."""
@@ -10014,6 +10058,9 @@ type Gallery implements ContentNode & DatabaseIdentifier & MenuItemLinkable & No
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -10035,6 +10082,9 @@ type Gallery implements ContentNode & DatabaseIdentifier & MenuItemLinkable & No
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """The id field matches the WP_Post-&gt;ID field."""
@@ -10786,6 +10836,9 @@ type GroupProduct implements ContentNode & DatabaseIdentifier & MenuItemLinkable
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -10807,6 +10860,9 @@ type GroupProduct implements ContentNode & DatabaseIdentifier & MenuItemLinkable
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """The excerpt of the post."""
@@ -11603,6 +11659,9 @@ interface HierarchicalContentNode implements ContentNode & DatabaseIdentifier & 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -11624,6 +11683,9 @@ interface HierarchicalContentNode implements ContentNode & DatabaseIdentifier & 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """
@@ -11985,6 +12047,9 @@ interface HierarchicalTermNode implements DatabaseIdentifier & HierarchicalNode 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -12004,6 +12069,9 @@ interface HierarchicalTermNode implements DatabaseIdentifier & HierarchicalNode 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -12710,6 +12778,9 @@ type MediaItem implements ContentNode & DatabaseIdentifier & HierarchicalContent
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -12731,6 +12802,9 @@ type MediaItem implements ContentNode & DatabaseIdentifier & HierarchicalContent
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """
@@ -15339,6 +15413,9 @@ type Page implements ContentNode & DatabaseIdentifier & HierarchicalContentNode 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -15360,6 +15437,9 @@ type Page implements ContentNode & DatabaseIdentifier & HierarchicalContentNode 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """
@@ -16234,6 +16314,9 @@ type Post implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -16255,6 +16338,9 @@ type Post implements ContentNode & DatabaseIdentifier & MenuItemLinkable & Node 
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """The excerpt of the post."""
@@ -16607,6 +16693,9 @@ type PostFormat implements DatabaseIdentifier & Node & TermNode & UniformResourc
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -16626,6 +16715,9 @@ type PostFormat implements DatabaseIdentifier & Node & TermNode & UniformResourc
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -17172,20 +17264,23 @@ input PostPostFormatsNodeInput {
 Publishing status that controls the visibility and editorial state of content. Determines whether content is published, pending review, in draft state, or private.
 """
 enum PostStatusEnum {
-  """Objects with the acf-disabled status"""
-  ACF_DISABLED
-
   """Automatically saved content that has not been manually saved"""
   AUTO_DRAFT
 
   """Content that is saved but not yet published or visible to the public"""
   DRAFT
 
+  """Objects with the failed status"""
+  FAILED
+
   """Objects with the future status"""
   FUTURE
 
   """Content that inherits its status from a parent object"""
   INHERIT
+
+  """Objects with the in-progress status"""
+  IN_PROGRESS
 
   """Content awaiting review before publication"""
   PENDING
@@ -18377,6 +18472,9 @@ interface Product implements ContentNode & DatabaseIdentifier & MenuItemLinkable
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -18398,6 +18496,9 @@ interface Product implements ContentNode & DatabaseIdentifier & MenuItemLinkable
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """The excerpt of the post."""
@@ -19353,6 +19454,9 @@ type ProductBrand implements DatabaseIdentifier & HierarchicalNode & Hierarchica
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -19372,6 +19476,9 @@ type ProductBrand implements DatabaseIdentifier & HierarchicalNode & Hierarchica
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -20155,6 +20262,9 @@ type ProductCategory implements DatabaseIdentifier & HierarchicalNode & Hierarch
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -20174,6 +20284,9 @@ type ProductCategory implements DatabaseIdentifier & HierarchicalNode & Hierarch
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -21131,6 +21244,9 @@ type ProductTag implements DatabaseIdentifier & MenuItemLinkable & Node & TermNo
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -21150,6 +21266,9 @@ type ProductTag implements DatabaseIdentifier & MenuItemLinkable & Node & TermNo
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -23600,6 +23719,9 @@ type ProductType implements DatabaseIdentifier & Node & TermNode & UniformResour
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -23619,6 +23741,9 @@ type ProductType implements DatabaseIdentifier & Node & TermNode & UniformResour
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -24389,6 +24514,9 @@ interface ProductVariation implements ContentNode & DatabaseIdentifier & Downloa
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -24410,6 +24538,9 @@ interface ProductVariation implements ContentNode & DatabaseIdentifier & Downloa
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """If the product is featured"""
@@ -28239,6 +28370,9 @@ type RootQuery {
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: RootQueryToEnqueuedScriptConnectionWhereArgs
   ): RootQueryToEnqueuedScriptConnection
 
   """Connection between the RootQuery type and the EnqueuedStylesheet type"""
@@ -28258,6 +28392,9 @@ type RootQuery {
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: RootQueryToEnqueuedStylesheetConnectionWhereArgs
   ): RootQueryToEnqueuedStylesheetConnection
 
   """Connection between the RootQuery type and the ContentNode type"""
@@ -29233,6 +29370,16 @@ type RootQueryToEnqueuedScriptConnectionPageInfo implements EnqueuedScriptConnec
   startCursor: String
 }
 
+"""
+Arguments for filtering the RootQueryToEnqueuedScriptConnection connection
+"""
+input RootQueryToEnqueuedScriptConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
+}
+
 """Connection between the RootQuery type and the EnqueuedStylesheet type"""
 type RootQueryToEnqueuedStylesheetConnection implements Connection & EnqueuedStylesheetConnection {
   """Edges for the RootQueryToEnqueuedStylesheetConnection connection"""
@@ -29269,6 +29416,16 @@ type RootQueryToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStyleshe
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
+}
+
+"""
+Arguments for filtering the RootQueryToEnqueuedStylesheetConnection connection
+"""
+input RootQueryToEnqueuedStylesheetConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
 }
 
 """Connection between the RootQuery type and the event type"""
@@ -32534,6 +32691,9 @@ type ShippingClass implements DatabaseIdentifier & Node & TermNode & UniformReso
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -32553,6 +32713,9 @@ type ShippingClass implements DatabaseIdentifier & Node & TermNode & UniformReso
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -33856,6 +34019,9 @@ type SimpleProduct implements ContentNode & DatabaseIdentifier & DownloadablePro
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -33877,6 +34043,9 @@ type SimpleProduct implements ContentNode & DatabaseIdentifier & DownloadablePro
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """The excerpt of the post."""
@@ -34694,6 +34863,9 @@ type SimpleProductVariation implements ContentNode & DatabaseIdentifier & Downlo
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -34715,6 +34887,9 @@ type SimpleProductVariation implements ContentNode & DatabaseIdentifier & Downlo
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """If the product is featured"""
@@ -35087,6 +35262,9 @@ type Tag implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & Un
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -35106,6 +35284,9 @@ type Tag implements DatabaseIdentifier & MenuItemLinkable & Node & TermNode & Un
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -36127,6 +36308,9 @@ interface TermNode implements Node & UniformResourceIdentifiable {
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -36146,6 +36330,9 @@ interface TermNode implements Node & UniformResourceIdentifiable {
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""
@@ -36295,6 +36482,16 @@ type TermNodeToEnqueuedScriptConnectionPageInfo implements EnqueuedScriptConnect
   startCursor: String
 }
 
+"""
+Arguments for filtering the TermNodeToEnqueuedScriptConnection connection
+"""
+input TermNodeToEnqueuedScriptConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
+}
+
 """Connection between the TermNode type and the EnqueuedStylesheet type"""
 type TermNodeToEnqueuedStylesheetConnection implements Connection & EnqueuedStylesheetConnection {
   """Edges for the TermNodeToEnqueuedStylesheetConnection connection"""
@@ -36331,6 +36528,16 @@ type TermNodeToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStyleshee
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
+}
+
+"""
+Arguments for filtering the TermNodeToEnqueuedStylesheetConnection connection
+"""
+input TermNodeToEnqueuedStylesheetConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
 }
 
 """
@@ -38373,6 +38580,9 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: UserToEnqueuedScriptConnectionWhereArgs
   ): UserToEnqueuedScriptConnection
 
   """Connection between the User type and the EnqueuedStylesheet type"""
@@ -38392,6 +38602,9 @@ type User implements Commenter & DatabaseIdentifier & Node & UniformResourceIden
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: UserToEnqueuedStylesheetConnectionWhereArgs
   ): UserToEnqueuedStylesheetConnection
 
   """
@@ -38944,6 +39157,14 @@ type UserToEnqueuedScriptConnectionPageInfo implements EnqueuedScriptConnectionP
   startCursor: String
 }
 
+"""Arguments for filtering the UserToEnqueuedScriptConnection connection"""
+input UserToEnqueuedScriptConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
+}
+
 """Connection between the User type and the EnqueuedStylesheet type"""
 type UserToEnqueuedStylesheetConnection implements Connection & EnqueuedStylesheetConnection {
   """Edges for the UserToEnqueuedStylesheetConnection connection"""
@@ -38980,6 +39201,16 @@ type UserToEnqueuedStylesheetConnectionPageInfo implements EnqueuedStylesheetCon
 
   """When paginating backwards, the cursor to continue."""
   startCursor: String
+}
+
+"""
+Arguments for filtering the UserToEnqueuedStylesheetConnection connection
+"""
+input UserToEnqueuedStylesheetConnectionWhereArgs {
+  """
+  Limit results to assets whose handle is in the provided list. Handles that do not match an asset are ignored. An empty list matches no assets, while omitting the argument (or passing null) leaves the connection unfiltered.
+  """
+  handlesIn: [String]
 }
 
 """Connection between the User type and the mediaItem type"""
@@ -39763,6 +39994,9 @@ type VariableProduct implements ContentNode & DatabaseIdentifier & InventoriedPr
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedScriptConnectionWhereArgs
   ): ContentNodeToEnqueuedScriptConnection
 
   """
@@ -39784,6 +40018,9 @@ type VariableProduct implements ContentNode & DatabaseIdentifier & InventoriedPr
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: ContentNodeToEnqueuedStylesheetConnectionWhereArgs
   ): ContentNodeToEnqueuedStylesheetConnection
 
   """The excerpt of the post."""
@@ -40637,6 +40874,9 @@ type VisibleProduct implements DatabaseIdentifier & Node & TermNode & UniformRes
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedScriptConnectionWhereArgs
   ): TermNodeToEnqueuedScriptConnection
 
   """Connection between the TermNode type and the EnqueuedStylesheet type"""
@@ -40656,6 +40896,9 @@ type VisibleProduct implements DatabaseIdentifier & Node & TermNode & UniformRes
 
     """The number of items to return before the referenced "before" cursor"""
     last: Int
+
+    """Arguments for filtering the connection"""
+    where: TermNodeToEnqueuedStylesheetConnectionWhereArgs
   ): TermNodeToEnqueuedStylesheetConnection
 
   """The globally unique ID for the object"""

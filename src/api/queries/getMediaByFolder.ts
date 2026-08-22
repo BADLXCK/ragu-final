@@ -32,15 +32,20 @@ export const getMediaByFolder = async (
 		}
 	`);
 
-	const response = await client.request(query, {
-		folderName,
-		after: after ?? null,
-		first,
-	});
+	const response = await client
+		.request(query, {
+			folderName,
+			after: after ?? null,
+			first,
+		})
+		.catch((error: unknown) => {
+			console.error('[getMediaByFolder] request failed:', error);
+			return undefined;
+		});
 
 	return {
-		nodes: response.mediaByFolder?.nodes ?? [],
-		hasNextPage: response.mediaByFolder?.pageInfo?.hasNextPage ?? false,
-		endCursor: response.mediaByFolder?.pageInfo?.endCursor ?? null,
+		nodes: response?.mediaByFolder?.nodes ?? [],
+		hasNextPage: response?.mediaByFolder?.pageInfo?.hasNextPage ?? false,
+		endCursor: response?.mediaByFolder?.pageInfo?.endCursor ?? null,
 	};
 };

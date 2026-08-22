@@ -14,7 +14,12 @@ export const getCategory = async (slug: string) => {
 		}
 	`);
 
-	const response = await client.request(query, { slug: [slug] });
+	const response = await client
+		.request(query, { slug: [slug] })
+		.catch((error: unknown) => {
+			console.error('[getCategory] request failed:', error);
+			return undefined;
+		});
 
-	return response.productCategories?.nodes[0] ?? null;
+	return response?.productCategories?.nodes[0] ?? null;
 };

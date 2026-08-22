@@ -1,5 +1,6 @@
 /* eslint-disable */
 import * as types from './graphql';
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
 /**
  * Map of all GraphQL operations in the project.
@@ -17,7 +18,6 @@ type Documents = {
     "\n\t\tquery getCategory($slug: [String]) {\n\t\t\tproductCategories(where: { slug: $slug }) {\n\t\t\t\tnodes {\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tslug\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": typeof types.GetCategoryDocument,
     "\n\t\tquery getEvents {\n\t\t\tevents(first: 1000, where: { status: PUBLISH }) {\n\t\t\t\tnodes {\n\t\t\t\t\tid\n\t\t\t\t\teventdate\n\t\t\t\t\teventdescription\n\t\t\t\t\teventname\n\t\t\t\t\teventimage {\n\t\t\t\t\t\tnode {\n\t\t\t\t\t\t\tsrcSet\n\t\t\t\t\t\t\tsourceUrl\n\t\t\t\t\t\t\taltText\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": typeof types.GetEventsDocument,
     "\n\t\tquery getMediaByFolder($folderName: String!, $after: String, $first: Int) {\n\t\t\tmediaByFolder(where: { folderName: $folderName }, first: $first, after: $after) {\n\t\t\t\tnodes {\n\t\t\t\t\tdatabaseId\n\t\t\t\t\tsourceUrl\n\t\t\t\t\taltText\n\t\t\t\t}\n\t\t\t\tpageInfo {\n\t\t\t\t\thasNextPage\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": typeof types.GetMediaByFolderDocument,
-    "\n\t\tquery getMediaFolders {\n\t\t\tmediaFolders {\n\t\t\t\tid\n\t\t\t\tname\n\t\t\t\tparent\n\t\t\t}\n\t\t}\n\t": typeof types.GetMediaFoldersDocument,
     "\n\t\tquery getNavigationItems {\n\t\t\tmenuItems(where: { location: PRIMARY }) {\n\t\t\t\tedges {\n\t\t\t\t\tnode {\n\t\t\t\t\t\tid\n\t\t\t\t\t\turl\n\t\t\t\t\t\turi\n\t\t\t\t\t\tpath\n\t\t\t\t\t\tlabel\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": typeof types.GetNavigationItemsDocument,
     "\n\t\tquery getPageTitle($slug: String!) {\n\t\t\tpageBy(uri: $slug) {\n\t\t\t\ttitle\n\t\t\t}\n\t\t}\n\t": typeof types.GetPageTitleDocument,
     "\n\t\tquery getProduct($slug: String!) {\n\t\t\tproducts(where: { slugIn: [$slug] }) {\n\t\t\t\tedges {\n\t\t\t\t\tnode {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tname\n\t\t\t\t\t\tdescription(format: RAW)\n\t\t\t\t\t\tslug\n\t\t\t\t\t\tcustomWeight\n\t\t\t\t\t\tcustomProtein\n\t\t\t\t\t\tcustomFat\n\t\t\t\t\t\tcustomCarbohydrate\n\t\t\t\t\t\timage {\n\t\t\t\t\t\t\tfilePath\n\t\t\t\t\t\t\taltText\n\t\t\t\t\t\t}\n\t\t\t\t\t\tproductCategories {\n\t\t\t\t\t\t\tnodes {\n\t\t\t\t\t\t\t\tslug\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\t... on SimpleProduct {\n\t\t\t\t\t\t\tprice(format: RAW)\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": typeof types.GetProductDocument,
@@ -28,7 +28,6 @@ const documents: Documents = {
     "\n\t\tquery getCategory($slug: [String]) {\n\t\t\tproductCategories(where: { slug: $slug }) {\n\t\t\t\tnodes {\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tslug\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": types.GetCategoryDocument,
     "\n\t\tquery getEvents {\n\t\t\tevents(first: 1000, where: { status: PUBLISH }) {\n\t\t\t\tnodes {\n\t\t\t\t\tid\n\t\t\t\t\teventdate\n\t\t\t\t\teventdescription\n\t\t\t\t\teventname\n\t\t\t\t\teventimage {\n\t\t\t\t\t\tnode {\n\t\t\t\t\t\t\tsrcSet\n\t\t\t\t\t\t\tsourceUrl\n\t\t\t\t\t\t\taltText\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": types.GetEventsDocument,
     "\n\t\tquery getMediaByFolder($folderName: String!, $after: String, $first: Int) {\n\t\t\tmediaByFolder(where: { folderName: $folderName }, first: $first, after: $after) {\n\t\t\t\tnodes {\n\t\t\t\t\tdatabaseId\n\t\t\t\t\tsourceUrl\n\t\t\t\t\taltText\n\t\t\t\t}\n\t\t\t\tpageInfo {\n\t\t\t\t\thasNextPage\n\t\t\t\t\tendCursor\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": types.GetMediaByFolderDocument,
-    "\n\t\tquery getMediaFolders {\n\t\t\tmediaFolders {\n\t\t\t\tid\n\t\t\t\tname\n\t\t\t\tparent\n\t\t\t}\n\t\t}\n\t": types.GetMediaFoldersDocument,
     "\n\t\tquery getNavigationItems {\n\t\t\tmenuItems(where: { location: PRIMARY }) {\n\t\t\t\tedges {\n\t\t\t\t\tnode {\n\t\t\t\t\t\tid\n\t\t\t\t\t\turl\n\t\t\t\t\t\turi\n\t\t\t\t\t\tpath\n\t\t\t\t\t\tlabel\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": types.GetNavigationItemsDocument,
     "\n\t\tquery getPageTitle($slug: String!) {\n\t\t\tpageBy(uri: $slug) {\n\t\t\t\ttitle\n\t\t\t}\n\t\t}\n\t": types.GetPageTitleDocument,
     "\n\t\tquery getProduct($slug: String!) {\n\t\t\tproducts(where: { slugIn: [$slug] }) {\n\t\t\t\tedges {\n\t\t\t\t\tnode {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tname\n\t\t\t\t\t\tdescription(format: RAW)\n\t\t\t\t\t\tslug\n\t\t\t\t\t\tcustomWeight\n\t\t\t\t\t\tcustomProtein\n\t\t\t\t\t\tcustomFat\n\t\t\t\t\t\tcustomCarbohydrate\n\t\t\t\t\t\timage {\n\t\t\t\t\t\t\tfilePath\n\t\t\t\t\t\t\taltText\n\t\t\t\t\t\t}\n\t\t\t\t\t\tproductCategories {\n\t\t\t\t\t\t\tnodes {\n\t\t\t\t\t\t\t\tslug\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\t... on SimpleProduct {\n\t\t\t\t\t\t\tprice(format: RAW)\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t": types.GetProductDocument,
@@ -68,10 +67,6 @@ export function graphql(source: "\n\t\tquery getMediaByFolder($folderName: Strin
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n\t\tquery getMediaFolders {\n\t\t\tmediaFolders {\n\t\t\t\tid\n\t\t\t\tname\n\t\t\t\tparent\n\t\t\t}\n\t\t}\n\t"): (typeof documents)["\n\t\tquery getMediaFolders {\n\t\t\tmediaFolders {\n\t\t\t\tid\n\t\t\t\tname\n\t\t\t\tparent\n\t\t\t}\n\t\t}\n\t"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\n\t\tquery getNavigationItems {\n\t\t\tmenuItems(where: { location: PRIMARY }) {\n\t\t\t\tedges {\n\t\t\t\t\tnode {\n\t\t\t\t\t\tid\n\t\t\t\t\t\turl\n\t\t\t\t\t\turi\n\t\t\t\t\t\tpath\n\t\t\t\t\t\tlabel\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t"): (typeof documents)["\n\t\tquery getNavigationItems {\n\t\t\tmenuItems(where: { location: PRIMARY }) {\n\t\t\t\tedges {\n\t\t\t\t\tnode {\n\t\t\t\t\t\tid\n\t\t\t\t\t\turl\n\t\t\t\t\t\turi\n\t\t\t\t\t\tpath\n\t\t\t\t\t\tlabel\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -89,3 +84,5 @@ export function graphql(source: "\n\t\tquery getProductsByCategory($categorySlug
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
 }
+
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<  infer TType,  any>  ? TType  : never;

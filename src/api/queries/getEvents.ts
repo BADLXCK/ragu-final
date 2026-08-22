@@ -22,7 +22,10 @@ export const getEvents = async () => {
 		}
 	`);
 
-	const response = await client.request(query);
+	const response = await client.request(query).catch((error: unknown) => {
+		console.error('[getEvents] request failed:', error);
+		return undefined;
+	});
 
-	return response.events?.nodes ?? [];
+	return response?.events?.nodes ?? [];
 };
