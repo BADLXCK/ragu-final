@@ -113,10 +113,10 @@ cp .env.example .env
 npm run docker:up
 ```
 
-5. Откройте сайт
+5. Откройте сайт (единая точка входа через Traefik)
 
-- Frontend: http://localhost:3000
-- WordPress Admin: http://localhost:8080
+- Frontend: http://localhost:8080
+- WordPress Admin: http://localhost:8080/wp-admin
 
 ### Команды
 

@@ -237,7 +237,7 @@ npm run codegen
 2. В **первом терминале**: `npm run controller`
 3. Во **втором терминале**: `npm run docker:up`
 4. В WordPress admin bar нажмите **▶️ Запустить Next.js**
-5. Frontend доступен на `http://localhost:3000`, WordPress Admin на `http://localhost:8080`
+5. Frontend и WordPress Admin доступны на `http://localhost:8080` (админка — `http://localhost:8080/wp-admin`)
 6. Включите **Public Introspection** в WPGraphQL → Settings для работы codegen
 
 ### Production

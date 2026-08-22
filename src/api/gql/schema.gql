@@ -6845,7 +6845,7 @@ enum CurrencyEnum {
   """Панамский бальбоа"""
   PAB
 
-  """Перуанский новый соль"""
+  """Соль"""
   PEN
 
   """Папуа-Новогвинейская кина"""
@@ -17264,6 +17264,9 @@ input PostPostFormatsNodeInput {
 Publishing status that controls the visibility and editorial state of content. Determines whether content is published, pending review, in draft state, or private.
 """
 enum PostStatusEnum {
+  """Objects with the acf-disabled status"""
+  ACF_DISABLED
+
   """Automatically saved content that has not been manually saved"""
   AUTO_DRAFT
 

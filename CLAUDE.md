@@ -93,7 +93,8 @@ WordPress setup script can automatically restore backups from Google Drive on fi
 
 ### Docker Architecture
 **Development**:
-- Frontend (port 3000), WordPress (port 8080), MySQL (internal)
+- Single entry point via Traefik at `http://localhost:8080`: WordPress paths (`/wp-admin`, `/wp-json`, `/graphql`, `/wp-content`, ...) route to WordPress, everything else routes to the Next.js frontend
+- Ports 3000 (frontend) and 80 (WordPress) exist only inside the Docker network
 - Frontend container mounts source code for hot reload
 - WordPress setup runs at container startup via `wp-init.sh`
 
@@ -140,7 +141,7 @@ Next.js Image component configured to allow images from `wordpress` hostname (Do
 2. Default credentials: username and password from `.env` (`DATABASE_USER`/`DATABASE_PASSWORD`)
 3. Make changes in WordPress admin
 4. Run `npm run codegen` if schema changed
-5. Frontend at `http://localhost:3000` will reflect changes
+5. Frontend at `http://localhost:8080` will reflect changes
 
 ## Notes
 
