@@ -2,8 +2,9 @@
 set -e
 
 # -----------------------------------------------------------------------------
-# First-run setup: install WordPress core + configure permalinks.
-# Plugins, themes and backups are managed manually (WP admin / WP-CLI / GDrive).
+# First-run setup: install WordPress core + plugins via WP-CLI + permalinks.
+# Plugins are downloaded at runtime (not baked into the image).
+# Themes and backups are managed manually (WP admin / WP-CLI / GDrive).
 # -----------------------------------------------------------------------------
 
 # 1. Sync custom theme + mu-plugins from the image into the live site.
@@ -35,10 +36,36 @@ if ! wp core is-installed --allow-root 2>/dev/null; then
         --allow-root
 fi
 
-# 3. Pretty permalinks (required by WPGraphQL)
+# 3. Install + activate plugins via WP-CLI (from wordpress.org)
+echo "[INFO] Installing plugins via WP-CLI..."
+wp plugin install \
+    woocommerce \
+    advanced-custom-fields \
+    autodescription \
+    filebird \
+    updraftplus \
+    organize-media-folder \
+    pods \
+    wp-graphql \
+    --activate \
+    --allow-root \
+    || echo "[WARN] Some plugins failed to install"
+
+# 3b. wp-graphql-woocommerce — not on wordpress.org, install from GitHub release
+WPGQL_WOO_URL="https://github.com/wp-graphql/wp-graphql-woocommerce/releases/download/v1.0.3/wp-graphql-woocommerce.zip"
+if ! wp plugin is-installed wp-graphql-woocommerce --allow-root 2>/dev/null; then
+    echo "[INFO] Installing wp-graphql-woocommerce from GitHub..."
+    wp plugin install "$WPGQL_WOO_URL" --activate --allow-root \
+        || echo "[WARN] Failed to install wp-graphql-woocommerce"
+else
+    wp plugin activate wp-graphql-woocommerce --allow-root \
+        || echo "[WARN] Failed to activate wp-graphql-woocommerce"
+fi
+
+# 4. Pretty permalinks (required by WPGraphQL)
 wp rewrite structure '/%postname%/' --allow-root
 
-# 4. Permissions for Apache (www-data)
+# 5. Permissions for Apache (www-data)
 chown -R 33:33 /var/www/html
 
-echo "[SUCCESS] WordPress core ready. Plugins and themes managed manually."
+echo "[SUCCESS] WordPress ready. Plugins installed and activated via WP-CLI."

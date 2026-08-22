@@ -43,7 +43,7 @@ services:
             WORDPRESS_URL: ${WORDPRESS_URL}
             WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
         volumes:
-            # WP-файлы сохраняются между перезапусками (baked-плагины попадают сюда при первом запуске)
+            # WP-файлы сохраняются между перезапусками (плагины ставятся через wp-cli при первом запуске)
             - wp_data:/var/www/html
             # Hot-reload: изменения на хосте сразу видны в контейнере
             - ./wordpress/themes/ragu:/var/www/html/wp-content/themes/ragu

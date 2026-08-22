@@ -1,41 +1,23 @@
 # =============================================================================
-# Multi-stage WordPress image: plugins → development → production
+# Multi-stage WordPress image: development → production
+# Plugins are NOT baked into the image — they are installed via WP-CLI
+# on first container start (see wordpress/setup.sh).
+# Only mu-plugins and the theme are baked in (production stage).
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# Stage 1: plugins — downloads WP-CLI + all plugins at build time
+# Stage 1: development — WP-CLI + setup scripts; theme/mu-plugins via host volumes
 # -----------------------------------------------------------------------------
-FROM wordpress:latest AS plugins
+FROM wordpress:7.1 AS development
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     default-mysql-client \
-    unzip \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# WP-CLI — needed for setup.sh (core install, rewrite)
+# WP-CLI — needed for setup.sh (core install, plugin install/activate, rewrite)
 RUN curl -fsSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x /usr/local/bin/wp
-
-# Download plugins to /usr/src/wordpress/wp-content/plugins/
-# These are copied to the live site on first container start.
-RUN mkdir -p /usr/src/wordpress/wp-content/plugins \
-    && for p in woocommerce advanced-custom-fields autodescription filebird updraftplus organize-media-folder pods wp-graphql; do \
-    curl -fsSL --retry 5 --retry-delay 5 --retry-all-errors --connect-timeout 15 \
-    -o "/tmp/${p}.zip" "https://downloads.wordpress.org/plugin/${p}.zip" \
-    && unzip -q "/tmp/${p}.zip" -d /usr/src/wordpress/wp-content/plugins/ \
-    && rm -f "/tmp/${p}.zip"; \
-    done \
-    && curl -fsSL --retry 5 --retry-delay 5 --retry-all-errors --connect-timeout 15 \
-    -o /tmp/wpgql-woo.zip \
-    "https://github.com/wp-graphql/wp-graphql-woocommerce/releases/download/v1.0.3/wp-graphql-woocommerce.zip" \
-    && unzip -q /tmp/wpgql-woo.zip -d /usr/src/wordpress/wp-content/plugins/ \
-    && rm -f /tmp/wpgql-woo.zip
-
-# -----------------------------------------------------------------------------
-# Stage 2: development — plugins baked-in, theme/mu-plugins via host volumes
-# -----------------------------------------------------------------------------
-FROM plugins AS development
 
 COPY wordpress/php.ini /usr/local/etc/php/conf.d/zz-uploads.ini
 COPY wordpress/setup.sh /usr/local/bin/setup-wordpress.sh
@@ -48,7 +30,7 @@ ENTRYPOINT ["/usr/local/bin/custom-entrypoint.sh"]
 CMD ["apache2-foreground"]
 
 # -----------------------------------------------------------------------------
-# Stage 3: production — everything baked-in (plugins + themes + mu-plugins)
+# Stage 2: production — theme + mu-plugins baked in (plugins still via WP-CLI)
 # -----------------------------------------------------------------------------
 FROM development AS production
 
